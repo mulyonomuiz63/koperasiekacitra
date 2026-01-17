@@ -22,14 +22,20 @@ class SettingModel extends Model
         return $result;
     }
 
-    // Update atau insert setting
-    public function sets($key, $value)
+    public function saveSetting($key, $value)
     {
-        $existing = $this->where('key', $key)->first();
-        if($existing){
-            $this->update($existing['id'], ['value' => $value]);
-        } else {
-            $this->insert(['key' => $key, 'value' => $value]);
+        $exists = $this->where('key', $key)->first();
+
+        if ($exists) {
+            return $this->where('key', $key)->set([
+                'value' => $value
+            ])->update();
         }
+
+        return $this->insert([
+            'key'   => $key,
+            'value' => $value
+        ]);
     }
+
 }

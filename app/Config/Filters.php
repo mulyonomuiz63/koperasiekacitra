@@ -86,7 +86,11 @@ class Filters extends BaseFilters
                     'permissions/datatable',
                     'users/datatable',
                     'pegawai/datatable',
-                    'perusahaan/datatable'
+                    'perusahaan/datatable',
+                    'jabatan/datatable',
+                    'galeri/datatable',
+                    'galeri/tinymce/upload',
+                    'faq/datatable',
                 ]
             ]
             // 'invalidchars',

@@ -21,23 +21,13 @@ class JabatanModel extends Model
      * ========================= */
     public function getDatatable($request)
     {
-        $builder = $this->db->table($this->table)
-            ->select('
-                pegawai.*,
-                users.username,
-                perusahaan.nama AS perusahaan,
-                jabatan.nama AS jabatan
-            ')
-            ->join('users', 'users.id = pegawai.user_id')
-            ->join('perusahaan', 'perusahaan.id = pegawai.perusahaan_id')
-            ->join('jabatan', 'jabatan.id = pegawai.jabatan_id');
+        $builder = $this->db->table($this->table);
 
         // Search
         if ($request['search']['value']) {
             $builder->groupStart()
-                ->like('pegawai.nama', $request['search']['value'])
-                ->orLike('pegawai.nip', $request['search']['value'])
-                ->orLike('users.username', $request['search']['value'])
+                ->like('jabatan.nama_jabatan', $request['search']['value'])
+                ->orLike('jabatan.keterangan', $request['search']['value'])
                 ->groupEnd();
         }
 

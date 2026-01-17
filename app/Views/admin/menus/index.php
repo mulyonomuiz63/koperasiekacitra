@@ -1,64 +1,64 @@
 <?= $this->extend('pages/layout') ?>
 <?= $this->section('content') ?>
-<!--begin::Products-->
-<div class="card card-flush">
-    <!--begin::Card header-->
-    <div class="card-header align-items-center gap-2 gap-md-5">
-        <!--begin::Card title-->
-        <div class="card-title">
-            <!--begin::Search-->
-            <div class="d-flex align-items-center position-relative my-1">
-                <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                </i>
-                <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Order">
+    <!--begin::Products-->
+    <div class="card card-flush">
+        <!--begin::Card header-->
+        <div class="card-header align-items-center gap-2 gap-md-5">
+            <!--begin::Card title-->
+            <div class="card-title">
+                <!--begin::Search-->
+                <div class="d-flex align-items-center position-relative my-1">
+                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                    <input type="text" data-kt-ecommerce-order-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Order">
+                </div>
+                <!--end::Search-->
             </div>
-            <!--end::Search-->
+            <!--end::Card title-->
+            <!--begin::Card toolbar-->
+            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                <!--begin::Add product-->
+                <?php if (can($menuId, 'create')): ?>
+                    <a href="<?= base_url('/') ?>menus/create" class="btn btn-primary">+ Tambah Menu</a>
+                <?php endif ?>
+                <!--end::Add product-->
+            </div>
+            <!--end::Card toolbar-->
         </div>
-        <!--end::Card title-->
-        <!--begin::Card toolbar-->
-        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-            <!--begin::Add product-->
-            <?php if (can($menuId, 'create')): ?>
-                <a href="<?= base_url('/') ?>menus/create" class="btn btn-primary">+ Tambah Menu</a>
-            <?php endif ?>
-            <!--end::Add product-->
-        </div>
-        <!--end::Card toolbar-->
-    </div>
-    <!--end::Card header-->
-    <!--begin::Card body-->
-    <div class="card-body pt-0">
-        <!--begin::Table-->
-        <div id="kt_ecommerce_sales_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-            <div class="table-responsive">
-                <table class="table table-row-dashed table-row-gray-300 align-middle fs-6 gy-4" id="kt_menu_table">
-                    <thead>
-                        <tr class="text-start text-muted fw-bold text-uppercase fs-7">
-                            <th>Nama Menu</th>
-                            <th>URL</th>
-                            <th class="text-center">Order</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-end">Aksi</th>
-                        </tr>
-                    </thead>
+        <!--end::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body pt-0">
+            <!--begin::Table-->
+            <div id="kt_ecommerce_sales_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="table-responsive">
+                    <table class="table table-row-dashed table-row-gray-300 align-middle fs-6 gy-4" id="kt_ecommerce_sales_table">
+                        <thead>
+                            <tr class="text-start text-muted fw-bold text-uppercase fs-7">
+                                <th>Nama Menu</th>
+                                <th>URL</th>
+                                <th class="text-center">Order</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-end">Aksi</th>
+                            </tr>
+                        </thead>
 
-                    <tbody class="fw-semibold text-gray-700"></tbody>
-                </table>
+                        <tbody class="fw-semibold text-gray-700"></tbody>
+                    </table>
+                </div>
             </div>
+            <!--end::Table-->
         </div>
-        <!--end::Table-->
+        <!--end::Card body-->
     </div>
-    <!--end::Card body-->
-</div>
-<!--end::Products-->
+    <!--end::Products-->
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script>
 $(document).ready(function () {
 
-    let table = $('#kt_menu_table').DataTable({
+    let table = $('#kt_ecommerce_sales_table').DataTable({
         processing: true,
         serverSide: true,
         ordering: false,

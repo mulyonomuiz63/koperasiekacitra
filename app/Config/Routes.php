@@ -73,6 +73,39 @@ $routes->group('/', ['filter'=>'auth'], function($routes){
         $routes->get('delete/(:num)', 'Admin\PerusahaanController::delete/$1',['filter' => 'permission:perusahaan,delete']);
     });
 
+    $routes->group('jabatan', function ($routes) {
+        $routes->get('/', 'Admin\JabatanController::index',['filter' => 'permission:jabatan,view']);
+        $routes->post('datatable', 'Admin\JabatanController::datatable',['filter' => 'permission:jabatan,view']);
+        $routes->get('create', 'Admin\JabatanController::create',['filter' => 'permission:jabatan,create']);
+        $routes->post('store', 'Admin\JabatanController::store');
+        $routes->get('edit/(:num)', 'Admin\JabatanController::edit/$1',['filter' => 'permission:jabatan,update']);
+        $routes->post('update/(:num)', 'Admin\JabatanController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\JabatanController::delete/$1',['filter' => 'permission:jabatan,delete']);
+    });
+
+    $routes->group('galeri', function ($routes) {
+        $routes->get('/', 'Admin\GaleriController::index',['filter' => 'permission:galeri,view']);
+        $routes->post('datatable', 'Admin\GaleriController::datatable',['filter' => 'permission:galeri,view']);
+        $routes->get('create', 'Admin\GaleriController::create',['filter' => 'permission:galeri,create']);
+        $routes->post('store', 'Admin\GaleriController::store');
+        $routes->get('edit/(:num)', 'Admin\GaleriController::edit/$1',['filter' => 'permission:galeri,update']);
+        $routes->post('update/(:num)', 'Admin\GaleriController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\GaleriController::delete/$1',['filter' => 'permission:galeri,delete']);
+        $routes->post('tinymce/upload', 'Admin\TinymceController::upload');
+    });
+
+    $routes->group('faq', function ($routes) {
+        $routes->get('/', 'Admin\FaqController::index',['filter' => 'permission:faq,view']);
+        $routes->post('datatable', 'Admin\FaqController::datatable',['filter' => 'permission:faq,view']);
+        $routes->get('create', 'Admin\FaqController::create',['filter' => 'permission:faq,create']);
+        $routes->post('store', 'Admin\FaqController::store');
+        $routes->get('edit/(:num)', 'Admin\FaqController::edit/$1',['filter' => 'permission:faq,update']);
+        $routes->post('update/(:num)', 'Admin\FaqController::update/$1');
+        $routes->get('delete/(:num)', 'Admin\FaqController::delete/$1',['filter' => 'permission:faq,delete']);
+        $routes->post('toggle', 'Admin\FaqController::toggle');
+    });
+
+
     $routes->group('settings', function ($routes) {
         $routes->get('/', 'Admin\SettingsController::index',['filter' => 'permission:settings,view']);
         $routes->post('update', 'Admin\SettingsController::update',['filter' => 'permission:settings,update']);
