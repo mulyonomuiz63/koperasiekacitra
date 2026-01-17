@@ -10,6 +10,20 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/login', 'AuthController::login', ['filter' => 'guest']);
 $routes->post('/login', 'AuthController::attemptLogin', ['filter' => 'guest']);
 
+$routes->get('register', 'AuthController::register');
+$routes->post('register', 'AuthController::store');
+$routes->post('auth/check-email', 'AuthController::checkEmail');
+$routes->get('verify-email/(:any)', 'AuthController::verify/$1');
+
+// forgot password
+$routes->get('forgot-password', 'AuthController::forgotPasswordForm');
+$routes->post('forgot-password', 'AuthController::forgotPassword');
+
+// reset password
+$routes->get('reset-password/(:segment)', 'AuthController::resetPasswordForm/$1');
+$routes->post('reset-password', 'AuthController::resetPasswordProcess');
+
+
 
 $routes->group('/', ['filter'=>'auth'], function($routes){
     $routes->get('logout','AuthController::logout');

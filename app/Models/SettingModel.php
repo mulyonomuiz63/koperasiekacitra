@@ -38,4 +38,29 @@ class SettingModel extends Model
         ]);
     }
 
+    public function getByKey(string $key)
+    {
+        return $this->where('key', $key)->first()['value'] ?? null;
+    }
+
+    public function getSMTP()
+    {
+        $keys = [
+            'smtp_host',
+            'smtp_user',
+            'smtp_pass',
+            'smtp_port',
+            'smtp_crypto',
+            'smtp_from_email',
+            'smtp_from_name',
+        ];
+
+        $data = [];
+        foreach ($keys as $key) {
+            $data[$key] = $this->getByKey($key);
+        }
+
+        return $data;
+    }
+
 }

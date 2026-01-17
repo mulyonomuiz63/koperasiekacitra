@@ -38,6 +38,35 @@ abstract class BaseController extends Controller
         return view($path, $data);
     }
 
+    protected function autoLogin()
+    {
+        if (session()->get('logged_in')) {
+            return;
+        }
+
+        if (!isset($_COOKIE['remember_me'])) {
+            return;
+        }
+
+        $token = hash('sha256', $_COOKIE['remember_me']);
+
+        $user = model('UserModel')
+            ->where('remember_token', $token)
+            ->where('status', 'active')
+            ->first();
+
+        if ($user) {
+            session()->set([
+                'logged_in' => true,
+                'user_id'   => $user['id'],
+                'email'     => $user['email'],
+                'username'  => $user['username'],
+                'role_id'   => $user['role_id'],
+            ]);
+        }
+    }
+
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Load here all helpers you want to be available in your controllers that extend BaseController.
@@ -46,7 +75,7 @@ abstract class BaseController extends Controller
 
         // Caution: Do not edit this line.
         parent::initController($request, $response, $logger);
-
+        $this->autoLogin();
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
     }
