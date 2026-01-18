@@ -24,7 +24,7 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <?php if (can($menuId, 'create')): ?>
-                <a href="<?= base_url('faq/create') ?>" class="btn btn-primary">
+                <a href="<?= base_url('faq/create') ?>" class="btn btn-primary btn-sm">
                     + Tambah FAQ
                 </a>
             <?php endif ?>

@@ -24,9 +24,13 @@ $routes->get('reset-password/(:segment)', 'AuthController::resetPasswordForm/$1'
 $routes->post('reset-password', 'AuthController::resetPasswordProcess');
 
 
-
+$routes->get('unauthorized', 'AuthController::unauthorized');
 $routes->group('/', ['filter'=>'auth'], function($routes){
     $routes->get('logout','AuthController::logout');
+});
+
+
+$routes->group('/', ['filter'=>['auth','role:1,2,3']], function($routes){ //untuk admin, ketua, bendahara, sekretaris
     $routes->get('dashboard','Home::index');
     $routes->get('anggota', 'Admin\AnggotaController::index', ['filter'=>'permission:anggota,view']);
     $routes->post('anggota/create', 'Admin\AnggotaController::create', ['filter'=>'permission:anggota,create']);
@@ -123,9 +127,16 @@ $routes->group('/', ['filter'=>'auth'], function($routes){
     $routes->group('settings', function ($routes) {
         $routes->get('/', 'Admin\SettingsController::index',['filter' => 'permission:settings,view']);
         $routes->post('update', 'Admin\SettingsController::update',['filter' => 'permission:settings,update']);
-    });
+    });    
+});
 
-    
 
-    
+$routes->group('sw-anggota', ['filter'=>['auth','role:4', 'anggotaRedirect']], function($routes){ //untuk anggota
+    $routes->get('/','Home::tes');
+
+    $routes->get('activity', 'Pengguna\ActivityController::index');
+    $routes->get('lengkapi-data', 'Pengguna\ActivityController::index');
+    $routes->post('lengkapi-data', 'Pengguna\ActivityController::saveData');
+    $routes->post('pembayaran', 'Pengguna\ActivityController::uploadPembayaran');
+    $routes->get('dashboard', 'Home::tes');
 });

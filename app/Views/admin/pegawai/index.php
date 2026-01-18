@@ -21,7 +21,7 @@
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
             <!--begin::Add product-->
             <?php if (can($menuId, 'create')): ?>
-                <a href="<?= base_url('/') ?>pegawai/create" class="btn btn-primary">+ Tambah Pegawai</a>
+                <a href="<?= base_url('/') ?>pegawai/create" class="btn btn-primary btn-sm">+ Tambah Pegawai</a>
             <?php endif ?>
             <!--end::Add product-->
         </div>

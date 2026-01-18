@@ -132,7 +132,7 @@
                 <a href="<?= base_url('users') ?>" class="btn btn-light">
                     Batal
                 </a>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-sm">
                     <i class="bi bi-save me-1"></i> Update User
                 </button>
             </div>

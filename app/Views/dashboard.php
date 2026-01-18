@@ -58,7 +58,7 @@
                                             <!--end::Select2-->
                                         </div>
                                         <!--begin::Add product-->
-                                        <a href="../../demo1/dist/apps/ecommerce/catalog/add-product.html" class="btn btn-primary">Add Order</a>
+                                        <a href="../../demo1/dist/apps/ecommerce/catalog/add-product.html" class="btn btn-primary btn-sm">Add Order</a>
                                         <!--end::Add product-->
                                     </div>
                                     <!--end::Card toolbar-->

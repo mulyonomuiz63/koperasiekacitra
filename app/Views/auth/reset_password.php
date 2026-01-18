@@ -51,7 +51,7 @@
                     <div class="d-grid mb-10">
                         <button type="submit"
                                 id="btn-reset"
-                                class="btn btn-primary w-100">
+                                class="btn btn-primary btn-sm w-100">
                             Simpan Password
                         </button>
                     </div>

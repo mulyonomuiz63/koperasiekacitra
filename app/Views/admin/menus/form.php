@@ -124,7 +124,7 @@
                 <a href="<?= base_url('menus') ?>" class="btn btn-light">
                     Batal
                 </a>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-sm">
                     Simpan Menu
                 </button>
             </div>

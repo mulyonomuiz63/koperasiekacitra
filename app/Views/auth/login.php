@@ -85,7 +85,7 @@
                         <div class="d-grid mb-10">
                             <button type="submit"
                                     id="btn-login"
-                                    class="btn btn-primary w-100">
+                                    class="btn btn-primary btn-sm w-100">
                                 Masuk
                             </button>
                         </div>

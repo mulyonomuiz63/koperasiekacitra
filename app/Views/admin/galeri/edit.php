@@ -37,7 +37,7 @@
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Update Galeri</button>
+                <button type="submit" class="btn btn-primary btn-sm">Update Galeri</button>
             </div>
         </form>
     </div>

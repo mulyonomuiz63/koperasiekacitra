@@ -35,9 +35,10 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'permission'    => \App\Filters\PermissionFilter::class,
+        'role'          => \App\Filters\RoleFilter::class,
         'auth'          => \App\Filters\AuthFilter::class,
         'guest'         => \App\Filters\GuestFilter::class,
-
+        'anggotaRedirect' => \App\Filters\AnggotaRedirectFilter::class,
 
     ];
 

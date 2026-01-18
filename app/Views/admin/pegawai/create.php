@@ -113,7 +113,7 @@
     </div>
 
     <div class="card-footer d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary btn-sm">
             Simpan
         </button>
     </div>

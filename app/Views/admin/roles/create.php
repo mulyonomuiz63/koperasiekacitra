@@ -52,7 +52,7 @@
                 <a href="<?= base_url('roles') ?>" class="btn btn-light">
                     Batal
                 </a>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-sm">
                     <i class="bi bi-check2-circle me-1"></i> Simpan
                 </button>
             </div>

@@ -9,7 +9,8 @@
                 <?= $this->include('partials/toolbar') ?>
             <!--end::Toolbar-->
             <!--begin::Navbar-->
-            <div class="app-navbar flex-shrink-0"> 
+            <div class="app-navbar flex-shrink-0 d-flex align-items-stretch justify-content-between flex-lg-grow-1"> 
+                <div></div>
                 <!--begin::User menu-->
                 <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle"> <!--begin::Menu wrapper-->
                     <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"> <img src="<?= base_url('/') ?>assets/media/avatars/300-3.jpg" class="rounded-3" alt="user" /> </div> <!--begin::User account menu-->
@@ -24,7 +25,7 @@
                         </div> <!--end::Menu item--> <!--begin::Menu separator-->
                         <div class="separator my-2"></div> <!--end::Menu separator--> <!--begin::Menu item-->
                         <div class="menu-item px-5"> <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a> </div> <!--end::Menu item--> <!--begin::Menu item-->
-                        <div class="menu-item px-5"> <a href="../../demo1/dist/authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a> </div> <!--end::Menu item-->
+                        <div class="menu-item px-5"> <a href="<?= base_url('/logout') ?>" class="menu-link px-5">Sign Out</a> </div> <!--end::Menu item-->
                     </div> <!--end::User account menu--> <!--end::Menu wrapper-->
                 </div> <!--end::User menu--> <!--begin::Header menu toggle-->
                 <div class="app-navbar-item d-lg-none ms-2 me-n2" title="Show header menu">

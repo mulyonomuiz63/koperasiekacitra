@@ -8,4 +8,8 @@ class Home extends BaseController
     {
         return view('dashboard');
     }
+    public function tes(): string
+    {
+        return view('anggota/dashboard');
+    }
 }

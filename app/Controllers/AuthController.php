@@ -132,9 +132,11 @@ class AuthController extends BaseController
             'role_id'   => $user['role_id'],
         ]);
 
-        $redirect = match ($user['role_id']) {
-            default => base_url('dashboard'),
-        };
+        if ($user['role_id'] == 4) {
+                $redirect = base_url('sw-anggota'); // anggota
+        }else{
+                $redirect = base_url('dashboard'); // admin dan lainnya
+        }
 
         return $this->response->setJSON([
             'status'   => 'success',
@@ -162,9 +164,20 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        session()->destroy();
+        $session = session();
+
+        // 🔒 Hapus cookie remember me jika ada
+        if (isset($_COOKIE['remember_me'])) {
+            setcookie('remember_me', '', time() - 3600, '/'); // expire cookie
+        }
+
+        // ✅ Hapus semua session
+        $session->destroy();
+
+        // 🔄 Redirect ke halaman login
         return redirect()->to('/login');
     }
+
 
     public function forgotPasswordForm()
     {
@@ -310,12 +323,6 @@ class AuthController extends BaseController
         ]);
     }
 
-
-
-
-
-
-
     public function register()
     {
         return view('auth/register');
@@ -386,19 +393,6 @@ class AuthController extends BaseController
         return redirect()->to('login')->with('success', 'Email berhasil diverifikasi.');
     }
 
-    private function _sendVerificationEmail($email, $token)
-    {
-        $emailService = \Config\Services::email();
-
-        $emailService->setTo($email);
-        $emailService->setSubject('Verifikasi Email');
-        $emailService->setMessage(view('emails/verify_email', [
-            'link' => base_url("verify-email/$token")
-        ]));
-
-        $emailService->send();
-    }
-
     public function checkEmail()
     {
         $email = strtolower(trim($this->request->getPost('email')));
@@ -411,5 +405,9 @@ class AuthController extends BaseController
             'status'   => $exists ? 'used' : 'available',
             'csrfHash' => csrf_hash()
         ]);
+    }
+    public function unauthorized()
+    {
+        return view('errors/unauthorized');
     }
 }

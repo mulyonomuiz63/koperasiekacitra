@@ -8,20 +8,26 @@
 ?>
 
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
-    <!--begin::Logo-->
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
-        <div class="card-header d-flex align-items-center">
-            <img src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" alt="Logo" style="width:50px;height:50px;" class="me-3">
-            <h3 class="card-title"><?= setting('app_name') ?></h3>
-        </div>
-
-        <!--begin::Sidebar toggle-->
+        <!--begin::Logo image-->
+        <a href="../../demo1/dist/index.html">
+            <!-- <img alt="Logo" src="assets/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default">
+            <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize"> -->
+            <div class="card-header d-flex align-items-center">
+                <img src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" alt="Logo"  class="h-25px app-sidebar-logo-default me-3">
+                <img src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" alt="Logo"  class="h-25px app-sidebar-logo-minimize me-3">
+                <h3 class="card-title text-dark app-sidebar-logo-default"><?= setting('app_name') ?></h3>
+            </div>
+        </a>
+        <!--end::Logo image-->
         <div id="kt_app_sidebar_toggle" class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary h-30px w-30px position-absolute top-50 start-100 translate-middle rotate" data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body" data-kt-toggle-name="app-sidebar-minimize">
-            <i class="ki-outline ki-black-left-line fs-3 rotate-180"></i>
+            <i class="ki-duotone ki-black-left-line fs-3 rotate-180">
+                <span class="path1"></span>
+                <span class="path2"></span>
+            </i>
         </div>
         <!--end::Sidebar toggle-->
     </div>
-    <!--end::Logo-->
     <!--begin::sidebar menu-->
     <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
         <!--begin::Menu wrapper-->

@@ -14,9 +14,11 @@ class PegawaiModel extends Model
     protected $allowedFields = [
         'user_id',
         'nip',
+        'nik',
         'nama',
         'jenis_kelamin',
         'tanggal_lahir',
+        'tempat_lahir',
         'alamat',
         'no_hp',
         'perusahaan_id',

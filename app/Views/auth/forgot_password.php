@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="d-grid mb-10">
-                            <button type="submit" id="btn-forgot" class="btn btn-primary">
+                            <button type="submit" id="btn-forgot" class="btn btn-primary btn-sm">
                                 Kirim Link Reset
                             </button>
                         </div>

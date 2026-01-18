@@ -3,13 +3,6 @@
 
 <div class="card card-flush">
     <div class="card-body">
-
-        <?php if(session()->getFlashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
-
         <!--begin:::Tabs-->
         <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-15" role="tablist">
             <li class="nav-item" role="presentation">
@@ -26,6 +19,12 @@
                 <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_footer_links" role="tab">
                     <i class="ki-duotone ki-link fs-2 me-2"></i>Footer Links
                 </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_smtp" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>SMTP
+                </a>
+
             </li>
         </ul>
         <!--end:::Tabs-->
@@ -178,13 +177,116 @@
                 </div>
                 <!--end:::Tab pane Footer Links-->
 
+                <!--begin:::Tab pane SMTP-->
+                <div class="tab-pane fade" id="tab_smtp" role="tabpanel">
+
+                    <!-- SMTP Host -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">SMTP Host</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text"
+                                class="form-control form-control-solid"
+                                name="smtp_host"
+                                value="<?= old('smtp_host', $settings['smtp_host'] ?? '') ?>"
+                                placeholder="smtp.gmail.com">
+                        </div>
+                    </div>
+
+                    <!-- SMTP User -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">SMTP User</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="email"
+                                class="form-control form-control-solid"
+                                name="smtp_user"
+                                value="<?= old('smtp_user', $settings['smtp_user'] ?? '') ?>">
+                        </div>
+                    </div>
+
+                    <!-- SMTP Password -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">SMTP Password</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="password"
+                                class="form-control form-control-solid"
+                                name="smtp_pass"
+                                placeholder="********">
+                            <small class="text-muted">
+                                Kosongkan jika tidak ingin mengubah password
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- SMTP Port -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">SMTP Port</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="number"
+                                class="form-control form-control-solid"
+                                name="smtp_port"
+                                value="<?= old('smtp_port', $settings['smtp_port'] ?? 587) ?>">
+                        </div>
+                    </div>
+
+                    <!-- SMTP Crypto -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">SMTP Crypto</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select name="smtp_crypto" class="form-select form-select-solid">
+                                <option value="">None</option>
+                                <option value="tls" <?= ($settings['smtp_crypto'] ?? '') === 'tls' ? 'selected' : '' ?>>TLS</option>
+                                <option value="ssl" <?= ($settings['smtp_crypto'] ?? '') === 'ssl' ? 'selected' : '' ?>>SSL</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- From Email -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">From Email</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="email"
+                                class="form-control form-control-solid"
+                                name="smtp_from_email"
+                                value="<?= old('smtp_from_email', $settings['smtp_from_email'] ?? '') ?>">
+                        </div>
+                    </div>
+
+                    <!-- From Name -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">From Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text"
+                                class="form-control form-control-solid"
+                                name="smtp_from_name"
+                                value="<?= old('smtp_from_name', $settings['smtp_from_name'] ?? '') ?>">
+                        </div>
+                    </div>
+
+                </div>
+                <!--end:::Tab pane SMTP-->
+
+
             </div>
             <!--end:::Tab content-->
 
             <!-- Tombol Simpan tunggal selalu tampil -->
             <div class="row mt-10">
                 <div class="col-md-12 text-end">
-                    <button type="submit" class="btn btn-primary">Simpan Pengaturan</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Simpan Pengaturan</button>
                 </div>
             </div>
 

@@ -36,7 +36,7 @@
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
             </div>
         </form>
     </div>

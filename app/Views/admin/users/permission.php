@@ -107,7 +107,7 @@
 
             <!-- ACTION -->
             <div class="d-flex justify-content-end mt-6">
-                <button class="btn btn-primary me-2">
+                <button class="btn btn-primary btn-sm me-2">
                     <i class="bi bi-save me-1"></i> Simpan Permission
                 </button>
                 <a href="<?= base_url('users') ?>" class="btn btn-light">

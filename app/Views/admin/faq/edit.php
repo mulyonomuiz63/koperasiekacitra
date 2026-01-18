@@ -41,7 +41,7 @@
     </div>
 
     <div class="card-footer text-end">
-        <button class="btn btn-primary">Update</button>
+        <button class="btn btn-primary btn-sm">Update</button>
     </div>
 </div>
 </form>
