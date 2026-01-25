@@ -68,7 +68,6 @@
 							<!--begin::Content-->
 							<div id="kt_app_content" class="flex-column-fluid">
 								<div id="kt_app_content_container" class="app-container container-xxl">
-									<?= $this->include('partials/alert') ?>
 									<?= $this->renderSection('content') ?>
 								</div>
 							</div>
@@ -148,7 +147,7 @@
 			});
 
 		</script>
-
+		<?= $this->include('partials/alert') ?>
 		<?= $this->renderSection('scripts') ?>
 
 	</body>

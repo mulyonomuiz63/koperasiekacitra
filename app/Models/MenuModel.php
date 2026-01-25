@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class MenuModel extends Model
+class MenuModel extends BaseModel
 {
     protected $table      = 'menus';
-    protected $primaryKey = 'id';
 
     protected $allowedFields = [
         'name',
@@ -20,22 +18,12 @@ class MenuModel extends Model
     ];
 
     // Aktifkan event model
-    protected $beforeInsert = ['normalizeParent', 'generateSlug'];
+    protected $beforeInsert = ['setUUID', 'normalizeParent', 'generateSlug'];
     protected $beforeUpdate = ['normalizeParent', 'generateSlug'];
-
 
     /* =======================
      *  PUBLIC METHODS
      * ======================= */
-    
-
-    public function getTree()
-    {
-        return $this->orderBy('parent_id', 'ASC')
-                    ->orderBy('menu_order', 'ASC')
-                    ->findAll();
-    }
-
     public function getMenuByUser($userId, $roleId)
     {
         $db = db_connect();
@@ -65,26 +53,33 @@ class MenuModel extends Model
     protected function generateSlug(array $data)
     {
         // tidak ada name → lewati
-        if (! isset($data['data']['name'])) {
+        if (!isset($data['data']['name'])) {
             return $data;
         }
 
+        // ========================
         // INSERT
+        // ========================
         if (empty($data['id'])) {
             $slug = $this->slugify($data['data']['name']);
             $data['data']['slug'] = $this->uniqueSlug($slug);
             return $data;
         }
 
-        // UPDATE → cek apakah name berubah
-        $id = $data['id'][0];
+        // ========================
+        // UPDATE
+        // ========================
+        $id = is_array($data['id'])
+            ? $data['id'][0]   // batch update
+            : $data['id'];     // single update (UUID)
+
         $oldData = $this->find($id);
 
-        if (! $oldData) {
+        if (!$oldData) {
             return $data;
         }
 
-        // jika name tidak berubah → slug tidak diubah
+        // name tidak berubah → jangan update slug
         if ($oldData['name'] === $data['data']['name']) {
             return $data;
         }
@@ -95,6 +90,7 @@ class MenuModel extends Model
 
         return $data;
     }
+
 
     /* =======================
      *  HELPER METHODS
@@ -108,7 +104,7 @@ class MenuModel extends Model
         return trim($text, '-');
     }
 
-    protected function uniqueSlug(string $slug, ?int $ignoreId = null): string
+    protected function uniqueSlug(string $slug, ?string $ignoreId = null): string
     {
         $baseSlug = $slug;
         $i = 1;
@@ -116,7 +112,7 @@ class MenuModel extends Model
         while (true) {
             $builder = $this->where('slug', $slug);
 
-            if ($ignoreId) {
+            if ($ignoreId !== null) {
                 $builder->where('id !=', $ignoreId);
             }
 
@@ -128,6 +124,7 @@ class MenuModel extends Model
             $i++;
         }
     }
+
 
     protected function normalizeParent(array $data)
     {

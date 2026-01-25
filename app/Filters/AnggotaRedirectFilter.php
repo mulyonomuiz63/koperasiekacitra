@@ -5,9 +5,15 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\PegawaiModel;
+use App\Models\RoleModel;
 
 class AnggotaRedirectFilter implements FilterInterface
 {
+    protected $roleModel;
+    public function __construct()
+    {
+        $this->roleModel = new RoleModel();
+    }
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
@@ -18,8 +24,14 @@ class AnggotaRedirectFilter implements FilterInterface
         }
 
         // hanya role anggota
-        if ((int)$session->get('role_id') !== 4) {
-            return;
+        $cekRole = $this->roleModel->where('id', session()->get('role_id'))->first();
+        // Pastikan role ditemukan untuk menghindari error "trying to access array offset on null"
+        if ($cekRole) {
+            $roleKey = $cekRole['role_key'];
+
+            if ($roleKey !== 'ANGGOTA') {
+                return;
+            } 
         }
 
         $path = $request->getUri()->getPath();
@@ -41,15 +53,15 @@ class AnggotaRedirectFilter implements FilterInterface
             return;
         }
 
-        // status nonaktif → activity
-        if ($pegawai['status'] === 'nonaktif') {
+        // status T → activity
+        if ($pegawai['status'] === 'T') {
             if (!str_contains($path, 'sw-anggota/activity')) {
                 return redirect()->to('/sw-anggota/activity');
             }
         }
 
         // status aktif → dashboard
-        if ($pegawai['status'] === 'aktif') {
+        if ($pegawai['status'] === 'A') {
             if (
                 str_contains($path, 'sw-anggota/activity') ||
                 str_contains($path, 'sw-anggota/lengkapi-data') ||

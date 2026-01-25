@@ -110,14 +110,25 @@
                 <label class="required form-label">Status</label>
                 <select name="status"
                         class="form-select form-select-solid" required>
-                    <option value="aktif" <?= $pegawai['status']=='aktif'?'selected':'' ?>>Aktif</option>
-                    <option value="nonaktif" <?= $pegawai['status']=='nonaktif'?'selected':'' ?>>Nonaktif</option>
-                    <option value="resign" <?= $pegawai['status']=='resign'?'selected':'' ?>>Resign</option>
+                    <option value="A" <?= $pegawai['status']=='A'?'selected':'' ?>>Aktif</option>
+                    <option value="T" <?= $pegawai['status']=='T'?'selected':'' ?>>Nonaktif</option>
+                    <option value="R" <?= $pegawai['status']=='R'?'selected':'' ?>>Resign</option>
+                </select>
+            </div>
+
+             <!-- STATUS IURAN -->
+            <div class="col-md-6">
+                <label class="form-label required">Status Iuran</label>
+                <select name="status_iuran"
+                        class="form-select form-select-solid"
+                        required>
+                    <option value="A"   <?= $pegawai['status_iuran']=='A'?'selected':'' ?>>Aktif</option>
+                    <option value="T" <?= $pegawai['status_iuran']=='T'?'selected':'' ?>>Tidak Aktif</option>
                 </select>
             </div>
 
             <!-- ALAMAT -->
-            <div class="col-12">
+            <div class="col-md-6">
                 <label class="required form-label">Alamat</label>
                 <textarea name="alamat"
                           class="form-control form-control-solid"

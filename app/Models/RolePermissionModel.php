@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class RolePermissionModel extends Model
+class RolePermissionModel extends BaseModel
 {
     protected $table      = 'role_permissions';
-    protected $primaryKey = 'id';
-
+    
     protected $allowedFields = [
         'role_id',
         'menu_id',

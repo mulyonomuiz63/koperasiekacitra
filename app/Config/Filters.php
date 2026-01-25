@@ -92,6 +92,14 @@ class Filters extends BaseFilters
                     'galeri/datatable',
                     'galeri/tinymce/upload',
                     'faq/datatable',
+                    'pembayaran/datatable',
+                    'iuran-bulanan/datatable',
+                    'news/datatable',
+                    'category/datatable',
+
+                    //anggota
+                    'sw-anggota/iuran/datatable',
+                    'sw-anggota/histori-iuran/datatable',
                 ]
             ]
             // 'invalidchars',

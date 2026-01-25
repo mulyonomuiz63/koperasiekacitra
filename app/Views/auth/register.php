@@ -1,245 +1,271 @@
 <?= $this->extend('auth/pages/layout') ?>
 <?= $this->section('content') ?>
 
-<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-    <!--begin::Aside-->
-    <div class="d-flex flex-lg-row-fluid">
-        <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
-            <img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
-                 src="<?= base_url('assets/media/auth/agency.png') ?>" alt="">
-            <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
-                 src="<?= base_url('assets/media/auth/agency-dark.png') ?>" alt="">
+<!--begin::Body-->
+<div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
+    <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 shadow-sm border border-gray-200">
 
-            <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">
-                Cepat, Efisien, dan Produktif
-            </h1>
+        <div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
+            <div class="d-flex flex-center flex-column flex-column-fluid pb-10">
+                <div id="alert-wrapper"></div>
 
-            <div class="text-gray-600 fs-base text-center fw-semibold">
-                Silakan daftar untuk mengakses seluruh fitur aplikasi.
-            </div>
-        </div>
-    </div>
+                <form class="form w-100" id="form-register">
+                    <?= csrf_field() ?>
 
-    <!--begin::Body-->
-    <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
-        <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10">
-
-            <div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
-                <div class="d-flex flex-center flex-column flex-column-fluid pb-15 pb-lg-20">
-                    <div id="alert-wrapper"></div>
-                    <!--begin::Form-->
-                    <form class="form w-100" id="form-register">
-
-                        <?= csrf_field() ?>
-
-                        <!-- Judul -->
-                        <div class="text-center mb-11">
-                            <h1 class="text-dark fw-bolder mb-3">Daftar Akun</h1>
-                            <div class="text-gray-500 fw-semibold fs-6">
-                                Buat akun baru sebagai anggota
-                            </div>
+                    <div class="text-center mb-11">
+                        <h1 class="text-dark fw-bolder mb-3 fs-1">Daftar Akun</h1>
+                        <div class="text-muted fw-semibold fs-6">
+                            Bergabunglah sebagai anggota koperasi
                         </div>
+                    </div>
 
-                        <!-- Email -->
-                        <div class="fv-row mb-8">
-                            <input type="email"
-                                id="email"
-                                name="email"
-                                class="form-control bg-transparent"
-                                placeholder="Email"
-                                autocomplete="off">
+                    <div class="fv-row mb-7 position-relative">
+                        <i class="ki-outline ki-sms fs-2 position-absolute top-50 translate-middle-y ms-4 text-gray-500"></i>
+                        <input type="email"
+                            id="email"
+                            name="email"
+                            class="form-control form-control-solid ps-12 bg-light-lighten text-dark fw-semibold"
+                            placeholder="Alamat Email Aktif"
+                            autocomplete="off">
 
-                            <div class="invalid-feedback" id="email-error"></div>
-                            <div class="valid-feedback" id="email-success"></div>
-                        </div>
+                        <div class="invalid-feedback ms-1" id="email-error"></div>
+                        <div class="valid-feedback ms-1" id="email-success"></div>
+                    </div>
 
-
-                        <!-- Password -->
-                        <div class="fv-row mb-8" data-kt-password-meter="true">
-                            <div class="position-relative mb-3">
-                                <input type="password"
-                                       name="password"
-                                       class="form-control bg-transparent"
-                                       placeholder="Password"
-                                       required>
-                                <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
-                                      data-kt-password-meter-control="visibility">
-                                    <i class="ki-duotone ki-eye-slash fs-2"></i>
-                                    <i class="ki-duotone ki-eye fs-2 d-none"></i>
-                                </span>
-                            </div>
-                            <div class="text-muted">
-                                Gunakan minimal 8 karakter dengan kombinasi huruf dan angka.
-                            </div>
-                        </div>
-
-                        <!-- Konfirmasi Password -->
-                        <div class="fv-row mb-8">
+                    <div class="fv-row mb-7" data-kt-password-meter="true">
+                        <div class="position-relative mb-3">
+                            <i class="ki-outline ki-lock fs-2 position-absolute top-50 translate-middle-y ms-4 text-gray-500"></i>
                             <input type="password"
-                                   name="password_confirm"
-                                   class="form-control bg-transparent"
-                                   placeholder="Ulangi Password"
-                                   required>
+                                name="password"
+                                class="form-control form-control-solid ps-12 bg-light-lighten text-dark fw-semibold"
+                                placeholder="Buat Password"
+                                required>
+                            <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                                data-kt-password-meter-control="visibility">
+                                <i class="ki-outline ki-eye-slash fs-2 text-gray-500"></i>
+                                <i class="ki-outline ki-eye fs-2 text-gray-500 d-none"></i>
+                            </span>
                         </div>
-
-                        <!-- Syarat & Ketentuan -->
-                        <div class="fv-row mb-8">
-                            <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" required>
-                                <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
-                                    Saya menyetujui
-                                    <a href="#" class="ms-1 link-primary">Syarat & Ketentuan</a>
-                                </span>
-                            </label>
+                        <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
+                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
+                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
                         </div>
-
-                        <!-- Tombol Daftar -->
-                        <div class="d-grid mb-10">
-                            <button type="submit"
-                                    id="btn-submit"
-                                    class="btn btn-primary btn-sm w-100"
-                                    disabled>
-                                Daftar
-                            </button>
-
+                        <div class="text-muted fs-8">
+                            Gunakan 8+ karakter dengan kombinasi huruf & angka.
                         </div>
+                    </div>
 
-                        <!-- Login -->
-                        <div class="text-gray-500 text-center fw-semibold fs-6">
-                            Sudah punya akun?
-                            <a href="<?= base_url('login') ?>" class="link-primary fw-semibold">
-                                Masuk
-                            </a>
-                        </div>
+                    <div class="fv-row mb-8 position-relative">
+                        <i class="ki-outline ki-shield-tick fs-2 position-absolute top-50 translate-middle-y ms-4 text-gray-500"></i>
+                        <input type="password"
+                            name="password_confirm"
+                            class="form-control form-control-solid ps-12 bg-light-lighten text-dark fw-semibold"
+                            placeholder="Ulangi Password"
+                            required>
+                        <div class="invalid-feedback">Konfirmasi password tidak cocok.</div>
+                    </div>
 
-                    </form>
-                    <!--end::Form-->
+                    <div class="fv-row mb-10">
+                        <label class="form-check form-check-custom form-check-solid form-check-sm">
+                            <input class="form-check-input" type="checkbox" id="toc-check" required>
+                            <span class="form-check-label fw-semibold text-gray-600 fs-7 ms-2">
+                                Saya menyetujui <a href="#" class="link-primary fw-bold">Syarat & Ketentuan</a> layanan.
+                            </span>
+                        </label>
+                    </div>
 
-                </div>
+                    <div class="d-grid mb-10">
+                        <button type="submit"
+                            id="btn-submit"
+                            class="btn btn-primary fw-bold py-4 shadow-sm hover-elevate-up"
+                            disabled>
+                            <span class="indicator-label">Buat Akun Sekarang</span>
+                        </button>
+                    </div>
+
+                    <div class="text-gray-500 text-center fw-semibold fs-6">
+                        Sudah punya akun?
+                        <a href="<?= base_url('login') ?>" class="link-primary fw-bolder ms-1">
+                            Masuk di sini
+                        </a>
+                    </div>
+
+                </form>
             </div>
-
         </div>
     </div>
-    <!--end::Body-->
 </div>
 
-<?= $this->endSection() ?>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    /* Menambah kontras input solid saat fokus */
+    .form-control-solid:focus {
+        background-color: #f1f1f4 !important;
+        border-color: #009ef7 !important;
+    }
 
+    .hover-elevate-up:hover {
+        transform: translateY(-2px);
+        transition: 0.3s ease;
+    }
+</style>
+<!--end::Body-->
+<?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script>
-const form        = document.getElementById('form-register');
-const emailInput  = document.getElementById('email');
-const btnSubmit   = document.getElementById('btn-submit');
-const errorMsg    = document.getElementById('email-error');
-const successMsg  = document.getElementById('email-success');
+    const form = document.getElementById('form-register');
+    const emailInput = document.getElementById('email');
+    const btnSubmit = document.getElementById('btn-submit');
+    const errorMsg = document.getElementById('email-error');
+    const successMsg = document.getElementById('email-success');
 
-const csrfNameEl  = document.querySelector('meta[name="csrf-name"]');
-const csrfHashEl  = document.querySelector('meta[name="csrf-hash"]');
+    const csrfNameEl = document.querySelector('meta[name="csrf-name"]');
+    const csrfHashEl = document.querySelector('meta[name="csrf-hash"]');
 
-let csrfName = csrfNameEl.content;
-let csrfHash = csrfHashEl.content;
-let typingTimer;
+    let csrfName = csrfNameEl.content;
+    let csrfHash = csrfHashEl.content;
+    let typingTimer;
 
-/* ===============================
-   REALTIME CHECK EMAIL
-================================ */
-emailInput.addEventListener('keyup', function () {
-    clearTimeout(typingTimer);
+    /* ===============================
+       REALTIME CHECK EMAIL
+    ================================ */
+    emailInput.addEventListener('keyup', function() {
+        clearTimeout(typingTimer);
 
-    typingTimer = setTimeout(() => {
-        const email = this.value.trim();
+        typingTimer = setTimeout(() => {
+            const email = this.value.trim();
 
-        if (email.length < 5) {
-            resetState();
-            return;
-        }
-
-        fetch("<?= base_url('auth/check-email') ?>", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: csrfName + "=" + csrfHash + "&email=" + encodeURIComponent(email)
-        })
-        .then(res => res.json())
-        .then(data => {
-
-            // 🔁 UPDATE CSRF TOKEN
-            csrfHash = data.csrfHash;
-            csrfHashEl.content = data.csrfHash;
-
-            if (data.status === 'used') {
-                emailInput.classList.add('is-invalid');
-                emailInput.classList.remove('is-valid');
-                errorMsg.innerHTML = "Email sudah digunakan";
-                successMsg.innerHTML = "";
-                btnSubmit.disabled = true;
-            } else {
-                emailInput.classList.remove('is-invalid');
-                emailInput.classList.add('is-valid');
-                successMsg.innerHTML = "Email tersedia";
-                errorMsg.innerHTML = "";
-                btnSubmit.disabled = false;
+            if (email.length < 5) {
+                resetState();
+                return;
             }
-        });
-    }, 500);
-});
 
-/* ===============================
-   SUBMIT FORM AJAX
-================================ */
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
+            fetch("<?= base_url('auth/check-email') ?>", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: csrfName + "=" + csrfHash + "&email=" + encodeURIComponent(email)
+                })
+                .then(res => res.json())
+                .then(data => {
 
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = 'Memproses...';
+                    // 🔁 UPDATE CSRF TOKEN
+                    csrfHash = data.csrfHash;
+                    csrfHashEl.content = data.csrfHash;
 
-    const formData = new FormData(form);
-    formData.append(csrfName, csrfHash);
+                    if (data.status === 'used') {
+                        emailInput.classList.add('is-invalid');
+                        emailInput.classList.remove('is-valid');
+                        errorMsg.innerHTML = "Email sudah digunakan";
+                        successMsg.innerHTML = "";
+                        btnSubmit.disabled = true;
+                    } else {
+                        emailInput.classList.remove('is-invalid');
+                        emailInput.classList.add('is-valid');
+                        successMsg.innerHTML = "Email tersedia";
+                        errorMsg.innerHTML = "";
+                        btnSubmit.disabled = false;
+                    }
+                });
+        }, 500);
+    });
 
-    fetch("<?= base_url('register') ?>", {
-        method: "POST",
-        headers: {
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
+    /* ===============================
+       SUBMIT FORM AJAX
+    ================================ */
+    // Ambil elemen input
+    const passwordInput = document.querySelector('input[name="password"]');
+    const confirmInput = document.querySelector('input[name="password_confirm"]');
 
-        // 🔁 UPDATE CSRF TOKEN
-        csrfHash = data.csrfHash;
-        csrfHashEl.content = data.csrfHash;
+    // Fungsi untuk mengecek kecocokan password secara real-time
+    function validatePassword() {
+        const pass = passwordInput.value;
+        const conf = confirmInput.value;
 
-        if (data.status === 'error') {
+        if (conf.length > 0) { // Hanya cek jika kolom konfirmasi sudah mulai diisi
+            if (pass !== conf) {
+                confirmInput.classList.add('is-invalid');
+                confirmInput.classList.remove('is-valid');
+                btnSubmit.disabled = true; // Kunci tombol daftar
+            } else {
+                confirmInput.classList.remove('is-invalid');
+                confirmInput.classList.add('is-valid');
+
+                // Cek juga apakah email sudah valid sebelum mengaktifkan tombol
+                // (Sesuaikan dengan logika pengecekan email Anda sebelumnya)
+                if (!emailInput.classList.contains('is-invalid')) {
+                    btnSubmit.disabled = false;
+                }
+            }
+        } else {
+            confirmInput.classList.remove('is-invalid', 'is-valid');
+        }
+    }
+
+    // Jalankan fungsi setiap kali user mengetik di kedua kolom tersebut
+    passwordInput.addEventListener('input', validatePassword);
+    confirmInput.addEventListener('input', validatePassword);
+
+    // Bagian Submit Form
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Double check sebelum kirim (keamanan tambahan)
+        if (passwordInput.value !== confirmInput.value) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
-                text: data.message
+                text: 'Password belum cocok!'
             });
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = 'Daftar';
-        } else {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Registrasi berhasil, silakan cek email Anda untuk verifikasi Akun.'
-            }).then(() => {
-                window.location.href = "<?= base_url('login') ?>";
-            });
+            return;
         }
 
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm align-middle ms-2"></span> Memproses...';
 
+        const formData = new FormData(form);
+        formData.append(csrfName, csrfHash);
+
+        fetch("<?= base_url('register') ?>", {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                csrfHash = data.csrfHash; // Update CSRF agar tidak expired
+
+                if (data.status === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: data.message
+                    });
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = 'Daftar';
+                } else {
+                    Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: data.message
+                        })
+                        .then(() => {
+                            window.location.href = "<?= base_url('login') ?>";
+                        });
+                }
+            });
     });
-});
 
-function resetState() {
-    emailInput.classList.remove('is-valid', 'is-invalid');
-    errorMsg.innerHTML = "";
-    successMsg.innerHTML = "";
-    btnSubmit.disabled = true;
-}
+    function resetState() {
+        emailInput.classList.remove('is-valid', 'is-invalid');
+        errorMsg.innerHTML = "";
+        successMsg.innerHTML = "";
+        btnSubmit.disabled = true;
+    }
 </script>
 <?= $this->endSection() ?>

@@ -4,6 +4,9 @@
 	<head><base href="../"/>
 		<title>Metronic - The World's #1 Selling Bootstrap Admin Template by Keenthemes</title>
 		<meta charset="utf-8" />
+		<meta name="csrf-token-name" content="<?= csrf_token() ?>">
+		<meta name="csrf-token-hash" content="<?= csrf_hash() ?>">
+
 		<meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
 		<meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,7 +28,7 @@
 		<link href="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="<?= base_url('/') ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
-		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+		<?= $this->renderSection('styles') ?>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
@@ -56,7 +59,7 @@
 			<!--begin::Page-->
 			<div class="app-page flex-column flex-column-fluid" id="kt_app_page">
 				<!--begin::Header-->
-				<?= $this->include('partials/header') ?>
+				<?= $this->include('partials/headerAnggota') ?>
 				<!--end::Header-->
 				<!--begin::Wrapper-->
 				<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
@@ -66,7 +69,11 @@
 						<div class="d-flex flex-column flex-column-fluid">
 							
 							<!--begin::Content-->
-							<?= $this->renderSection('content') ?> 
+							<div id="kt_app_content" class="app-content flex-column-fluid">
+								<div id="kt_app_content_container" class="app-container container-xxl">
+									<?= $this->renderSection('content') ?> 
+								</div>
+							</div>
 							<!--end::Content-->
 						</div>
 						<!--end::Content wrapper-->
@@ -87,6 +94,7 @@
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Vendors Javascript(used for this page only)-->
 		<script src="<?= base_url('/') ?>assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+		<script src="<?= base_url('/') ?>assets/plugins/custom/datatables/datatables.bundle.js"></script>
 		<!--end::Vendors Javascript-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="<?= base_url('/') ?>assets/js/widgets.bundle.js"></script>
@@ -106,6 +114,8 @@
 		</script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
+		<?= $this->include('partials/alert') ?>
+		<?= $this->renderSection('scripts') ?>
 	</body>
 	<!--end::Body-->
 </html>

@@ -19,13 +19,13 @@
                             <div class="menu-content d-flex align-items-center px-3"> <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5"> <img alt="Logo" src="<?= base_url('/') ?>assets/media/avatars/300-3.jpg" /> </div> <!--end::Avatar--> <!--begin::Username-->
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bold d-flex align-items-center fs-5">Robert Fox <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span></div> <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">robert@kt.com</a>
+                                    <div class="fw-bold d-flex align-items-center fs-5"><?= get_pegawai(session()->get('user_id'))['nama_anggota'] ?><span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"><?= get_pegawai(session()->get('user_id'))['status'] ?></span></div> <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"><?= session()->get('email') ?></a>
                                 </div> <!--end::Username-->
                             </div>
                         </div> <!--end::Menu item--> <!--begin::Menu separator-->
                         <div class="separator my-2"></div> <!--end::Menu separator--> <!--begin::Menu item-->
-                        <div class="menu-item px-5"> <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My Profile</a> </div> <!--end::Menu item--> <!--begin::Menu item-->
-                        <div class="menu-item px-5"> <a href="<?= base_url('/logout') ?>" class="menu-link px-5">Sign Out</a> </div> <!--end::Menu item-->
+                        <div class="menu-item px-5"> <a href="<?= base_url('profil') ?>" class="menu-link px-5">Profile Saya</a> </div> <!--end::Menu item--> <!--begin::Menu item-->
+                        <div class="menu-item px-5"> <a href="<?= base_url('/logout') ?>" class="menu-link px-5">Keluar</a> </div> <!--end::Menu item-->
                     </div> <!--end::User account menu--> <!--end::Menu wrapper-->
                 </div> <!--end::User menu--> <!--begin::Header menu toggle-->
                 <div class="app-navbar-item d-lg-none ms-2 me-n2" title="Show header menu">

@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
-
-class EmailLogModel extends Model
+class EmailLogModel extends BaseModel
 {
     protected $table = 'email_logs';
+    
     protected $allowedFields = [
         'recipient',
         'subject',

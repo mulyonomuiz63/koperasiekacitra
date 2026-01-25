@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class PegawaiModel extends Model
+class PegawaiModel extends BaseModel
 {
     protected $table      = 'pegawai';
-    protected $primaryKey = 'id';
-
-    protected $useTimestamps = true;
 
     protected $allowedFields = [
         'user_id',
@@ -25,6 +21,7 @@ class PegawaiModel extends Model
         'jabatan_id',
         'tanggal_masuk',
         'status',
+        'status_iuran',
     ];
 
     /* =========================

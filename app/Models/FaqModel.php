@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
-
-class FaqModel extends Model
+class FaqModel extends BaseModel
 {
     protected $table            = 'faq';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-
+    
     protected $allowedFields = [
         'question',
         'answer',
@@ -17,7 +13,6 @@ class FaqModel extends Model
         'sort_order',
     ];
 
-    protected $useTimestamps = true;
 
     public function getDatatable($request)
     {

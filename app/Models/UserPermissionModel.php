@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class UserPermissionModel extends Model
+class UserPermissionModel extends BaseModel
 {
     protected $table      = 'user_permissions';
-    protected $primaryKey = 'id';
 
     protected $allowedFields = [
         'user_id',
@@ -18,10 +16,6 @@ class UserPermissionModel extends Model
         'can_delete',
     ];
 
-    protected $useTimestamps = true;
-
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
 
     protected $returnType = 'array';
 

@@ -3,7 +3,7 @@
 use App\Models\UserPermissionModel;
 use App\Models\RolePermissionModel;
 
-function can_view_menu(int $menuId): bool
+function can_view_menu(string $menuId): bool
 {
     $db     = \Config\Database::connect();
     $userId = session()->get('user_id');

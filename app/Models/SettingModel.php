@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class SettingModel extends Model
+class SettingModel extends BaseModel
 {
     protected $table = 'settings';
-    protected $primaryKey = 'id';
+    
     protected $allowedFields = ['key', 'value', 'created_at', 'updated_at'];
-    protected $useTimestamps = true;
 
     // Ambil semua settings dalam bentuk key => value
     public function getAllSettings()
@@ -22,22 +20,21 @@ class SettingModel extends Model
         return $result;
     }
 
-    public function saveSetting($key, $value)
+    public function saveSetting(string $key, $value): bool
     {
-        $exists = $this->where('key', $key)->first();
+        $existing = $this->where('key', $key)->first();
 
-        if ($exists) {
-            return $this->where('key', $key)->set([
-                'value' => $value
-            ])->update();
+        if ($existing) {
+            return $this->update($existing['id'], [
+                'value' => $value,
+            ]);
         }
 
-        return $this->insert([
+        return (bool) $this->insert([
             'key'   => $key,
-            'value' => $value
+            'value' => $value,
         ]);
     }
-
     public function getByKey(string $key)
     {
         return $this->where('key', $key)->first()['value'] ?? null;

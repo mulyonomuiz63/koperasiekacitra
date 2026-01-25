@@ -4,5 +4,10 @@ helper([
     'permission',
     'menu',
     'setting',
-    'text'
+    'text',
+    'tanggal',
+    'uuid',
+    'invoice',
+    'uang',
+    'pegawai'
 ]);

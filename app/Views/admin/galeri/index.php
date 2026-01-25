@@ -14,7 +14,9 @@
             </div>
         </div>
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-            <a href="<?= base_url('galeri/create') ?>" class="btn btn-primary btn-sm">+ Tambah Galeri</a>
+            <?php if (can($menuId, 'create')): ?>
+                <a href="<?= base_url('galeri/create') ?>" class="btn btn-primary btn-sm">+ Tambah Galeri</a>
+            <?php endif; ?>
         </div>
     </div>
     <!--end::Card header-->

@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 
-class JabatanModel extends Model
+class JabatanModel extends BaseModel
 {
     protected $table      = 'jabatan';
-    protected $primaryKey = 'id';
-
-    protected $useTimestamps = true;
-
+    
     protected $allowedFields = [
         'nama_jabatan',
+        'jabatan_key',
         'keterangan',
     ];
 

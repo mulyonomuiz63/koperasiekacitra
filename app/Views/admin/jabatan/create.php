@@ -32,9 +32,20 @@
                 <input type="text"
                        name="nama_jabatan"
                        class="form-control form-control-solid"
-                       placeholder="Contoh: PT Koperasi Eka Citra"
+                       placeholder="Contoh: Direktur"
                        value="<?= old('nama_jabatan') ?>"
                        required>
+            </div>
+
+            <div class="mb-5">
+                <label class="required form-label">Jabatan Key</label>
+                <select name="jabatan_key" class="form-select form-select-solid" data-allow-clear="true">
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="ANGGOTA">ANGGOTA</option>
+                </select>
+                <div class="form-text">
+                    Nama key akan digunakan untuk mengelopokan akun tersebut masuk ke admin atau anggota
+                </div>
             </div>
 
             <!-- KETERANGAN -->

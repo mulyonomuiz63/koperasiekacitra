@@ -35,6 +35,16 @@
                        value="<?= old('nama_jabatan', $jabatan['nama_jabatan']) ?>"
                        required>
             </div>
+            <div class="mb-5">
+                <label class="required form-label">Jabatan Key</label>
+                <select name="jabatan_key" class="form-select form-select-solid" data-allow-clear="true">
+                    <option value="ADMIN" <?= $jabatan['jabatan_key'] == 'ADMIN' ? 'selected' : '' ?>>ADMIN</option>
+                    <option value="ANGGOTA" <?= $jabatan['jabatan_key'] == 'ANGGOTA' ? 'selected' : '' ?>>ANGGOTA</option>
+                </select>
+                <div class="form-text">
+                    Nama key akan digunakan untuk mengelopokan akun tersebut masuk ke admin atau anggota
+                </div>
+            </div>
 
             <!-- KETERANGAN -->
             <div class="col-12">

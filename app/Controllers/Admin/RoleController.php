@@ -4,17 +4,20 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\RoleModel;
+use App\Services\Admin\RoleService;
 
 class RoleController extends BaseController
 {
     protected $roleModel;
     protected $menuId;
+    protected $service;
 
 
     public function __construct()
     {
         $this->roleModel = new RoleModel();
         $this->menuId = $this->setMenu('roles');
+        $this->service = new RoleService();
     }
 
     // =============================
@@ -28,36 +31,16 @@ class RoleController extends BaseController
 
     public function datatable()
     {
-        if (!$this->request->is('post')) {
+        if (! $this->request->is('post')) {
             return $this->response->setStatusCode(403);
         }
 
-
-        $request = $this->request->getPost();
-        $result  = $this->roleModel->getDatatable($request);
-
-        $data = [];
-
-        foreach ($result['data'] as $row) {
-
-            $data[] = [
-                'id'         => $row['id'],
-                'name'       => $row['name'],
-                'description' => $row['description'],
-                
-                // 🔐 PERMISSION (INTI)
-                'can_edit'   => can($this->menuId, 'update'),
-                'can_delete' => can($this->menuId, 'delete'),
-            ];
-        }
-
-
-        return $this->response->setJSON([
-            'draw'            => intval($request['draw']),
-            'recordsTotal'    => $result['recordsTotal'],
-            'recordsFiltered' => $result['recordsFiltered'],
-            'data'            => $data,
-        ]);
+        return $this->response->setJSON(
+            $this->service->get(
+                $this->request->getPost(),
+                $this->menuId
+            )
+        );
     }
 
     // =============================
@@ -75,6 +58,7 @@ class RoleController extends BaseController
     {
         $this->roleModel->insert([
             'name'        => $this->request->getPost('name'),
+            'role_key'    => $this->request->getPost('role_key'),
             'description' => $this->request->getPost('description')
         ]);
 
@@ -104,6 +88,7 @@ class RoleController extends BaseController
     {
         $this->roleModel->update($id, [
             'name'        => $this->request->getPost('name'),
+            'role_key'    => $this->request->getPost('role_key'),
             'description' => $this->request->getPost('description')
         ]);
 

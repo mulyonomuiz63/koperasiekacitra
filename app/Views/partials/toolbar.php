@@ -26,9 +26,15 @@ foreach ($breadcrumbs as $bc) {
 
                 <!-- HOME -->
                 <li class="breadcrumb-item text-muted">
-                    <a href="<?= base_url('/dashboard') ?>" class="text-muted text-hover-primary">
-                        Home
-                    </a>
+                    <?php if(session()->get('role_key') === "ADMIN"): ?>
+                        <a href="<?= base_url('/dashboard') ?>" class="text-muted text-hover-primary">
+                            Home
+                        </a>
+                    <?php else: ?>
+                        <a href="<?= base_url('/sw-anggota') ?>" class="text-muted text-hover-primary">
+                            Home
+                        </a>
+                    <?php endif; ?>
                 </li>
 
                 <?php foreach ($breadcrumbs as $i => $bc): ?>

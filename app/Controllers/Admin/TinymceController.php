@@ -2,40 +2,30 @@
 
 namespace App\Controllers\Admin;
 
+use App\Services\Admin\TinyMceUploadService;
 use CodeIgniter\Controller;
 
 class TinymceController extends Controller
 {
+    protected $service;
+    public function __construct()
+    {
+        $this->service = new TinyMceUploadService();
+    }
     public function upload()
     {
-        $file = $this->request->getFile('file');
+        try {
+            $result = $this->service->uploadImage(
+                $this->request->getFile('file')
+            );
 
-        if (!$file || !$file->isValid()) {
+            return $this->response->setJSON($result);
+
+        } catch (\Throwable $e) {
+
             return $this->response->setJSON([
-                'error' => 'File tidak valid'
+                'error' => $e->getMessage()
             ]);
         }
-
-        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
-        $ext = $file->getExtension();
-
-        if (!in_array($ext, $allowed)) {
-            return $this->response->setJSON([
-                'error' => 'Format gambar tidak didukung'
-            ]);
-        }
-
-        $path = FCPATH . 'uploads/tinymce/galeri/';
-
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $name = $file->getRandomName();
-        $file->move($path, $name);
-
-        return $this->response->setJSON([
-            'location' => base_url('uploads/tinymce/' . $name)
-        ]);
     }
 }

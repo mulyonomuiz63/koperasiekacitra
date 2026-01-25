@@ -37,7 +37,16 @@
                     Nama role digunakan sebagai identitas hak akses
                 </div>
             </div>
-
+            <div class="mb-5">
+                <label class="required form-label">Role Key</label>
+                <select name="role_key" class="form-select form-select-solid" data-allow-clear="true">
+                        <option value="ADMIN" <?= $role['role_key'] == 'ADMIN' ? 'selected' : '' ?>>ADMIN</option>
+                        <option value="ANGGOTA" <?= $role['role_key'] == 'ANGGOTA' ? 'selected' : '' ?>>ANGGOTA</option>
+                </select>
+                <div class="form-text">
+                    Nama key akan digunakan untuk mengarahkan url akan di redirek role mana
+                </div>
+            </div>
             <!-- DESKRIPSI -->
             <div class="mb-8">
                 <label class="form-label">Deskripsi</label>

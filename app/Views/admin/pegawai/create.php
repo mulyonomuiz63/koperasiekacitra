@@ -97,14 +97,25 @@
             <div class="col-md-6">
                 <label class="required form-label">Status</label>
                 <select name="status" class="form-select form-select-solid" required>
-                    <option value="aktif">Aktif</option>
-                    <option value="nonaktif">Nonaktif</option>
-                    <option value="resign">Resign</option>
+                    <option value="A">Aktif</option>
+                    <option value="T">Nonaktif</option>
+                    <option value="R">Resign</option>
+                </select>
+            </div>
+
+            <!-- STATUS IURAN -->
+            <div class="col-md-6">
+                <label class="form-label required">Status Iuran</label>
+                <select name="status_iuran"
+                        class="form-select form-select-solid"
+                        required>
+                    <option value="A"   <?= $user['status_iuran']=='A'?'selected':'' ?>>Aktif</option>
+                    <option value="T" <?= $user['status_iuran']=='T'?'selected':'' ?>>Tidak Aktif</option>
                 </select>
             </div>
 
             <!-- ALAMAT -->
-            <div class="col-12">
+            <div class="col-md-6">
                 <label class="required form-label">Alamat</label>
                 <textarea name="alamat" class="form-control form-control-solid" rows="3" required></textarea>
             </div>

@@ -3,16 +3,19 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\PerusahaanModel;
+use App\Services\Admin\PerusahaanService;
 
 class PerusahaanController extends BaseController
 {
     protected $perusahaan;
     protected $menuId;
+    protected $service;
 
     public function __construct()
     {
         $this->perusahaan = new PerusahaanModel();
         $this->menuId = $this->setMenu('perusahaan');
+        $this->service = new PerusahaanService();
     }
 
     public function index()
@@ -22,36 +25,16 @@ class PerusahaanController extends BaseController
 
     public function datatable()
     {
-        if (!$this->request->is('post')) {
+       if (! $this->request->is('post')) {
             return $this->response->setStatusCode(403);
         }
 
-
-        $request = $this->request->getPost();
-        $result  = $this->perusahaan->getDatatable($request);
-
-        $data = [];
-
-        foreach ($result['data'] as $row) {
-
-            $data[] = [
-                'id'                    => $row['id'],
-                'nama_perusahaan'       => $row['nama_perusahaan'],
-                'alamat'                => $row['alamat'],
-                
-                // 🔐 PERMISSION (INTI)
-                'can_edit'   => can($this->menuId, 'update'),
-                'can_delete' => can($this->menuId, 'delete'),
-            ];
-        }
-
-
-        return $this->response->setJSON([
-            'draw'            => intval($request['draw']),
-            'recordsTotal'    => $result['recordsTotal'],
-            'recordsFiltered' => $result['recordsFiltered'],
-            'data'            => $data,
-        ]);
+        return $this->response->setJSON(
+            $this->service->get(
+                $this->request->getPost(),
+                $this->menuId
+            )
+        );
     }
 
     public function create()

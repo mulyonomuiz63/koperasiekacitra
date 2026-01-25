@@ -4,61 +4,38 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\GaleriModel;
+use App\Services\Admin\GaleriService;
 
 class GaleriController extends BaseController
 {
     protected $galeriModel;
+    protected $service;
     protected $menuId;
     public function __construct()
     {
         $this->galeriModel = new GaleriModel();
+        $this->service = new GaleriService();
         $this->menuId = $this->setMenu('galeri');
     }
 
     public function index()
     {
         $galeri = $this->galeriModel->orderBy('created_at', 'DESC')->findAll();
-        return view('admin/galeri/index', ['galeri' => $galeri]);
+        return $this->view('admin/galeri/index', ['galeri' => $galeri]);
     }
 
     public function datatable()
     {
-        $request = $this->request;
-        $start = $request->getPost('start') ?? 0;
-        $length = $request->getPost('length') ?? 10;
-        $search = $request->getPost('search')['value'] ?? '';
-
-        $builder = $this->galeriModel;
-
-        // Search
-        if ($search) {
-            $builder = $builder->like('title', $search)
-                            ->orLike('description', $search);
+        if (! $this->request->is('post')) {
+            return $this->response->setStatusCode(403);
         }
 
-        $totalRecords = $builder->countAllResults(false); // false agar query belum dieksekusi
-        $data = $builder->orderBy('created_at', 'DESC')
-                        ->findAll($length, $start);
-
-        $json_data = [];
-        foreach ($data as $row) {
-            $json_data[] = [
-                'id'          => $row['id'],
-                'title'       => $row['title'],
-                'description' => $row['description'],
-                'filename'    => '<img src="'.base_url('uploads/galeri/thumbs/'.$row['filename']).'" style="width:80px;height:60px;object-fit:cover;">',
-                // 🔐 PERMISSION (INTI)
-                'can_edit'   => can($this->menuId, 'update'),
-                'can_delete' => can($this->menuId, 'delete'),
-            ];
-        }
-
-        return $this->response->setJSON([
-            'draw' => intval($request->getPost('draw')),
-            'recordsTotal' => $this->galeriModel->countAll(),
-            'recordsFiltered' => $totalRecords,
-            'data' => $json_data
-        ]);
+        return $this->response->setJSON(
+            $this->service->get(
+                $this->request->getPost(),
+                $this->menuId
+            )
+        );
     }
 
 
@@ -69,53 +46,25 @@ class GaleriController extends BaseController
 
     public function store()
     {
-        $request = $this->request;
-        $file = $request->getFile('filename');
+        $file = $this->request->getFile('filename');
+        $data = [
+            'title'       => $this->request->getPost('title'),
+            'description' => $this->request->getPost('description'),
+            'file'        => $file
+        ];
 
-        if ($file && $file->isValid() && !$file->hasMoved()) {
+        $result = $this->service->create($data);
 
-            $uploadPath = FCPATH.'uploads/galeri';
-            $thumbPath  = FCPATH.'uploads/galeri/thumbs';
-
-            // Buat folder jika belum ada
-            if (!is_dir($uploadPath)) mkdir($uploadPath, 0777, true);
-            if (!is_dir($thumbPath)) mkdir($thumbPath, 0777, true);
-
-            // Nama file acak
-            $filename = $file->getRandomName();
-            $filePath = $uploadPath.'/'.$filename;
-
-            // Pindahkan file ke folder utama
-            $file->move($uploadPath, $filename);
-
-            // Compress / resize full-size max width 1024px
-            \Config\Services::image()
-                ->withFile($filePath)
-                ->resize(1024, 1024, true, 'width')
-                ->save($filePath, 80); // kualitas 80%
-
-            // Buat thumbnail 150x100px
-            \Config\Services::image()
-                ->withFile($filePath)
-                ->resize(150, 100, true, 'width')
-                ->save($thumbPath.'/'.$filename, 80);
-
-            // Simpan ke database
-            $this->galeriModel->insert([
-                'title'       => $request->getPost('title'),
-                'description' => $request->getPost('description'),
-                'filename'    => $filename,
-            ]);
-
-            return redirect()->to(base_url('galeri'))->with('success', 'Gambar berhasil diupload dan thumbnail dibuat.');
+        if ($result['status'] === 'success') {
+            return redirect()->to(base_url('galeri'))->with('success', $result['message']);
         }
 
-        return redirect()->back()->with('error', 'Gagal mengupload gambar.');
+        return redirect()->back()->with('error', $result['message']);
     }
 
     public function edit($id)
     {
-        $data = $this->galeriModel->find($id);
+        $data = $this->service->find($id);
 
         if (!$data) {
             return redirect()->to(base_url('galeri'))->with('error', 'Data tidak ditemukan.');
@@ -126,56 +75,20 @@ class GaleriController extends BaseController
 
     public function update($id)
     {
-        $galeri = $this->galeriModel->find($id);
-        if (!$galeri) {
-            return redirect()->to(base_url('galeri'))->with('error', 'Data tidak ditemukan.');
-        }
-
-        $request = $this->request;
-        $inputs = [
-            'title'       => $request->getPost('title'),
-            'description' => $request->getPost('description')
+        $file = $this->request->getFile('filename');
+        $data = [
+            'title'       => $this->request->getPost('title'),
+            'description' => $this->request->getPost('description'),
+            'file'        => $file
         ];
 
-        $file = $request->getFile('filename');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
+        $result = $this->service->update($id, $data);
 
-            $uploadPath = FCPATH.'uploads/galeri';
-            $thumbPath  = FCPATH.'uploads/galeri/thumbs';
-
-            // Hapus file lama
-            if ($galeri['filename']) {
-                if (file_exists($uploadPath.'/'.$galeri['filename'])) {
-                    unlink($uploadPath.'/'.$galeri['filename']);
-                }
-                if (file_exists($thumbPath.'/'.$galeri['filename'])) {
-                    unlink($thumbPath.'/'.$galeri['filename']);
-                }
-            }
-
-            // Upload file baru
-            $filename = $file->getRandomName();
-            $filePath = $uploadPath.'/'.$filename;
-            $file->move($uploadPath, $filename);
-
-            // Compress full-size
-            \Config\Services::image()
-                ->withFile($filePath)
-                ->resize(1024, 1024, true, 'width')
-                ->save($filePath, 80);
-
-            // Buat thumbnail
-            \Config\Services::image()
-                ->withFile($filePath)
-                ->resize(150, 100, true, 'width')
-                ->save($thumbPath.'/'.$filename, 80);
-
-            $inputs['filename'] = $filename;
+        if ($result['status'] === 'success') {
+            return redirect()->to(base_url('galeri'))->with('success', $result['message']);
         }
 
-        $this->galeriModel->update($id, $inputs);
-
-        return redirect()->to(base_url('galeri'))->with('success', 'Data galeri berhasil diupdate.');
+        return redirect()->back()->with('error', $result['message']);
     }
 
 

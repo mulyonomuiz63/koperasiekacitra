@@ -4,15 +4,18 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\FaqModel;
+use App\Services\Admin\FaqService;
 
 class FaqController extends BaseController
 {
     protected $faq;
+    protected $service;
     protected $menuId;
 
     public function __construct()
     {
         $this->faq = new FaqModel();
+        $this->service = new FaqService();
         $this->menuId = $this->setMenu('faq');
     }
 
@@ -23,37 +26,16 @@ class FaqController extends BaseController
 
     public function datatable()
     {
-        if (!$this->request->is('post')) {
+        if (! $this->request->is('post')) {
             return $this->response->setStatusCode(403);
         }
 
-
-        $request = $this->request->getPost();
-        $result  = $this->faq->getDatatable($request);
-
-        $data = [];
-
-        foreach ($result['data'] as $row) {
-
-            $data[] = [
-                'id'        => $row['id'],
-                'question'  => $row['question'],
-                'answer'    => word_limiter(strip_tags($row['answer']), 20),
-                'is_active' => $row['is_active'],
-                
-                // 🔐 PERMISSION (INTI)
-                'can_edit'   => can($this->menuId, 'update'),
-                'can_delete' => can($this->menuId, 'delete'),
-            ];
-        }
-
-
-        return $this->response->setJSON([
-            'draw'            => intval($request['draw']),
-            'recordsTotal'    => $result['recordsTotal'],
-            'recordsFiltered' => $result['recordsFiltered'],
-            'data'            => $data,
-        ]);
+        return $this->response->setJSON(
+            $this->service->get(
+                $this->request->getPost(),
+                $this->menuId
+            )
+        );
     }
 
     public function create()

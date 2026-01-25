@@ -3,15 +3,18 @@
 namespace App\Controllers\Admin;
 
 use App\Models\SettingModel;
+use App\Services\Admin\SettingService;
 use CodeIgniter\Controller;
 
 class SettingsController extends Controller
 {
     protected $settingModel;
+    protected $service;
 
     public function __construct()
     {
         $this->settingModel = new SettingModel();
+        $this->service = new SettingService();
     }
 
     public function index()
@@ -22,37 +25,17 @@ class SettingsController extends Controller
 
     public function update()
     {
+        if (! $this->request->is('post')) {
+            return redirect()->back()->with('error', 'Invalid request');
+        }
+
         $post = $this->request->getPost();
 
-        $data = [];
+        $this->service->updateSettings($post);
 
-        foreach ($post as $key => $value) {
-            if ($key === csrf_token()) {
-                continue;
-            }
-
-            // 🔐 SMTP PASSWORD (ENCRYPT)
-            if ($key === 'smtp_pass') {
-                if (!empty($value)) {
-                    $data[$key] = $value;
-                }
-                continue;
-            }
-
-            // 🔢 SMTP PORT (CAST INT)
-            if ($key === 'smtp_port') {
-                $data[$key] = (int) $value;
-                continue;
-            }
-
-            $data[$key] = $value;
-        }
-
-        // 💾 Simpan ke DB
-        foreach ($data as $key => $value) {
-            $this->settingModel->saveSetting($key, $value);
-        }
-        return redirect()->back()->with('success', 'Pengaturan berhasil disimpan');
+        return redirect()
+            ->back()
+            ->with('success', 'Pengaturan berhasil disimpan');
     }
 
 

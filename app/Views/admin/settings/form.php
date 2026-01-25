@@ -11,18 +11,19 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_footer_info" role="tab">
-                    <i class="ki-duotone ki-notepad fs-2 me-2"></i>Footer Info
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_footer_links" role="tab">
-                    <i class="ki-duotone ki-link fs-2 me-2"></i>Footer Links
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_sosial_media" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>Sosial Media
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_smtp" role="tab">
                     <i class="ki-duotone ki-link fs-2 me-2"></i>SMTP
+                </a>
+
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_iuran_bulanan" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>Iuran Bulanan
                 </a>
 
             </li>
@@ -52,7 +53,7 @@
                     <!-- Icon Aplikasi -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Icon Aplikasi</label>
+                            <label class="fs-6 fw-semibold form-label mt-3">favicon Aplikasi</label>
                         </div>
                         <div class="col-md-9">
                             <input type="file" class="form-control form-control-solid" name="app_icon">
@@ -61,11 +62,23 @@
                             <?php endif; ?>
                         </div>
                     </div>
+                     <!-- Icon Aplikasi -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Logo Perusahaan</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="file" class="form-control form-control-solid" name="logo_perusahaan">
+                            <?php if(!empty($settings['logo_perusahaan'])): ?>
+                                <img src="<?= base_url('uploads/app-icon/' . $settings['logo_perusahaan']) ?>" alt="App Icon" class="mt-2" style="width:50px;height:50px;">
+                            <?php endif; ?>
+                        </div>
+                    </div>
 
                     <!-- Email Aplikasi -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Email Aplikasi</label>
+                            <label class="fs-6 fw-semibold form-label mt-3">Email Perusahaan</label>
                         </div>
                         <div class="col-md-9">
                             <input type="email" class="form-control form-control-solid" name="app_email" value="<?= old('app_email', $settings['app_email'] ?? '') ?>" required>
@@ -75,74 +88,60 @@
                     <!-- Telepon -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Telepon</label>
+                            <label class="fs-6 fw-semibold form-label mt-3">Telepon Perusahaan</label>
                         </div>
                         <div class="col-md-9">
                             <input type="text" class="form-control form-control-solid" name="app_phone" value="<?= old('app_phone', $settings['app_phone'] ?? '') ?>">
                         </div>
                     </div>
 
-                    <!-- Warna Tema -->
+                     <!-- Alamat -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Warna Tema</label>
+                            <label class="fs-6 fw-semibold form-label mt-3">Alamat Lengkap</label>
                         </div>
                         <div class="col-md-9">
-                            <input type="color" class="form-control form-control-color" name="theme_color" value="<?= old('theme_color', $settings['theme_color'] ?? '#3699FF') ?>">
+                            <input type="text" class="form-control form-control-solid" name="alamat_perusahaan" value="<?= old('alamat_perusahaan', $settings['alamat_perusahaan'] ?? '') ?>">
                         </div>
                     </div>
 
+                    <!-- Tahun Google Maps -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Google Maps Perusahan</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="google_maps" value="<?= old('google_maps', $settings['google_maps'] ?? '') ?>">
+                            <div class="form-text">
+                                Cara ambil: Buka Google Maps > Share > Embed a map > Copy hanya isi <strong>src="..."</strong> nya saja.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tahun berdiri -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Tahun Berdiri Perusahan</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="tahun_berdiri" value="<?= old('tahun_berdiri', $settings['tahun_berdiri'] ?? '') ?>">
+                        </div>
+                    </div>
+
+                    <!-- Versi Aplikasi -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Versi Aplikasi</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="app_versi" value="<?= old('app_versi', $settings['app_versi'] ?? '') ?>">
+                        </div>
+                    </div>
                 </div>
                 <!--end:::Tab pane General-->
 
-                <!--begin:::Tab pane Footer Info-->
-                <div class="tab-pane fade" id="tab_footer_info" role="tabpanel">
-
-                    <!-- Footer Name -->
-                    <div class="row mb-7">
-                        <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Footer Name</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control form-control-solid" name="footer_name" value="<?= old('footer_name', $settings['footer_name'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <!-- Footer Address -->
-                    <div class="row mb-7">
-                        <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Alamat Footer</label>
-                        </div>
-                        <div class="col-md-9">
-                            <textarea class="form-control form-control-solid" name="footer_address"><?= old('footer_address', $settings['footer_address'] ?? '') ?></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Footer Email -->
-                    <div class="row mb-7">
-                        <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Email Footer</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="email" class="form-control form-control-solid" name="footer_email" value="<?= old('footer_email', $settings['footer_email'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <!-- Footer Phone -->
-                    <div class="row mb-7">
-                        <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Telepon Footer</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control form-control-solid" name="footer_phone" value="<?= old('footer_phone', $settings['footer_phone'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                </div>
-                <!--end:::Tab pane Footer Info-->
-
                 <!--begin:::Tab pane Footer Links-->
-                <div class="tab-pane fade" id="tab_footer_links" role="tabpanel">
+                <div class="tab-pane fade" id="tab_sosial_media" role="tabpanel">
 
                     <!-- Contoh: Facebook -->
                     <div class="row mb-7">
@@ -150,17 +149,7 @@
                             <label class="fs-6 fw-semibold form-label mt-3">Facebook</label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control form-control-solid" name="footer_facebook" value="<?= old('footer_facebook', $settings['footer_facebook'] ?? '') ?>" placeholder="https://facebook.com/">
-                        </div>
-                    </div>
-
-                    <!-- Contoh: Twitter -->
-                    <div class="row mb-7">
-                        <div class="col-md-3 text-md-end">
-                            <label class="fs-6 fw-semibold form-label mt-3">Twitter</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control form-control-solid" name="footer_twitter" value="<?= old('footer_twitter', $settings['footer_twitter'] ?? '') ?>" placeholder="https://twitter.com/">
+                            <input type="text" class="form-control form-control-solid" name="footer_facebook" value="<?= old('footer_facebook', $settings['footer_facebook'] ?? '') ?>" placeholder="link facebook">
                         </div>
                     </div>
 
@@ -170,7 +159,27 @@
                             <label class="fs-6 fw-semibold form-label mt-3">Instagram</label>
                         </div>
                         <div class="col-md-9">
-                            <input type="text" class="form-control form-control-solid" name="footer_instagram" value="<?= old('footer_instagram', $settings['footer_instagram'] ?? '') ?>" placeholder="https://instagram.com/">
+                            <input type="text" class="form-control form-control-solid" name="footer_instagram" value="<?= old('footer_instagram', $settings['footer_instagram'] ?? '') ?>" placeholder="link instagram">
+                        </div>
+                    </div>
+
+                    <!-- Contoh: Youtube -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Youtube</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="footer_youtube" value="<?= old('footer_youtube', $settings['footer_youtube'] ?? '') ?>" placeholder="link youtube">
+                        </div>
+                    </div>
+
+                    <!-- Contoh: LinkedIn -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">LinkedIn</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="footer_linkedin" value="<?= old('footer_linkedin', $settings['footer_linkedin'] ?? '') ?>" placeholder="link linkedin">
                         </div>
                     </div>
 
@@ -200,7 +209,7 @@
                             <label class="fs-6 fw-semibold form-label mt-3">SMTP User</label>
                         </div>
                         <div class="col-md-9">
-                            <input type="email"
+                            <input type="text"
                                 class="form-control form-control-solid"
                                 name="smtp_user"
                                 value="<?= old('smtp_user', $settings['smtp_user'] ?? '') ?>">
@@ -278,6 +287,54 @@
 
                 </div>
                 <!--end:::Tab pane SMTP-->
+
+                <!--begin:::Tab pane Iuran Bulanan-->
+                <div class="tab-pane fade" id="tab_iuran_bulanan" role="tabpanel">
+
+                    <!-- Contoh: Nominal Iuran -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Nominal Iuran Bulanan</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="nominal_iuran" value="<?= old('nominal_iuran', $settings['nominal_iuran'] ?? '') ?>" placeholder="Nominal Iuran Bulanan">
+                        </div>
+                    </div>
+
+                    <!-- Contoh: Tanggal otomatis di buat tagihan iuran -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Tanggal Otomatis Tagihan Iuran</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input 
+                                type="number"
+                                class="form-control form-control-solid"
+                                name="tgl_tagihan_iuran"
+                                min="1"
+                                max="28"
+                                placeholder="Tanggal (1 – 28)"
+                                value="<?= old('tgl_tagihan_iuran', $settings['tgl_tagihan_iuran'] ?? '') ?>"
+                            >
+
+                        </div>
+                    </div>
+
+                    <!-- Contoh: Status Iuran bulanan -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Status Iuran Bulanan</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select name="status_iuran" class="form-select form-select-solid">
+                                <option value="A" <?= (isset($settings['status_iuran']) && $settings['status_iuran'] === 'A') ? 'selected' : '' ?>>Aktif</option>
+                                <option value="T" <?= (isset($settings['status_iuran']) && $settings['status_iuran'] === 'T') ? 'selected' : '' ?>>Non-Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <!--end:::Tab pane Footer Links-->
 
 
             </div>
