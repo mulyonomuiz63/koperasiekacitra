@@ -50,7 +50,8 @@ class GaleriController extends BaseController
         $data = [
             'title'       => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
-            'file'        => $file
+            'file'        => $file,
+            'jenis_galeri' => $this->request->getPost('jenis_galeri'),
         ];
 
         $result = $this->service->create($data);
@@ -79,7 +80,8 @@ class GaleriController extends BaseController
         $data = [
             'title'       => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
-            'file'        => $file
+            'file'        => $file,
+            'jenis_galeri' => $this->request->getPost('jenis_galeri'),
         ];
 
         $result = $this->service->update($id, $data);
@@ -94,29 +96,14 @@ class GaleriController extends BaseController
 
     public function delete($id)
     {
-        $galeri = $this->galeriModel->find($id);
+        try {
+            // Panggil service
+            $this->service->deleteGaleri($id);
 
-        if (!$galeri) {
-            return redirect()->to(base_url('galeri'))->with('error', 'Data tidak ditemukan.');
+            return redirect()->to(base_url('galeri'))->with('success', 'Data galeri berhasil dihapus.');
+        } catch (\Throwable $e) {
+            // Tangkap pesan error dari service
+            return redirect()->to(base_url('galeri'))->with('error', $e->getMessage());
         }
-
-        $uploadPath = FCPATH.'uploads/galeri';
-        $thumbPath  = FCPATH.'uploads/galeri/thumbs';
-
-        // Hapus file full-size
-        if ($galeri['filename'] && file_exists($uploadPath.'/'.$galeri['filename'])) {
-            unlink($uploadPath.'/'.$galeri['filename']);
-        }
-
-        // Hapus thumbnail
-        if ($galeri['filename'] && file_exists($thumbPath.'/'.$galeri['filename'])) {
-            unlink($thumbPath.'/'.$galeri['filename']);
-        }
-
-        // Hapus record dari DB
-        $this->galeriModel->delete($id);
-
-        return redirect()->to(base_url('galeri'))->with('success', 'Data galeri berhasil dihapus.');
     }
-
 }

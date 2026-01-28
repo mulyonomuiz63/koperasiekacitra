@@ -1,59 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!--begin::Head-->
-	<head><base href=""/>
-		<title>Metronic - The World's #1 Selling Bootstrap Admin Template by Keenthemes</title>
-		<meta charset="utf-8" />
-		<meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
-		<meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta property="og:locale" content="en_US" />
-		<meta property="og:type" content="article" />
-		<meta property="og:title" content="Metronic - Bootstrap Admin Template, HTML, VueJS, React, Angular. Laravel, Asp.Net Core, Ruby on Rails, Spring Boot, Blazor, Django, Express.js, Node.js, Flask Admin Dashboard Theme & Template" />
-		<meta property="og:url" content="https://keenthemes.com/metronic" />
-		<meta property="og:site_name" content="Keenthemes | Metronic" />
-		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-		<link rel="shortcut icon" href="<?= base_url('/') ?>assets/media/logos/favicon.ico" />
-		<!--begin::Fonts(mandatory for all pages)-->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
-		<!--end::Fonts-->
-		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="<?= base_url('/') ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-		<!--end::Global Stylesheets Bundle-->
-		<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<!--begin::Head-->
 
-        <?= $this->renderSection('styles') ?>
-	</head>
-	<!--end::Head-->
-	<!--begin::Body-->
-	<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="bg-body position-relative app-blank">
-		<!--begin::Theme mode setup on page load-->
-		<script>
-            var defaultThemeMode = "light"; 
-            var themeMode; 
-            if ( document.documentElement ) { 
-                if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { 
-                    themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); 
-                } else { if ( localStorage.getItem("data-bs-theme") !== null ) { 
-                    themeMode = localStorage.getItem("data-bs-theme"); 
-                } else { 
-                    themeMode = defaultThemeMode; 
-                } } 
-                if (themeMode === "system") { 
-                    themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; 
-                } 
-                document.documentElement.setAttribute("data-bs-theme", themeMode); 
-            }
-        </script>
-		<!--end::Theme mode setup on page load-->
-		<!--begin::Root-->
-		<div class="d-flex flex-column flex-root" id="kt_app_root">
-			<!--begin::Header Section-->
-			<div class="mb-0" id="home">
-				<div class="landing-light-bg">
-					<?= $this->include('partials/landings/header') ?>
-					<?= $this->renderSection('content') ?>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<?php
+	if (isset($news_detail)) {
+		// Halaman Detail Berita
+		echo render_meta($news_detail['title'], $news_detail['content'], base_url('uploads/news/' . $news_detail['image']), $news_detail['keyword']);
+		echo render_schema_news($news_detail);
+	} elseif (isset($tag_name)) {
+		// Halaman Filter Tag
+		$title = "Topik " . $tag_name;
+		$desc  = "Kumpulan News dan blog terbaru dengan topik " . $tag_name . " di situs kami.";
+		echo render_meta($title, $desc);
+	} elseif (isset($category_name)) {
+		// Halaman Kategori
+		echo render_meta("Kategori " . $category_name, "Jelajahi berita dalam kategori " . $category_name);
+	} else {
+		// Home
+		echo render_meta();
+	}
+	?>
+	<link rel="shortcut icon" href="<?= base_url('uploads/app-icon/' . setting('app_icon')) ?>" />
+	<!--begin::Fonts(mandatory for all pages)-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+	<!--end::Fonts-->
+	<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+	<link href="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+	<link href="<?= base_url('/') ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<!--end::Global Stylesheets Bundle-->
+	<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+	<?= $this->renderSection('styles') ?>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_body" data-bs-spy="scroll" data-bs-target="#kt_landing_menu" class="bg-body position-relative app-blank">
+	<!--begin::Theme mode setup on page load-->
+	<script>
+		var defaultThemeMode = "light";
+		var themeMode;
+		if (document.documentElement) {
+			if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+				themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+			} else {
+				if (localStorage.getItem("data-bs-theme") !== null) {
+					themeMode = localStorage.getItem("data-bs-theme");
+				} else {
+					themeMode = defaultThemeMode;
+				}
+			}
+			if (themeMode === "system") {
+				themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+			}
+			document.documentElement.setAttribute("data-bs-theme", themeMode);
+		}
+	</script>
+	<!--end::Theme mode setup on page load-->
+	<!--begin::Root-->
+	<div class="d-flex flex-column flex-root" id="kt_app_root">
+		<!--begin::Header Section-->
+		<div class="mb-0" id="home">
+			<div class="landing-light-bg">
+				<?= $this->include('partials/landings/header') ?>
+				<?= $this->renderSection('content') ?>
 			</div>
 			<!--end::Header Section-->
 			<!--begin::Footer Section-->
@@ -78,7 +90,9 @@
 		</div>
 		<!--end::Scrolltop-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "<?= base_url('/') ?>assets/";</script>
+		<script>
+			var hostUrl = "<?= base_url('/') ?>assets/";
+		</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 		<script src="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.js"></script>
 		<script src="<?= base_url('/') ?>assets/js/scripts.bundle.js"></script>
@@ -92,7 +106,7 @@
 		<script src="<?= base_url('/') ?>assets/js/custom/pages/pricing/general.js"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
-        <?= $this->renderSection('script') ?>
+		<?= $this->renderSection('script') ?>
 		<script>
 			// Pastikan library AOS sudah dipanggil di header/footer
 			document.addEventListener('DOMContentLoaded', function() {
@@ -107,27 +121,60 @@
 		<script>
 			var typed = new Typed('#kt_typing_effect', {
 				strings: [
-					'Bersama, Kita Mandiri.', 
-					'Mari Berkarya.', 
-					'Terus Bertumbuh.', 
+					'Bersama, Kita Mandiri.',
+					'Mari Berkarya.',
+					'Terus Bertumbuh.',
 					'Semakin Berdaya.'
 				],
-				typeSpeed: 50,      // Kecepatan mengetik
-				backSpeed: 30,      // Kecepatan menghapus
-				backDelay: 2000,    // Jeda sebelum menghapus kembali
-				loop: true          // Berulang terus menerus
+				typeSpeed: 50, // Kecepatan mengetik
+				backSpeed: 30, // Kecepatan menghapus
+				backDelay: 2000, // Jeda sebelum menghapus kembali
+				loop: true // Berulang terus menerus
 			});
 		</script>
 		<script>
 			AOS.init({
 				duration: 1000,
 				easing: 'ease-in-out',
-				once: false,        // agar bisa fade-out saat scroll balik
-				mirror: true,       // animate out ketika keluar viewport
+				once: false, // agar bisa fade-out saat scroll balik
+				mirror: true, // animate out ketika keluar viewport
 				offset: 120
 			});
 		</script>
 
-	</body>
-	<!--end::Body-->
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				let lazyImages = document.querySelectorAll("img.lazy");
+
+				if ("IntersectionObserver" in window) {
+					// ✅ Browser support IntersectionObserver
+					let observer = new IntersectionObserver((entries, obs) => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								let img = entry.target;
+								img.src = img.dataset.src;
+								img.removeAttribute("data-src");
+								img.classList.remove("lazy");
+								obs.unobserve(img);
+							}
+						});
+					});
+
+					lazyImages.forEach(img => observer.observe(img));
+
+				} else {
+					// ⚠️ Fallback kalau browser tidak support
+					lazyImages.forEach(img => {
+						img.src = img.dataset.src;
+						img.removeAttribute("data-src");
+						img.setAttribute("loading", "lazy");
+						img.classList.remove("lazy");
+					});
+				}
+			});
+		</script>
+		<?= $this->include('partials/alert') ?>
+</body>
+<!--end::Body-->
+
 </html>

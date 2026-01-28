@@ -5,7 +5,7 @@ namespace App\Models;
 class NewsModel extends BaseModel
 {
     protected $table      = 'news';
-    protected $allowedFields = ['category_id', 'title', 'slug', 'content', 'image', 'author', 'views', 'status'];
+    protected $allowedFields = ['category_id', 'title', 'slug', 'keyword', 'content', 'image', 'author', 'views', 'status'];
 
     // Aktifkan event model
     protected $beforeInsert = ['setUUID', 'generateSlug'];

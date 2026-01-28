@@ -13,6 +13,11 @@
                 <input type="text" name="title" class="form-control form-control-solid" placeholder="Masukkan judul berita" required />
             </div>
 
+            <div class="mb-10">
+                <label class="form-label">Keyword (Opsional)</label>
+                <input type="text" name="keyword" class="form-control form-control-solid" placeholder="contoh: brita, koperasi" />
+            </div>
+
             <div class="row mb-10">
                 <div class="col-md-6">
                     <label class="required form-label">Kategori</label>

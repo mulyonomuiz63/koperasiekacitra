@@ -1,29 +1,32 @@
+<?php if (!empty($sliders)): ?>
 <div class="py-5 py-lg-10" data-aos="fade-up">
     <div id="landingHeroSlider" class="container carousel slide custom-slider-container" data-bs-ride="carousel">
+        
+        <div class="carousel-indicators mb-5">
+            <?php foreach ($sliders as $key => $s) : ?>
+                <button type="button" data-bs-target="#landingHeroSlider" data-bs-slide-to="<?= $key ?>" class="<?= $key === 0 ? 'active' : '' ?>"></button>
+            <?php endforeach; ?>
+        </div>
+
         <div class="carousel-inner shadow-lg" style="border-radius: 20px; overflow: hidden;">
-
-            <div class="carousel-item active">
-                <div class="position-relative">
-                    <img src="<?= base_url('uploads/slider/landing.png') ?>"
-                        class="d-block w-100 img-fluid"
-                        alt="Slider 1"
-                        style="height: auto;">
-
-                    <div class="carousel-caption d-none d-md-flex flex-column justify-content-center align-items-start text-start px-15">
-                        <a href="<?= base_url('register') ?>" class="btn btn-success fw-bold px-10 py-3">Daftar Sekarang</a>
+            <?php foreach ($sliders as $key => $s) : ?>
+                <div class="carousel-item <?= $key === 0 ? 'active' : '' ?>">
+                    <div class="position-relative">
+                        <?= img_lazy('uploads/slider/' . $s['filename'], $s['title'], ['class' => 'd-block w-100 img-fluid']) ?>
                     </div>
                 </div>
-            </div>
-
-            <div class="carousel-item">
-                <img src="<?= base_url('uploads/slider/landing.png') ?>" class="d-block w-100 img-fluid" alt="Slider 2">
-            </div>
-
+            <?php endforeach; ?>
         </div>
 
-        <div class="carousel-indicators mb-5">
-            <button type="button" data-bs-target="#landingHeroSlider" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#landingHeroSlider" data-bs-slide-to="1"></button>
-        </div>
+        <?php if (count($sliders) > 1): ?>
+            <button class="carousel-control-prev" type="button" data-bs-target="#landingHeroSlider" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#landingHeroSlider" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        <?php endif; ?>
+
     </div>
 </div>
+<?php endif; ?>

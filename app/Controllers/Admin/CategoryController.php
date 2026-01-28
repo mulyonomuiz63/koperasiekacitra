@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -45,8 +46,18 @@ class CategoryController extends BaseController
 
     public function store()
     {
-        $this->category->insert($this->request->getPost());
-        return redirect()->to('/category')->with('success', 'Category berhasil ditambahkan');
+        try {
+            // Ambil semua data input
+            $data = $this->request->getPost();
+
+            // Panggil fungsi di service
+            $this->service->createCategory($data);
+
+            return redirect()->to('/category')->with('success', 'Category berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Tangani jika ada error (misal: duplicate entry atau database down)
+            return redirect()->back()->withInput()->with('error', 'Gagal menambah kategori: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -58,23 +69,29 @@ class CategoryController extends BaseController
 
     public function update($id)
     {
-        $this->category->update($id, $this->request->getPost());
-        return redirect()->to('/category')->with('success', 'Category berhasil diupdate');
+        try {
+            $data = $this->request->getPost();
+
+            // Panggil service
+            $this->service->updateCategory($id, $data);
+
+            return redirect()->to('/category')->with('success', 'Category berhasil diupdate');
+        } catch (\Throwable $e) {
+            // Jika error (misal ID tidak ditemukan), lempar balik ke form
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id)
     {
-        // Pastikan data ada
-        $category = $this->category->find($id);
+        try {
+            // Panggil service untuk menghapus
+            $this->service->deleteCategory($id);
 
-        if (!$category) {
-            return redirect()->back()->with('error', 'category tidak ditemukan');
+            return redirect()->back()->with('success', 'Category berhasil dihapus');
+        } catch (\Throwable $e) {
+            // Tangkap pesan error dari service (misal: data tidak ditemukan)
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Hapus parent + semua child
-        $this->category->delete($id);
-
-        return redirect()->back()->with('success', 'Category berhasil dihapus');
     }
-
 }

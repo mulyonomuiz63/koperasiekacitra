@@ -27,7 +27,6 @@
                 <thead>
                     <tr class="text-start text-muted fw-bold text-uppercase fs-7">
                         <th>Judul</th>
-                        <th>Keterangan</th>
                         <th>Gambar</th>
                         <th class="text-end">Aksi</th>
                     </tr>
@@ -54,7 +53,6 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'title' },
-            { data: 'description' },
             { data: 'filename' }, // Sudah berisi <img> dari controller
             {
                 data: null,

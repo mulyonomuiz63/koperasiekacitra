@@ -52,7 +52,7 @@
                         <?php foreach ($popular_posts as $post): ?>
                             <div class="d-flex align-items-center mb-7">
                                 <div class="symbol symbol-60px symbol-2by3 me-4">
-                                    <img src="<?= base_url('uploads/news/' . $post['image']) ?>" class="object-fit-cover" alt="<?= $post['title'] ?>" />
+                                    <?= img_lazy('uploads/news/' . $post['image'], $post['title'], ['class' => 'object-fit-cover']) ?>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <a href="<?= base_url('blog/read/' . $post['slug']) ?>" class="text-dark fw-bold text-hover-success fs-6 mb-1">
@@ -87,7 +87,7 @@
             <div class="flex-lg-row-fluid">
                 <div class="mb-10">
                     <div class="mb-8 rounded overflow-hidden">
-                        <img src="<?= base_url('uploads/news/' . $news['image']) ?>" class="w-100 object-fit-cover h-lg-450px" alt="<?= $news['title'] ?>" />
+                        <?= img_lazy('uploads/news/' . $news['image'], $news['title'], ['class' => 'w-100 object-fit-cover h-lg-450px']) ?>
                     </div>
 
                     <div class="d-flex align-items-center flex-wrap mb-5 text-muted fw-semibold fs-7 text-uppercase">

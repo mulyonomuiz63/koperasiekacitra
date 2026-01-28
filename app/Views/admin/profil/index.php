@@ -8,7 +8,7 @@
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
                     <div class="symbol symbol-100px symbol-circle mb-7">
                         <?php if (empty($user['avatar'])): ?>
-                            <img src="<?= base_url('uploads/avatars/' . $user['avatar']) ?>" alt="image" style="width: 100px; height: 100px; object-fit: cover;">
+                            <?= img_lazy('uploads/avatars/' . $user['avatar'], '-', ['style' => 'width: 100px; height: 100px; object-fit: cover']) ?>
                         <?php else: ?>
                             <div style="
             width: 100px; 

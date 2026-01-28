@@ -1,7 +1,5 @@
 <?= $this->extend('auth/pages/layout') ?>
 <?= $this->section('content') ?>
-
-<!--begin::Body-->
 <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
     <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10 shadow-sm border border-gray-200">
 
@@ -11,6 +9,8 @@
 
                 <form class="form w-100" id="form-register">
                     <?= csrf_field() ?>
+                    
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                     <div class="text-center mb-11">
                         <h1 class="text-dark fw-bolder mb-3 fs-1">Daftar Akun</h1>
@@ -36,6 +36,7 @@
                         <div class="position-relative mb-3">
                             <i class="ki-outline ki-lock fs-2 position-absolute top-50 translate-middle-y ms-4 text-gray-500"></i>
                             <input type="password"
+                                id="password"
                                 name="password"
                                 class="form-control form-control-solid ps-12 bg-light-lighten text-dark fw-semibold"
                                 placeholder="Buat Password"
@@ -60,6 +61,7 @@
                     <div class="fv-row mb-8 position-relative">
                         <i class="ki-outline ki-shield-tick fs-2 position-absolute top-50 translate-middle-y ms-4 text-gray-500"></i>
                         <input type="password"
+                            id="password_confirm"
                             name="password_confirm"
                             class="form-control form-control-solid ps-12 bg-light-lighten text-dark fw-semibold"
                             placeholder="Ulangi Password"
@@ -99,166 +101,174 @@
 </div>
 
 <style>
-    /* Menambah kontras input solid saat fokus */
     .form-control-solid:focus {
         background-color: #f1f1f4 !important;
         border-color: #009ef7 !important;
     }
-
     .hover-elevate-up:hover {
         transform: translateY(-2px);
         transition: 0.3s ease;
     }
 </style>
-<!--end::Body-->
 <?= $this->endSection() ?>
+
 <?= $this->section('scripts') ?>
+<?php if ($siteKey): ?>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= $siteKey ?>"></script>
+<?php endif; ?>
+
 <script>
     const form = document.getElementById('form-register');
     const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('password_confirm');
     const btnSubmit = document.getElementById('btn-submit');
     const errorMsg = document.getElementById('email-error');
     const successMsg = document.getElementById('email-success');
 
-    const csrfNameEl = document.querySelector('meta[name="csrf-name"]');
     const csrfHashEl = document.querySelector('meta[name="csrf-hash"]');
-
+    const csrfNameEl = document.querySelector('meta[name="csrf-name"]');
+    
     let csrfName = csrfNameEl.content;
     let csrfHash = csrfHashEl.content;
     let typingTimer;
 
     /* ===============================
-       REALTIME CHECK EMAIL
+        FUNGSI RECAPTCHA TOKEN
+    ================================ */
+    async function getCaptchaToken() {
+        const siteKey = "<?= $siteKey ?>";
+        if (!siteKey) return null;
+
+        return new Promise((resolve) => {
+            grecaptcha.ready(function() {
+                grecaptcha.execute(siteKey, {action: 'register'}).then(function(token) {
+                    resolve(token);
+                });
+            });
+        });
+    }
+
+    /* ===============================
+        REALTIME CHECK EMAIL
     ================================ */
     emailInput.addEventListener('keyup', function() {
         clearTimeout(typingTimer);
-
         typingTimer = setTimeout(() => {
             const email = this.value.trim();
-
             if (email.length < 5) {
                 resetState();
                 return;
             }
 
             fetch("<?= base_url('auth/check-email') ?>", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "X-Requested-With": "XMLHttpRequest"
-                    },
-                    body: csrfName + "=" + csrfHash + "&email=" + encodeURIComponent(email)
-                })
-                .then(res => res.json())
-                .then(data => {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: csrfName + "=" + csrfHash + "&email=" + encodeURIComponent(email)
+            })
+            .then(res => res.json())
+            .then(data => {
+                csrfHash = data.csrfHash;
+                csrfHashEl.content = data.csrfHash;
 
-                    // 🔁 UPDATE CSRF TOKEN
-                    csrfHash = data.csrfHash;
-                    csrfHashEl.content = data.csrfHash;
-
-                    if (data.status === 'used') {
-                        emailInput.classList.add('is-invalid');
-                        emailInput.classList.remove('is-valid');
-                        errorMsg.innerHTML = "Email sudah digunakan";
-                        successMsg.innerHTML = "";
-                        btnSubmit.disabled = true;
-                    } else {
-                        emailInput.classList.remove('is-invalid');
-                        emailInput.classList.add('is-valid');
-                        successMsg.innerHTML = "Email tersedia";
-                        errorMsg.innerHTML = "";
-                        btnSubmit.disabled = false;
-                    }
-                });
+                if (data.status === 'used') {
+                    emailInput.classList.add('is-invalid');
+                    emailInput.classList.remove('is-valid');
+                    errorMsg.innerHTML = "Email sudah digunakan";
+                    successMsg.innerHTML = "";
+                    btnSubmit.disabled = true;
+                } else {
+                    emailInput.classList.remove('is-invalid');
+                    emailInput.classList.add('is-valid');
+                    successMsg.innerHTML = "Email tersedia";
+                    errorMsg.innerHTML = "";
+                    // Panggil validasi password untuk cek apakah tombol boleh aktif
+                    validatePassword();
+                }
+            });
         }, 500);
     });
 
     /* ===============================
-       SUBMIT FORM AJAX
+        PASSWORD VALIDATION
     ================================ */
-    // Ambil elemen input
-    const passwordInput = document.querySelector('input[name="password"]');
-    const confirmInput = document.querySelector('input[name="password_confirm"]');
-
-    // Fungsi untuk mengecek kecocokan password secara real-time
     function validatePassword() {
         const pass = passwordInput.value;
         const conf = confirmInput.value;
 
-        if (conf.length > 0) { // Hanya cek jika kolom konfirmasi sudah mulai diisi
+        if (conf.length > 0) {
             if (pass !== conf) {
                 confirmInput.classList.add('is-invalid');
                 confirmInput.classList.remove('is-valid');
-                btnSubmit.disabled = true; // Kunci tombol daftar
+                btnSubmit.disabled = true;
             } else {
                 confirmInput.classList.remove('is-invalid');
                 confirmInput.classList.add('is-valid');
 
-                // Cek juga apakah email sudah valid sebelum mengaktifkan tombol
-                // (Sesuaikan dengan logika pengecekan email Anda sebelumnya)
-                if (!emailInput.classList.contains('is-invalid')) {
+                // Aktifkan tombol jika email juga valid
+                if (emailInput.classList.contains('is-valid')) {
                     btnSubmit.disabled = false;
                 }
             }
-        } else {
-            confirmInput.classList.remove('is-invalid', 'is-valid');
         }
     }
 
-    // Jalankan fungsi setiap kali user mengetik di kedua kolom tersebut
     passwordInput.addEventListener('input', validatePassword);
     confirmInput.addEventListener('input', validatePassword);
 
-    // Bagian Submit Form
-    form.addEventListener('submit', function(e) {
+    /* ===============================
+        SUBMIT FORM AJAX + RECAPTCHA
+    ================================ */
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Double check sebelum kirim (keamanan tambahan)
+        // Cek kecocokan password sekali lagi
         if (passwordInput.value !== confirmInput.value) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: 'Password belum cocok!'
-            });
+            Swal.fire({ icon: 'error', title: 'Gagal', text: 'Password belum cocok!' });
             return;
         }
 
         btnSubmit.disabled = true;
         btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm align-middle ms-2"></span> Memproses...';
 
-        const formData = new FormData(form);
-        formData.append(csrfName, csrfHash);
+        try {
+            // Ambil token reCAPTCHA v3
+            const token = await getCaptchaToken();
+            if (token) {
+                document.getElementById('g-recaptcha-response').value = token;
+            }
 
-        fetch("<?= base_url('register') ?>", {
+            const formData = new FormData(form);
+            formData.append(csrfName, csrfHash);
+
+            const response = await fetch("<?= base_url('register') ?>", {
                 method: "POST",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest"
-                },
+                headers: { "X-Requested-With": "XMLHttpRequest" },
                 body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                csrfHash = data.csrfHash; // Update CSRF agar tidak expired
-
-                if (data.status === 'error') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal',
-                        text: data.message
-                    });
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = 'Daftar';
-                } else {
-                    Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: data.message
-                        })
-                        .then(() => {
-                            window.location.href = "<?= base_url('login') ?>";
-                        });
-                }
             });
+
+            const data = await response.json();
+            csrfHash = data.csrfHash;
+            csrfHashEl.content = data.csrfHash;
+
+            if (data.status === 'error') {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: data.message });
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = 'Buat Akun Sekarang';
+            } else {
+                Swal.fire({ icon: 'success', title: 'Berhasil', text: data.message })
+                .then(() => {
+                    window.location.href = "<?= base_url('login') ?>";
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = 'Buat Akun Sekarang';
+        }
     });
 
     function resetState() {

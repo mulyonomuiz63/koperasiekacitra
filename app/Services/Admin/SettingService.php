@@ -2,15 +2,24 @@
 
 namespace App\Services\Admin;
 
+use App\Models\CategoryModel;
+use App\Models\NewsModel;
 use App\Models\SettingModel;
+use App\Models\TagModel;
 
 class SettingService
 {
     protected $setting;
+    protected $newsModel;
+    protected $catModel;
+    protected $tagModel;
 
     public function __construct()
     {
         $this->setting = new SettingModel();
+        $this->newsModel = new NewsModel();
+        $this->catModel = new CategoryModel();
+        $this->tagModel = new TagModel();
     }
 
     /**
@@ -84,5 +93,54 @@ class SettingService
                 }
             }
         }
+        $this->sitemap();
+        $this->generateRobots();
+    }
+
+    private function sitemap(): void
+    {
+        // 1. Ambil Data dari Database
+        $data = [
+            'manualPages' => [
+                ['url' => base_url('blog'), 'priority' => '1.0', 'freq' => 'daily'],
+                ['url' => base_url('privacy-policy'), 'priority' => '0.3', 'freq' => 'monthly'],
+                ['url' => base_url('contact'), 'priority' => '0.5', 'freq' => 'yearly'],
+            ],
+            'news'       => $this->newsModel->orderBy('created_at', 'DESC')->findAll(),
+            'categories' => $this->catModel->findAll(),
+            'tags'       => $this->tagModel->findAll()
+        ];
+
+        // 2. Render view menjadi string (Bukan mengirim ke browser)
+        // Kita simpan ke variabel $xmlString
+        $xmlString = view('seo/sitemap', $data);
+
+        // 3. Simpan string tersebut menjadi file fisik sitemap.xml
+        write_file(FCPATH . 'sitemap.xml', $xmlString);
+    }
+
+    private function generateRobots(): void
+    {
+        // Ambil data sitemap URL (biasanya dari base_url)
+        $sitemapUrl = base_url('sitemap.xml');
+
+        // Susun isi robots.txt
+        // User-agent: * berarti aturan ini berlaku untuk semua robot
+        $content = "User-agent: *\n";
+        
+        // Melarang robot mengakses folder sistem atau admin
+        $content .= "Disallow: /admin/\n";
+        $content .= "Disallow: /auth/\n";
+        $content .= "Disallow: /temp/\n";
+        
+        // Mengizinkan akses ke folder assets/uploads agar gambar bisa muncul di Google Image
+        $content .= "Allow: /uploads/\n";
+        $content .= "Allow: /assets/\n";
+        
+        // Memberitahu lokasi sitemap
+        $content .= "\nSitemap: " . $sitemapUrl;
+
+        // Simpan sebagai file fisik robots.txt di folder public
+        write_file(FCPATH . 'robots.txt', $content);
     }
 }

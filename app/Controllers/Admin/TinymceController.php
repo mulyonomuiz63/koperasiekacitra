@@ -28,4 +28,21 @@ class TinymceController extends Controller
             ]);
         }
     }
+
+    public function uploadSlider()
+    {
+        try {
+            $result = $this->service->uploadImageSlider(
+                $this->request->getFile('file')
+            );
+
+            return $this->response->setJSON($result);
+
+        } catch (\Throwable $e) {
+
+            return $this->response->setJSON([
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 }

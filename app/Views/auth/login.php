@@ -10,9 +10,10 @@
 
                 <form class="form w-100" id="form-login">
                     <?= csrf_field() ?>
+                    
+                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                     <div class="text-center mb-11">
-                        <img src="">
                         <h1 class="text-dark fw-bolder mb-3 fs-1">Masuk</h1>
                         <div class="text-muted fw-semibold fs-6">
                             Selamat datang kembali, Anggota!
@@ -80,7 +81,7 @@
 
 <?= $this->section('scripts') ?>
 <script>
-    // Fungsi toggle password sederhana
+    // Fungsi toggle password
     function togglePassword() {
         const input = document.getElementById('password_input');
         const icon = document.getElementById('eye_icon');
@@ -94,8 +95,7 @@
             icon.classList.add('ki-eye');
         }
     }
-</script>
-<script>
+
     const formLogin = document.getElementById('form-login');
     const btnLogin = document.getElementById('btn-login');
     const alertBox = document.getElementById('alert-wrapper');
@@ -106,58 +106,93 @@
     let csrfName = csrfNameEl.content;
     let csrfHash = csrfHashEl.content;
 
-    formLogin.addEventListener('submit', function(e) {
+    // Fungsi untuk mendapatkan token reCAPTCHA secara asinkron
+    async function getCaptchaToken() {
+        const siteKey = "<?= $siteKey ?>";
+        if (!siteKey) return null;
+
+        return new Promise((resolve) => {
+            grecaptcha.ready(function() {
+                grecaptcha.execute(siteKey, {action: 'login'}).then(function(token) {
+                    resolve(token);
+                });
+            });
+        });
+    }
+
+    formLogin.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        // 1. Disable tombol dan tampilkan loading
         btnLogin.disabled = true;
-        btnLogin.innerHTML = 'Memproses...';
+        btnLogin.innerHTML = '<span class="spinner-border spinner-border-sm align-middle ms-2"></span> Memproses...';
 
-        const formData = new FormData(formLogin);
-        formData.append(csrfName, csrfHash);
+        try {
+            // 2. Ambil token reCAPTCHA jika status aktif
+            const captchaToken = await getCaptchaToken();
+            if (captchaToken) {
+                document.getElementById('g-recaptcha-response').value = captchaToken;
+            }
 
-        fetch("<?= base_url('login') ?>", {
+            // 3. Siapkan FormData
+            const formData = new FormData(formLogin);
+            formData.append(csrfName, csrfHash);
+
+            // 4. Kirim data via Fetch
+            const response = await fetch("<?= base_url('login') ?>", {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest"
                 },
                 body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                // update csrf
-                csrfHash = data.csrfHash;
-                csrfHashEl.content = data.csrfHash;
-
-                if (data.status === 'error') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal Login',
-                        text: data.message
-                    });
-                    btnLogin.disabled = false;
-                    btnLogin.innerHTML = 'Masuk';
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: 'Login berhasil, selamat datang!',
-                        showConfirmButton: false, // Menghilangkan tombol OK
-                        timer: 2000, // Alert akan hilang dalam 2 detik
-                        timerProgressBar: true, // Menampilkan bar progres waktu
-                        customClass: {
-                            popup: 'rounded-4',
-                            title: 'text-dark fw-bold'
-                        }
-                    }).then((result) => {
-                        /* Logic redirect diletakkan di sini. 
-                        Akan terpanggil otomatis saat timer habis (dismissal)
-                        */
-                        window.location.href = data.redirect;
-                    });
-                }
             });
+
+            const data = await response.json();
+
+            // 5. Update CSRF Token untuk request berikutnya
+            csrfHash = data.csrfHash;
+            csrfHashEl.content = data.csrfHash;
+
+            // 6. Handling Response
+            if (data.status === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Login',
+                    text: data.message,
+                    customClass: {
+                        popup: 'rounded-4'
+                    }
+                });
+                btnLogin.disabled = false;
+                btnLogin.innerHTML = 'Masuk';
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Login berhasil, selamat datang!',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: 'rounded-4',
+                        title: 'text-dark fw-bold'
+                    }
+                }).then(() => {
+                    window.location.href = data.redirect;
+                });
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan Sistem',
+                text: 'Terjadi kesalahan saat menghubungi server.'
+            });
+            btnLogin.disabled = false;
+            btnLogin.innerHTML = 'Masuk';
+        }
     });
 </script>
+
 <?= $this->include('partials/alert') ?>
 <?= $this->endSection() ?>

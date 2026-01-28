@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -44,8 +45,18 @@ class JabatanController extends BaseController
 
     public function store()
     {
-        $this->jabatan->insert($this->request->getPost());
-        return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil ditambahkan');
+        try {
+            // Ambil data dari post
+            $data = $this->request->getPost();
+
+            // Panggil service
+            $this->service->createJabatan($data);
+
+            return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Tangkap jika ada error database atau logika
+            return redirect()->back()->withInput()->with('error', 'Gagal menambah jabatan: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -57,8 +68,17 @@ class JabatanController extends BaseController
 
     public function update($id)
     {
-        $this->jabatan->update($id, $this->request->getPost());
-        return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil diupdate');
+        try {
+            $data = $this->request->getPost();
+
+            // Panggil service
+            $this->service->updateJabatan($id, $data);
+
+            return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil diupdate');
+        } catch (\Throwable $e) {
+            // Kembali ke form sebelumnya jika gagal
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id)
@@ -75,5 +95,4 @@ class JabatanController extends BaseController
 
         return redirect()->back()->with('success', 'Jabatan berhasil dihapus');
     }
-
 }

@@ -29,6 +29,16 @@
                         placeholder="Masukkan deskripsi"></textarea>
             </div>
 
+            <div class="col-md-6">
+                <label class="form-label required">Tempat Penampilan</label>
+                <select name="jenis_galeri"
+                        class="form-select form-select-solid"
+                        required>
+                    <option value="atas">Atas</option>
+                    <option value="bawah">Bawah</option>
+                </select>
+            </div>
+
 
             <div class="mb-5">
                 <label class="form-label">Gambar</label>

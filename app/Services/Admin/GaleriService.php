@@ -46,8 +46,7 @@ class GaleriService
         return [
             'id'          => $row['id'],
             'title'       => $row['title'],
-            'description' => $row['description'],
-            'filename'    => '<img src="'.base_url('uploads/galeri/thumbs/'.$row['filename']).'" style="width:80px;height:60px;object-fit:cover;">',
+            'filename'    => img_lazy('uploads/galeri/thumbs/' . $row['filename'], $row['title'], ['width'  => 80, 'height' => 60, 'style'  => 'width:80px; height:60px; object-fit:cover;', 'class'  => 'img-thumbnail']),
             // 🔐 PERMISSION (INTI)
             'can_edit'   => can($menuId, 'update'),
             'can_delete' => can($menuId, 'delete'),
@@ -81,6 +80,7 @@ class GaleriService
             'title'       => $data['title'] ?? '',
             'description' => $data['description'] ?? '',
             'filename'    => $filename,
+            'jenis_galeri' => $data['jenis_galeri'] ?? '',
         ]);
 
         return ['status' => 'success', 'message' => 'Gambar berhasil diupload dan thumbnail dibuat.'];
@@ -93,7 +93,7 @@ class GaleriService
      * @param array $data (title, description, file: File|null)
      * @return array
      */
-    public function update(int $id, array $data): array
+    public function update(string $id, array $data): array
     {
         $galeri = $this->galeri->find($id);
         if (!$galeri) {
@@ -102,7 +102,8 @@ class GaleriService
 
         $inputs = [
             'title'       => $data['title'] ?? $galeri['title'],
-            'description' => $data['description'] ?? $galeri['description']
+            'description' => $data['description'] ?? $galeri['description'],
+            'jenis_galeri' => $data['jenis_galeri'] ?? $galeri['jenis_galeri']
         ];
 
         $file = $data['file'] ?? null;
@@ -161,8 +162,39 @@ class GaleriService
      * @param int $id
      * @return array|null
      */
-    public function find(int $id): ?array
+    public function find(string $id): ?array
     {
         return $this->galeri->find($id);
+    }
+
+    public function deleteGaleri(string $id)
+    {
+        try {
+            // 1. Cari data galeri
+            $galeri = $this->galeri->find($id);
+
+            if (!$galeri) {
+                throw new \Exception('Data galeri tidak ditemukan.');
+            }
+
+            // 2. Tentukan path file
+            $uploadPath = FCPATH . 'uploads/galeri/';
+            $thumbPath  = FCPATH . 'uploads/galeri/thumbs/';
+
+            // 3. Hapus file fisik (Gambar Utama)
+            if ($galeri['filename'] && is_file($uploadPath . $galeri['filename'])) {
+                unlink($uploadPath . $galeri['filename']);
+            }
+
+            // 4. Hapus file fisik (Thumbnail)
+            if ($galeri['filename'] && is_file($thumbPath . $galeri['filename'])) {
+                unlink($thumbPath . $galeri['filename']);
+            }
+
+            // 5. Hapus record dari database
+            return $this->galeri->delete($id);
+        } catch (\Throwable $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }

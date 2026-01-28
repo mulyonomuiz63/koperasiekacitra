@@ -36,9 +36,14 @@ class PembayaranController extends BaseController
     {
         try {
             $pembayaranId = $this->request->getPost('pembayaran_id');
-            $file         = $this->request->getFile('bukti_bayar');
+            $file        = $this->request->getFile('bukti_bayar');
+            // Bungkus data tambahan
+            $data = [
+                'tgl_bayar'     => $this->request->getPost('tgl_bayar'),
+                'nama_pengirim' => $this->request->getPost('nama_pengirim'),
+            ];
 
-            $result = $this->service->uploadBuktiPembayaran($pembayaranId, $file);
+            $result = $this->service->uploadBuktiPembayaran($pembayaranId, $file, $data);
 
             if ($result['status'] === 'success') {
                 return redirect()->back()->with('success', $result['message']);

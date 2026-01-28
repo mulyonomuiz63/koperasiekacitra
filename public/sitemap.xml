@@ -1,0 +1,74 @@
+<!-- DEBUG-VIEW START 1 APPPATH\Views\seo\sitemap.php -->
+<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+        <url>
+        <loc>http://localhost:8080/blog</loc>
+        <priority>1.0</priority>
+        <changefreq>daily</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/privacy-policy</loc>
+        <priority>0.3</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/contact</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+    
+        <url>
+        <loc>http://localhost:8080/blog/read/tes</loc>
+        <lastmod>2026-01-26</lastmod>
+        <priority>0.9</priority>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog/read/perkuat-fondasi-ekonomi-bali-ojk-dan-bps-perluas-jangkauan-survei-literasi-keuangan-2026</loc>
+        <lastmod>2026-01-27</lastmod>
+        <priority>0.9</priority>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog/read/koperasi-eka-citra-mandiri</loc>
+        <lastmod>2026-01-24</lastmod>
+        <priority>0.9</priority>
+    </url>
+    
+        <url>
+        <loc>http://localhost:8080/blog?category=eka-citra</loc>
+        <priority>0.7</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog?category=keuangan-perpajakan</loc>
+        <priority>0.7</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    
+        <url>
+        <loc>http://localhost:8080/blog?tag=keuangan</loc>
+        <priority>0.5</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog?tag=eka</loc>
+        <priority>0.5</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog?tag=koperasi</loc>
+        <priority>0.5</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog?tag=mandiri</loc>
+        <priority>0.5</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+        <url>
+        <loc>http://localhost:8080/blog?tag=citra</loc>
+        <priority>0.5</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+    
+</urlset>
+<!-- DEBUG-VIEW ENDED 1 APPPATH\Views\seo\sitemap.php -->

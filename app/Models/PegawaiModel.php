@@ -33,15 +33,21 @@ class PegawaiModel extends BaseModel
             ->select('
                 pegawai.id,
                 pegawai.nama as namaPegawai,
-                perusahaan.nama_perusahaan,
-                jabatan.nama_jabatan
+                jabatan.nama_jabatan,
+                pegawai.status_iuran,
+                pegawai.status,
             ')
             ->join('users', 'users.id = pegawai.user_id')
             ->join('perusahaan', 'perusahaan.id = pegawai.perusahaan_id')
-            ->join('jabatan', 'jabatan.id = pegawai.jabatan_id');
+            ->join('jabatan', 'jabatan.id = pegawai.jabatan_id')
+            ->orderBy('pegawai.status','asc');
 
         // Search
-       
+       if ($request['search']['value']) {
+            $builder->groupStart()
+                ->like('pegawai.nama', $request['search']['value'])
+                ->groupEnd();
+        }
 
         $total = $builder->countAllResults(false);
 

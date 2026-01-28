@@ -29,10 +29,12 @@
                 <td class="label">Jenis Pembayaran</td>
                 <td><strong><?= $tipe ?? 'Iuran Anggota' ?></strong></td>
             </tr>
-            <tr>
-                <td class="label">No. Invoice</td>
-                <td><strong><?= $invoice_no ?? '-' ?></strong></td>
-            </tr>
+            <?php if($status == 'A'): ?>
+                <tr>
+                    <td class="label">No. Invoice</td>
+                    <td><strong><?= $invoice_no ?? '-' ?></strong></td>
+                </tr>
+            <?php endif ?>
             <tr>
                 <td class="label">Nama Anggota</td>
                 <td><?= $nama_lengkap ?></td>
@@ -62,7 +64,7 @@
         </div>
 
         <div class="footer">
-            &copy; <?= date('Y') ?> Koperasi Kita. Seluruh hak cipta dilindungi.
+            &copy; <?= setting('tahun_berdiri') ?> <?= setting('app_name') ?>. Seluruh hak cipta dilindungi.
         </div>
     </div>
 </body>

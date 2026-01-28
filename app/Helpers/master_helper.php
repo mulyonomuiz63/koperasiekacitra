@@ -9,5 +9,6 @@ helper([
     'uuid',
     'invoice',
     'uang',
-    'pegawai'
+    'pegawai',
+    'seo'
 ]);

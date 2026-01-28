@@ -192,7 +192,7 @@ $(document).ready(function () {
 
             html += `
             <div class="d-flex align-items-center mb-5">
-                ${row.status !== 'S' ? `
+                ${(row.status == 'B') || (row.status == 'P') ? `
                 <div class="me-4">
                     <input class="form-check-input checkbox-iuran"
                         type="checkbox"

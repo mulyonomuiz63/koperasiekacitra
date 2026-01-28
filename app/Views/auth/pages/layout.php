@@ -3,22 +3,14 @@
 <!--begin::Head-->
 
 <head>
-	<base href="../../../" />
-	<title>Metronic - The World's #1 Selling Bootstrap Admin Template by Keenthemes</title>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="csrf-name" content="<?= csrf_token() ?>">
 	<meta name="csrf-hash" content="<?= csrf_hash() ?>">
-
-	<meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
-	<meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta property="og:locale" content="en_US" />
-	<meta property="og:type" content="article" />
-	<meta property="og:title" content="Metronic - Bootstrap Admin Template, HTML, VueJS, React, Angular. Laravel, Asp.Net Core, Ruby on Rails, Spring Boot, Blazor, Django, Express.js, Node.js, Flask Admin Dashboard Theme & Template" />
-	<meta property="og:url" content="<?= base_url('/') ?>" />
-	<meta property="og:site_name" content="Keenthemes | Metronic" />
-	<link rel="canonical" href="<?= base_url('/') ?>" />
-	<link rel="shortcut icon" href="<?= base_url('/') ?>assets/media/logos/favicon.ico" />
+	<?php
+	echo render_meta();
+	?>
+	<link rel="shortcut icon" href="<?= base_url('uploads/app-icon/' . setting('app_icon')) ?>" />
 	<!--begin::Fonts(mandatory for all pages)-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 	<!--end::Fonts-->
@@ -82,10 +74,8 @@
 		<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 			<div class="d-flex flex-lg-row-fluid">
 				<div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
-					<img class="theme-light-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down"
-						src="<?= base_url('assets/media/auth/agency.png') ?>" alt="">
-					<img class="theme-dark-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down"
-						src="<?= base_url('assets/media/auth/agency-dark.png') ?>" alt="">
+					<?= img_lazy('assets/media/auth/agency.png', '-', ['class' => 'theme-light-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down']) ?>
+					<?= img_lazy('assets/media/auth/agency-dark.png', '-', ['class' => 'theme-dark-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down']) ?>
 
 					<h1 class="text-gray-800 fs-2qx fw-bolder text-center mb-7 px-10">
 						Cepat, Efisien, dan <span class="text-primary">Produktif</span>
@@ -112,7 +102,41 @@
 	<!--end::Global Javascript Bundle-->
 	<!--end::Javascript-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<?php if ($siteKey): ?>
+		<script src="https://www.google.com/recaptcha/api.js?render=<?= $siteKey ?>"></script>
+	<?php endif; ?>
 	<?= $this->renderSection('scripts') ?>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			let lazyImages = document.querySelectorAll("img.lazy");
+
+			if ("IntersectionObserver" in window) {
+				// ✅ Browser support IntersectionObserver
+				let observer = new IntersectionObserver((entries, obs) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							let img = entry.target;
+							img.src = img.dataset.src;
+							img.removeAttribute("data-src");
+							img.classList.remove("lazy");
+							obs.unobserve(img);
+						}
+					});
+				});
+
+				lazyImages.forEach(img => observer.observe(img));
+
+			} else {
+				// ⚠️ Fallback kalau browser tidak support
+				lazyImages.forEach(img => {
+					img.src = img.dataset.src;
+					img.removeAttribute("data-src");
+					img.setAttribute("loading", "lazy");
+					img.classList.remove("lazy");
+				});
+			}
+		});
+	</script>
 </body>
 <!--end::Body-->
 

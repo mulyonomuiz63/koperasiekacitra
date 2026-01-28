@@ -58,7 +58,7 @@ class HistoriService
      * @return array
      * @throws PageNotFoundException
      */
-    public function getHistoriDetail(int $id): array
+    public function getHistoriDetail(string $id): array
     {
         // Ambil pembayaran
         $pembayaran = $this->db->table('pembayaran p')

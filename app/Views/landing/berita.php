@@ -36,9 +36,7 @@
                     <div class="px-5"> <div class="card card-flush shadow-sm h-100 rounded-4 overflow-hidden">
                             <div class="overlay overflow-hidden">
                                 <div class="overlay-wrapper">
-                                    <img src="<?= base_url('uploads/news/' . $news['image']) ?>"
-                                         alt="<?= $news['title'] ?>"
-                                         class="w-100 h-200px object-fit-cover">
+                                    <?= img_lazy('uploads/news/' . $news['image'], $news['title'], ['class' => 'w-100 h-200px object-fit-cover']) ?>
                                 </div>
                                 <div class="position-absolute top-0 start-0 m-4">
                                     <span class="badge badge-success fw-bold px-3 py-2 text-uppercase fs-9 shadow-sm">

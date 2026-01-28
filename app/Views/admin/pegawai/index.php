@@ -36,9 +36,10 @@
                 <table class="table table-row-dashed table-row-gray-300 align-middle fs-6 gy-4" id="kt_tables_roles">
                     <thead>
                         <tr class="text-start text-muted fw-bold text-uppercase fs-7">
-                            <th>Nama Pegawai</th>
-                            <th>Nama Perusahaan</th>
+                            <th>Pegawai</th>
                             <th>Nama Jabatan</th>
+                            <th>Status Anggota</th>
+                            <th>Status Iuran</th>
                             <th class="text-end">Aksi</th>
                         </tr>
                     </thead>
@@ -76,12 +77,39 @@ $(document).ready(function () {
                 data: 'namaPegawai',
             },
             {
-                data: 'perusahaan',
+                data: 'jabatan',
                 className: 'text-center'
             },
             {
-                data: 'jabatan',
-                className: 'text-center'
+                data: null, // Pastikan nama field di database benar 'statu_iuran'
+                className: 'text-center',
+                render: function(data, type, row) {
+                    let status = null;
+                    // Cek data (sesuaikan dengan nilai di database Anda, misal 1/0 atau 'Aktif'/'Tidak Aktif')
+                    if (row.status == 'A') {
+                        status = `<span class="badge badge-light-success fw-bold px-4 py-3">Aktif</span>`;
+                    } else if(row.status == 'T') {
+                        status = `<span class="badge badge-light-warning fw-bold px-4 py-3">Tidak Aktif</span>`;
+                    }else{
+                        status = `<span class="badge badge-light-danger fw-bold px-4 py-3">Keluar</span>`;
+                    }
+                    
+                    return status;
+                }
+            },
+            {
+                data: null, // Pastikan nama field di database benar 'statu_iuran'
+                className: 'text-center',
+                render: function(data, type, row) {
+                    // Cek data (sesuaikan dengan nilai di database Anda, misal 1/0 atau 'Aktif'/'Tidak Aktif')
+                    if (row.status_iuran == 'A') {
+                        status = `<span class="badge badge-light-success fw-bold px-4 py-3">Aktif</span>`;
+                    } else {
+                        status = `<span class="badge badge-light-danger fw-bold px-4 py-3">Tidak Aktif</span>`;
+                    }
+                    
+                    return status;
+                }
             },
             {
                 data: null,

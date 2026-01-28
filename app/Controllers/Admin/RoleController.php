@@ -56,14 +56,19 @@ class RoleController extends BaseController
     // =============================
     public function store()
     {
-        $this->roleModel->insert([
-            'name'        => $this->request->getPost('name'),
-            'role_key'    => $this->request->getPost('role_key'),
-            'description' => $this->request->getPost('description')
-        ]);
+        try {
+            $data = $this->request->getPost();
 
-        return redirect()->to('/roles')
-            ->with('success','Role berhasil ditambahkan');
+            // Eksekusi via service
+            $this->service->createRole($data);
+
+            return redirect()->to('/roles')
+                ->with('success', 'Role berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Tangkap error jika role_key sudah ada atau masalah DB lainnya
+            return redirect()->back()->withInput()
+                ->with('error', 'Gagal menambah role: ' . $e->getMessage());
+        }
     }
 
     // =============================
@@ -71,14 +76,15 @@ class RoleController extends BaseController
     // =============================
     public function edit($id)
     {
-        $role = $this->roleModel->find($id);
-        if (!$role) {
-            return redirect()->back()->with('error','Role tidak ditemukan');
-        }
+        try {
+            $role = $this->service->getRoleById($id);
 
-        return view('admin/roles/edit', [
-            'role' => $role
-        ]);
+            return view('admin/roles/edit', [
+                'role' => $role
+            ]);
+        } catch (\Throwable $e) {
+            return redirect()->to('/roles')->with('error', $e->getMessage());
+        }
     }
 
     // =============================
@@ -86,14 +92,20 @@ class RoleController extends BaseController
     // =============================
     public function update($id)
     {
-        $this->roleModel->update($id, [
-            'name'        => $this->request->getPost('name'),
-            'role_key'    => $this->request->getPost('role_key'),
-            'description' => $this->request->getPost('description')
-        ]);
+        try {
+            $data = $this->request->getPost();
 
-        return redirect()->to('/roles')
-            ->with('success','Role berhasil diperbarui');
+            // Kirim data ke service untuk diproses
+            $this->service->updateRole($id, $data);
+
+            return redirect()->to('/roles')
+                ->with('success', 'Role berhasil diperbarui');
+        } catch (\Throwable $e) {
+            // Jika gagal, kembali dengan input sebelumnya dan pesan error
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
     }
 
     // =============================
@@ -101,9 +113,16 @@ class RoleController extends BaseController
     // =============================
     public function delete($id)
     {
-        $this->roleModel->delete($id);
+        try {
+            // Eksekusi penghapusan aman melalui service
+            $this->service->deleteRole($id);
 
-        return redirect()->to('/roles')
-            ->with('success','Role berhasil dihapus');
+            return redirect()->to('/roles')
+                ->with('success', 'Role berhasil dihapus');
+        } catch (\Throwable $e) {
+            // Jika gagal karena proteksi sistem atau relasi data
+            return redirect()->to('/roles')
+                ->with('error', $e->getMessage());
+        }
     }
 }

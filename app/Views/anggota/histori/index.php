@@ -117,7 +117,8 @@ $(document).ready(function () {
                 </div>
 
                 <div class="fw-semibold">
-                    <div class="fs-6 fw-bold">Pembayaran Iuran Bulanan ${row.bulan}-${row.tahun}</div>
+                    <div class="fs-6 fw-bold">${row.nama_pegawai}</div>
+                    <div class="fs-6 text-muted">Pembayaran Iuran Bulanan ${row.bulan}-${row.tahun}</div>
                     <div class="fs-7 text-muted">
                         Tagihan • Rp ${parseInt(row.jumlah_bayar).toLocaleString('id-ID')}
                     </div>

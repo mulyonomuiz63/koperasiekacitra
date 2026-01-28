@@ -1,43 +1,44 @@
 <?= $this->extend('pages/layoutAnggota') ?>
 <?= $this->section('style') ?>
 <style>
-@media print {
+    @media print {
 
-    body * {
-        visibility: hidden !important;
-    }
+        body * {
+            visibility: hidden !important;
+        }
 
-    #invoice-print-area,
-    #invoice-print-area * {
-        visibility: visible !important;
-    }
+        #invoice-print-area,
+        #invoice-print-area * {
+            visibility: visible !important;
+        }
 
-    #invoice-print-area {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 20px;
-    }
+        #invoice-print-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+        }
 
-    /* Hilangkan button */
-    .btn,
-    .card-header,
-    .no-print {
-        display: none !important;
-    }
+        /* Hilangkan button */
+        .btn,
+        .card-header,
+        .no-print {
+            display: none !important;
+        }
 
-    /* Paksa 1 halaman */
-    @page {
-        size: A4;
-        margin: 15mm;
-    }
+        /* Paksa 1 halaman */
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
 
-    html, body {
-        height: auto;
-        overflow: hidden;
+        html,
+        body {
+            height: auto;
+            overflow: hidden;
+        }
     }
-}
 </style>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
@@ -49,12 +50,12 @@
                 <!-- HEADER -->
                 <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
                     <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">
-                        <?php 
-                            if($pembayaran['status'] === 'A'):
-                                echo 'INVOICE PEMBAYARAN';
-                            else:
-                                echo 'INVOICE TAGIHAN';
-                            endif; 
+                        <?php
+                        if ($pembayaran['status'] === 'A'):
+                            echo 'INVOICE PEMBAYARAN';
+                        else:
+                            echo 'INVOICE TAGIHAN';
+                        endif;
                         ?>
                     </h4>
                     <div class="text-sm-end">
@@ -146,8 +147,8 @@
                                                     <?= $rekening['no'] ?>
                                                 </span>
                                                 <button type="button"
-                                                        class="btn btn-sm btn-light-primary"
-                                                        onclick="copyRekening()">
+                                                    class="btn btn-sm btn-light-primary"
+                                                    onclick="copyRekening()">
                                                     <i class="bi bi-clipboard"></i>
                                                 </button>
                                             </div>
@@ -211,60 +212,56 @@
 
             <!-- UPLOAD BUKTI -->
             <?php if (empty($pembayaran['bukti_bayar']) && $pembayaran['status'] === 'P'): ?>
-            <div class="mt-15">
+                <div class="mt-15">
 
-                <h4 class="fw-bold mb-5">Upload Bukti Pembayaran</h4>
+                    <h4 class="fw-bold mb-5">Upload Bukti Pembayaran</h4>
+                    <form action="<?= base_url('sw-anggota/pembayaran/upload-bukti') ?>" method="post" enctype="multipart/form-data">
 
-                <form action="<?= base_url('sw-anggota/pembayaran/upload-bukti') ?>"
-                    method="post"
-                    enctype="multipart/form-data">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="pembayaran_id" value="<?= $pembayaran['id'] ?>">
 
-                    <?= csrf_field() ?>
-
-                    <input type="hidden"
-                        name="pembayaran_id"
-                        value="<?= $pembayaran['id'] ?>">
-
-                    <!-- UPLOAD AREA -->
-                    <label for="buktiBayar"
-                        id="uploadBox"
-                        class="card card-dashed h-250px w-100 d-flex flex-center cursor-pointer
-                                bg-light-light border-gray-300">
-
-                        <div class="text-center" id="uploadContent">
-                            <i class="bi bi-cloud-arrow-up fs-2x text-primary mb-3"></i>
-
-                            <div class="fs-6 fw-semibold text-gray-700">
-                                Klik untuk upload bukti pembayaran
+                        <div class="row g-5">
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-semibold mb-2">Tanggal Bayar</label>
+                                <input type="date" name="tgl_bayar" class="form-control form-control-solid"
+                                    value="<?= $pembayaran['tgl_bayar'] ?>" required>
                             </div>
 
-                            <div class="fs-7 text-muted mt-1">
-                                JPG / PNG / PDF (Max 2MB)
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-semibold mb-2">Nama Pengirim</label>
+                                <input type="text" name="nama_pengirim" class="form-control form-control-solid"
+                                    placeholder="Nama di rekening/struk"
+                                    value="<?= $pembayaran['nama_pengirim'] ?>" required>
                             </div>
                         </div>
 
-                        <!-- FILE NAME -->
-                        <div id="fileName"
-                            class="position-absolute bottom-0 start-0 end-0
-                                    text-center fs-7 fw-semibold text-success pb-3 d-none">
+                        <div class="fv-row mt-8">
+                            <label class="fs-6 fw-semibold mb-2">Unggah Bukti Transfer</label>
+
+                            <label for="buktiBayar" id="uploadBox"
+                                class="card card-dashed h-250px w-100 d-flex flex-center cursor-pointer border-primary bg-light-primary border-2">
+
+                                <div id="previewContainer" class="d-none text-center p-5">
+                                    <img id="imagePreview" src="#" alt="Preview" class="rounded shadow-sm mb-3" style="max-height: 150px; width: auto;">
+                                    <div id="fileNameDisplay" class="fs-7 fw-bold text-primary"></div>
+                                </div>
+
+                                <div class="text-center" id="uploadContent">
+                                    <i class="bi bi-cloud-arrow-up fs-3x text-primary mb-3"></i>
+                                    <div class="fs-5 fw-bolder text-gray-800">Klik atau Seret File ke Sini</div>
+                                    <div class="fs-7 fw-semibold text-muted mt-1">JPG, PNG, atau PDF (Maks. 2MB)</div>
+                                </div>
+                            </label>
+
+                            <input type="file" id="buktiBayar" name="bukti_bayar"
+                                accept="image/jpeg, image/png, application/pdf" hidden required>
                         </div>
 
-                    </label>
-
-                    <input type="file"
-                        id="buktiBayar"
-                        name="bukti_bayar"
-                        accept="image/*"
-                        hidden
-                        required>
-
-                    <button type="submit"
-                            class="btn btn-primary w-100 mt-6">
-                        Kirim Bukti Pembayaran
-                    </button>
-
-                </form>
-            </div>
+                        <button type="submit" id="btn-kirim" class="btn btn-primary w-100 mt-8 py-4 fw-bold">
+                            <span class="indicator-label">Kirim Bukti Pembayaran</span>
+                        </button>
+                    </form>
+                </div>
             <?php endif; ?>
 
 
@@ -274,13 +271,13 @@
                 <div class="d-flex flex-stack flex-wrap mt-20 pt-13">
 
                     <button type="button"
-                            class="btn btn-success me-3"
-                            onclick="window.print()">
+                        class="btn btn-success me-3"
+                        onclick="window.print()">
                         Print Invoice
                     </button>
 
                     <a href="<?= base_url('sw-anggota/histori-iuran/download/' . $pembayaran['id']) ?>"
-                       class="btn btn-light-success">
+                        class="btn btn-light-success">
                         Download Invoice
                     </a>
 
@@ -293,38 +290,38 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script>
-function copyRekening() {
-    const text = document.getElementById("noRek").innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Nomor rekening berhasil disalin");
-    });
-}
+    function copyRekening() {
+        const text = document.getElementById("noRek").innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Nomor rekening berhasil disalin");
+        });
+    }
 </script>
 <script>
-const fileInput = document.getElementById('buktiBayar');
-const uploadBox  = document.getElementById('uploadBox');
-const fileName   = document.getElementById('fileName');
-const content    = document.getElementById('uploadContent');
+    const fileInput = document.getElementById('buktiBayar');
+    const uploadBox = document.getElementById('uploadBox');
+    const fileName = document.getElementById('fileName');
+    const content = document.getElementById('uploadContent');
 
-fileInput.addEventListener('change', function () {
-    if (this.files.length > 0) {
+    fileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
 
-        // tampilkan nama file
-        fileName.classList.remove('d-none');
-        fileName.innerText = this.files[0].name;
+            // tampilkan nama file
+            fileName.classList.remove('d-none');
+            fileName.innerText = this.files[0].name;
 
-        // ubah tampilan (metronic utility)
-        uploadBox.classList.remove('border-gray-300', 'bg-light-light');
-        uploadBox.classList.add('border-success', 'bg-light-success');
+            // ubah tampilan (metronic utility)
+            uploadBox.classList.remove('border-gray-300', 'bg-light-light');
+            uploadBox.classList.add('border-success', 'bg-light-success');
 
-        // ubah icon & teks
-        content.querySelector('i').className =
-            'bi bi-check-circle fs-2x text-success mb-3';
+            // ubah icon & teks
+            content.querySelector('i').className =
+                'bi bi-check-circle fs-2x text-success mb-3';
 
-        content.querySelector('.fw-semibold').innerText =
-            'File berhasil dipilih';
-    }
-});
+            content.querySelector('.fw-semibold').innerText =
+                'File berhasil dipilih';
+        }
+    });
 </script>
 
 <?= $this->endSection() ?>

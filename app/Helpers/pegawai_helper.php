@@ -22,13 +22,13 @@ if (!function_exists('get_pegawai')) {
         // Kembalikan dalam bentuk ARRAY murni
         if (!$user) {
             return [
-                'nama_anggota' => $id,
+                'nama_anggota' => 'Default',
                 'status'       => ''
             ];
         }
 
         return [
-            'nama_anggota' => $user->nama,
+            'nama_anggota' => $user->nama == ''? 'Default':$user->nama,
             'status'       => ($user->status == 'A') ? 'Pro' : ''
         ];
     }

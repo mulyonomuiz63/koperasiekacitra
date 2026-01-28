@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -20,19 +21,17 @@ class ProfilController extends BaseController
 
     public function index()
     {
-        $db = \Config\Database::connect();
-            $builder = $db->table('iuran_bulanan')
-            ->join('pegawai','pegawai.id=iuran_bulanan.pegawai_id');
-        $data['total_saldo'] = $builder->where('iuran_bulanan.status', 'S')
-                                    ->where('pegawai.id',session()->get('user_id'))
-                                    ->selectSum('jumlah_iuran')
-                                    ->get()->getRow()->jumlah_iuran ?? 0;
-        $data['user'] = $this->user
-                        ->join('pegawai','pegawai.user_id=users.id')
-                        ->join('perusahaan','perusahaan.id=pegawai.perusahaan_id')
-                        ->join('jabatan','jabatan.id=pegawai.jabatan_id')
-                        ->select('users.email, perusahaan.nama_perusahaan, jabatan.nama_jabatan, pegawai.*')->first();
-        return $this->view('admin/profil/index', $data);
+        try {
+            $userId = session()->get('user_id');
+
+            // Panggil service untuk mendapatkan paket data profil
+            $data = $this->service->getProfilData($userId);
+
+            return $this->view('admin/profil/index', $data);
+        } catch (\Throwable $e) {
+            // Jika data pegawai belum diinput oleh admin
+            return redirect()->to('/dashboard')->with('error', $e->getMessage());
+        }
     }
 
     public function saveData()

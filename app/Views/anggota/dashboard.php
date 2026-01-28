@@ -101,7 +101,7 @@
                                     <a href="<?= base_url('sw-anggota/iuran') ?>" class="btn btn-warning fw-bold px-8 shadow-sm">Bayar Iuran</a>
                                 </div>
                             </div>
-                            <img src="assets/media/illustrations/sigma-1/10.png" class="h-150px h-lg-250px mt-10 mt-lg-0 ms-lg-n10 d-none d-md-block" style="object-fit: contain" alt="">
+                            <?= img_lazy('assets/media/illustrations/sigma-1/10.png', '-', ['style' => 'object-fit: contain', 'class' => 'h-150px h-lg-250px mt-10 mt-lg-0 ms-lg-n10 d-none d-md-block']) ?>
                         </div>
                     </div>
                 </div>

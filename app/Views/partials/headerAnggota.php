@@ -27,8 +27,8 @@ $menus = $menuModel->getMenuByUser(
         <!--begin::Logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
             <a href="<?= base_url('sw-anggota') ?>">
-                <img alt="Logo" src="<?= base_url('uploads/app-icon/' . setting('app_icon')) ?>" class="h-20px h-lg-30px app-sidebar-logo-default theme-light-show">
-                <img alt="Logo" src="<?= base_url('uploads/app-icon/' . setting('app_icon')) ?>" class="h-20px h-lg-30px app-sidebar-logo-default theme-dark-show">
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-20px h-lg-30px app-sidebar-logo-default theme-light-show']) ?>
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-20px h-lg-30px app-sidebar-logo-default theme-dark-show']) ?>
             </a>
         </div>
         <!--end::Logo-->

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Pengguna;
 
 use App\Controllers\BaseController;
@@ -43,20 +44,49 @@ class IuranBulananController extends BaseController
 
     public function store()
     {
-        $this->iuranBulanan->insert($this->request->getPost());
-        return redirect()->to('/iuran-bulanan')->with('success', 'Iuran Bulanan berhasil ditambahkan');
+        try {
+            $data = $this->request->getPost();
+
+            // Kirim data ke service
+            $this->service->createIuran($data);
+
+            return redirect()->to('/iuran-bulanan')
+                ->with('success', 'Iuran Bulanan berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Jika ada error (misal: data tidak valid atau db error)
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function edit($id)
     {
-        return view('anggota/iuran_bulanan/edit', [
-            'iuranBulanan' => $this->iuranBulanan->find($id),
-        ]);
+        try {
+            // Ambil data melalui service
+            $data['iuranBulanan'] = $this->service->getIuranById($id);
+
+            return view('anggota/iuran_bulanan/edit', $data);
+        } catch (\Throwable $e) {
+            // Jika ID salah atau data sudah divalidasi (jika logika tambahan diaktifkan)
+            return redirect()->to('/iuran-bulanan')->with('error', $e->getMessage());
+        }
     }
 
     public function update($id)
     {
-        $this->iuranBulanan->update($id, $this->request->getPost());
-        return redirect()->to('/iuran-bulanan')->with('success', 'Iuran Bulanan berhasil diupdate');
+        try {
+            $data = $this->request->getPost();
+
+            // Eksekusi update melalui service
+            $this->service->updateIuran($id, $data);
+
+            return redirect()->to('/iuran-bulanan')
+                ->with('success', 'Iuran Bulanan berhasil diperbarui');
+        } catch (\Throwable $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
     }
 }

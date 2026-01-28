@@ -44,19 +44,19 @@
                     <h4 class="fw-bold text-white mb-6">Social Media</h4>
                     <div class="d-flex flex-column">
                         <a href="<?= setting('footer_facebook') ?>" class="d-flex align-items-center mb-4">
-                            <img src="assets/media/svg/brand-logos/facebook-4.svg" class="h-20px me-3" alt="" />
+                            <?= img_lazy('assets/media/svg/brand-logos/facebook-4.svg', '-', ['class' => 'h-20px me-3']) ?>
                             <span class="text-gray-600 text-hover-primary fw-semibold fs-6">Facebook</span>
                         </a>
                         <a href="<?= setting('footer_instagram') ?>" class="d-flex align-items-center mb-4">
-                            <img src="assets/media/svg/brand-logos/instagram-2-1.svg" class="h-20px me-3" alt="" />
+                            <?= img_lazy('assets/media/svg/brand-logos/instagram-2-1.svg', '-', ['class' => 'h-20px me-3']) ?>    
                             <span class="text-gray-600 text-hover-primary fw-semibold fs-6">Instagram</span>
                         </a>
                         <a href="<?= setting('footer_youtube') ?>" class="d-flex align-items-center mb-4">
-                            <img src="assets/media/svg/brand-logos/youtube-3.svg" class="h-20px me-3" alt="" />
+                            <?= img_lazy('assets/media/svg/brand-logos/youtube-3.svg', '-', ['class' => 'h-20px me-3']) ?>  
                             <span class="text-gray-600 text-hover-primary fw-semibold fs-6">Youtube</span>
                         </a>
                         <a href="<?= setting('footer_linkedin') ?>" class="d-flex align-items-center mb-4">
-                            <img src="assets/media/svg/brand-logos/linkedin-1.svg" class="h-20px me-3" alt="" />
+                            <?= img_lazy('assets/media/svg/brand-logos/linkedin-1.svg', '-', ['class' => 'h-20px me-3']) ?> 
                             <span class="text-gray-600 text-hover-primary fw-semibold fs-6">LinkedIn</span>
                         </a>
                     </div>
@@ -68,7 +68,7 @@
             <div class="d-flex flex-column flex-md-row flex-stack py-7 py-lg-10">
                 <div class="d-flex align-items-center order-2 order-md-1">
                     <a href="#">
-                        <img alt="Logo" src="<?= base_url('uploads/app-icon/' . setting('logo_perusahaan')) ?>" class="h-20px h-md-25px" />
+                        <?= img_lazy('uploads/app-icon/' . setting('logo_perusahaan'), '-', ['class' => 'h-20px h-md-25px']) ?> 
                     </a>
                     <span class="mx-5 fs-6 fw-semibold text-gray-600">
                        Copyright &copy; <?= setting('tahun_berdiri') ?> <?= setting('app_name') ?>. All Rights Reserved.

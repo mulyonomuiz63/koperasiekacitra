@@ -4,7 +4,9 @@ namespace Config;
 
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
+use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HotReloader\HotReloader;
+use CodeIgniter\Security\Exceptions\SecurityException;
 
 /*
  * --------------------------------------------------------------------
@@ -52,4 +54,27 @@ Events::on('pre_system', static function (): void {
             });
         }
     }
+
+    set_exception_handler(function ($exception) {
+        // Jika error disebabkan oleh CSRF (SecurityException)
+        if ($exception instanceof SecurityException) {
+            // Beri pesan agar user tahu kenapa dia dilempar balik
+            session()->setFlashdata('error', 'Sesi keamanan berakhir, silakan coba lagi.');
+            
+            // Redirect kembali ke halaman sebelumnya
+            // Ini otomatis me-refresh token CSRF di form
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? base_url()));
+            exit;
+        }
+
+        if ($exception instanceof PageNotFoundException) {
+            session()->setFlashdata('error', 'Halaman tidak valid atau telah dihapus.');
+            header('Location: ' . base_url('/'));
+            exit;
+        }
+
+        // Jika error lain, biarkan CI4 menanganinya secara normal
+        (new \CodeIgniter\Debug\Exceptions(config('Exceptions')))->exceptionHandler($exception);
+    });
+    
 });

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -25,7 +26,7 @@ class PerusahaanController extends BaseController
 
     public function datatable()
     {
-       if (! $this->request->is('post')) {
+        if (! $this->request->is('post')) {
             return $this->response->setStatusCode(403);
         }
 
@@ -44,8 +45,17 @@ class PerusahaanController extends BaseController
 
     public function store()
     {
-        $this->perusahaan->insert($this->request->getPost());
-        return redirect()->to('/perusahaan')->with('success', 'Menu berhasil ditambahkan');
+        try {
+            $data = $this->request->getPost();
+
+            // Panggil service untuk eksekusi
+            $this->service->createPerusahaan($data);
+
+            return redirect()->to('/perusahaan')->with('success', 'Data perusahaan berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Tangkap jika ada error
+            return redirect()->back()->withInput()->with('error', 'Gagal menambah perusahaan: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -57,23 +67,29 @@ class PerusahaanController extends BaseController
 
     public function update($id)
     {
-        $this->perusahaan->update($id, $this->request->getPost());
-        return redirect()->to('/perusahaan')->with('success', 'Perusahaan berhasil diupdate');
+        try {
+            $data = $this->request->getPost();
+
+            // Panggil service
+            $this->service->updatePerusahaan($id, $data);
+
+            return redirect()->to('/perusahaan')->with('success', 'Perusahaan berhasil diupdate');
+        } catch (\Throwable $e) {
+            // Kembali ke form dengan pesan error yang jelas
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id)
     {
-        // Pastikan data ada
-        $perusahaan = $this->perusahaan->find($id);
+        try {
+            // Panggil logika hapus dari service
+            $this->service->deletePerusahaan($id);
 
-        if (!$perusahaan) {
-            return redirect()->back()->with('error', 'Perusahaan tidak ditemukan');
+            return redirect()->back()->with('success', 'Perusahaan berhasil dihapus');
+        } catch (\Throwable $e) {
+            // Tangkap pesan error (ID tidak ada atau masih ada pegawai)
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Hapus parent + semua child
-        $this->perusahaan->delete($id);
-
-        return redirect()->back()->with('success', 'Perusahaan berhasil dihapus');
     }
-
 }

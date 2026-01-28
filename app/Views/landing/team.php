@@ -28,7 +28,7 @@
                         <div class="card card-flush shadow-sm h-100 rounded-4 hover-elevate-up">
                             <div class="card-body text-center pt-10 pb-7">
                                 <div class="symbol symbol-125px symbol-circle mb-5 shadow-sm border border-4 border-white">
-                                    <img src="assets/media/avatars/300-1.jpg" alt="Paul Miles" class="w-100" />
+                                    <?= img_lazy('assets/media/avatars/300-1.jpg', '-', ['class' => 'w-100']) ?>
                                 </div>
                                 <div class="mb-5">
                                     <a href="#" class="text-dark fw-bold text-hover-success fs-3"><?= $rows['nama_lengkap'] ?></a>

@@ -1,9 +1,23 @@
+<?php
+    $user_data = get_pegawai(session()->get('user_id'));
+    $nama = $user_data['nama_anggota'] ?? 'User';
+
+    // Logika mengambil inisial (2 huruf depan jika ada 2 kata)
+    $words = explode(" ", trim($nama));
+    $initials = (count($words) >= 2)
+        ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
+        : substr($words[0], 0, 1);
+?>
 <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false"> <!--begin::Header container-->
     <div class="app-container container-fluid d-flex align-items-stretch justify-content-between" id="kt_app_header_container"> <!--begin::Sidebar mobile toggle-->
         <div class="d-flex align-items-center d-lg-none ms-n3 me-1 me-md-2" title="Show sidebar menu">
             <div class="btn btn-icon btn-active-color-primary w-35px h-35px" id="kt_app_sidebar_mobile_toggle"> <i class="ki-outline ki-abstract-14 fs-2 fs-md-1"></i> </div>
         </div> <!--end::Sidebar mobile toggle--> <!--begin::Mobile logo-->
-        <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0"> <a href="../../demo1/dist/index.html" class="d-lg-none"> <img alt="Logo" src="<?= base_url('/') ?>assets/media/logos/default-small.svg" class="h-30px" /> </a> </div> <!--end::Mobile logo--> <!--begin::Header wrapper-->
+        <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0"> 
+            <a href="<?= base_url('/') ?>" class="d-lg-none"> 
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), ['class'  => 'h-30px']) ?>
+            </a> 
+        </div> <!--end::Mobile logo--> <!--begin::Header wrapper-->
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper"> <!--begin::Menu wrapper-->
             <!--begin::Toolbar-->
                 <?= $this->include('partials/toolbar') ?>
@@ -13,11 +27,16 @@
                 <div></div>
                 <!--begin::User menu-->
                 <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle"> <!--begin::Menu wrapper-->
-                    <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"> <img src="<?= base_url('/') ?>assets/media/avatars/300-3.jpg" class="rounded-3" alt="user" /> </div> <!--begin::User account menu-->
+                    <div class="cursor-pointer symbol symbol-35px symbol-label fs-3 fw-bold bg-light-primary text-primary" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"> 
+                        <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), ['class'  => 'h-30px']) ?>
+                    </div> 
+                    <!--begin::User account menu-->
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true"> <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <div class="menu-content d-flex align-items-center px-3"> <!--begin::Avatar-->
-                                <div class="symbol symbol-50px me-5"> <img alt="Logo" src="<?= base_url('/') ?>assets/media/avatars/300-3.jpg" /> </div> <!--end::Avatar--> <!--begin::Username-->
+                                <div class="symbol symbol-50px me-5 bg-light-primary text-primary"> 
+                                    <?= strtoupper($initials) ?> 
+                                </div> <!--end::Avatar--> <!--begin::Username-->
                                 <div class="d-flex flex-column">
                                     <div class="fw-bold d-flex align-items-center fs-5"><?= get_pegawai(session()->get('user_id'))['nama_anggota'] ?><span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2"><?= get_pegawai(session()->get('user_id'))['status'] ?></span></div> <a href="#" class="fw-semibold text-muted text-hover-primary fs-7"><?= session()->get('email') ?></a>
                                 </div> <!--end::Username-->

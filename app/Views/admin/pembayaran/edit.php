@@ -79,9 +79,7 @@
         <div class="mb-7">
             <a href="<?= base_url('uploads/bukti/' . $pembayaran['bukti_bayar']) ?>"
                target="_blank">
-                <img src="<?= base_url('uploads/bukti-bayar/' . $pembayaran['bukti_bayar']) ?>"
-                     class="img-fluid rounded border"
-                     style="max-height: 400px;">
+               <?= img_lazy('uploads/bukti-bayar/' . $pembayaran['bukti_bayar'], '-', ['style' => 'max-height: 400px;','class'  => 'img-fluid rounded border']) ?>
             </a>
         </div>
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -77,8 +78,18 @@ class MenuController extends BaseController
 
     public function store()
     {
-        $this->menu->insert($this->request->getPost());
-        return redirect()->to('/menus')->with('success', 'Menu berhasil ditambahkan');
+        try {
+            // Ambil input dari form
+            $data = $this->request->getPost();
+
+            // Panggil service untuk menyimpan
+            $this->service->createMenu($data);
+
+            return redirect()->to('/menus')->with('success', 'Menu berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Jika ada kesalahan (misal database error)
+            return redirect()->back()->withInput()->with('error', 'Gagal menambah menu: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -92,42 +103,29 @@ class MenuController extends BaseController
 
     public function update($id)
     {
-        $this->menu->update($id, $this->request->getPost());
-        return redirect()->to('/menus')->with('success', 'Menu berhasil diupdate');
+        try {
+            $data = $this->request->getPost();
+
+            // Eksekusi via service
+            $this->service->updateMenu($id, $data);
+
+            return redirect()->to('/menus')->with('success', 'Menu berhasil diupdate');
+        } catch (\Throwable $e) {
+            // Balikkan ke form dengan pesan error yang spesifik
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id)
     {
-        // Pastikan data ada
-        $menu = $this->menu->find($id);
+        try {
+            // Panggil service untuk menghapus secara rekursif
+            $this->service->deleteMenuRecursive($id);
 
-        if (!$menu) {
-            return redirect()->back()->with('error', 'Menu tidak ditemukan');
+            return redirect()->back()->with('success', 'Menu dan semua sub-menu berhasil dihapus');
+        } catch (\Throwable $e) {
+            // Tangkap pesan error jika terjadi kegagalan
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Hapus parent + semua child
-        $this->deleteRecursive($id);
-
-        return redirect()->back()->with('success', 'Menu & sub menu berhasil dihapus');
     }
-
-    private function deleteRecursive($parentId)
-    {
-        // Ambil semua child
-        $children = $this->menu
-            ->where('parent_id', $parentId)
-            ->findAll();
-
-        foreach ($children as $child) {
-            // Hapus child-anaknya dulu
-            $this->deleteRecursive($child['id']);
-
-            // Hapus child
-            $this->menu->delete($child['id']);
-        }
-
-        // Terakhir hapus parent
-        $this->menu->delete($parentId);
-    }
-
 }

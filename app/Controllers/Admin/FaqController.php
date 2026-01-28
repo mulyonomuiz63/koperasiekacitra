@@ -45,14 +45,18 @@ class FaqController extends BaseController
 
     public function store()
     {
-        $this->faq->insert([
-            'question'   => $this->request->getPost('question'),
-            'answer'     => $this->request->getPost('answer'),
-            'sort_order' => $this->request->getPost('sort_order') ?? 0,
-            'is_active'  => 1
-        ]);
+        try {
+            // Ambil semua input post
+            $data = $this->request->getPost();
 
-        return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil ditambahkan');
+            // Panggil service
+            $this->service->createFaq($data);
+
+            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil ditambahkan');
+        } catch (\Throwable $e) {
+            // Jika ada error (misal field database kurang atau mati)
+            return redirect()->back()->withInput()->with('error', 'Gagal: ' . $e->getMessage());
+        }
     }
 
     public function edit($id)
@@ -64,30 +68,50 @@ class FaqController extends BaseController
 
     public function update($id)
     {
-        $this->faq->update($id, [
-            'question'   => $this->request->getPost('question'),
-            'answer'     => $this->request->getPost('answer'),
-            'sort_order' => $this->request->getPost('sort_order'),
-        ]);
+        try {
+            // Ambil data dari post
+            $data = $this->request->getPost();
 
-        return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil diperbarui');
+            // Panggil service
+            $this->faq->updateFaq($id, $data);
+
+            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil diperbarui');
+        } catch (\Throwable $e) {
+            // Jika gagal (data tidak ada atau error database)
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function delete($id)
     {
-        $this->faq->delete($id);
-        return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil dihapus');
+        try {
+            // Panggil service
+            $this->faq->deleteFaq($id);
+
+            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil dihapus');
+        } catch (\Throwable $e) {
+            // Jika ID salah atau ada kendala database
+            return redirect()->to(base_url('faq'))->with('error', $e->getMessage());
+        }
     }
 
     public function toggle()
     {
-        $id  = $this->request->getPost('id');
-        $faq = $this->faq->find($id);
+        try {
+            $id = $this->request->getPost('id');
 
-        $this->faq->update($id, [
-            'is_active' => $faq['is_active'] ? 0 : 1
-        ]);
+            // Panggil service
+            $this->service->toggleFaqStatus($id);
 
-        return $this->response->setJSON(['status' => true]);
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Status berhasil diperbarui'
+            ]);
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => $e->getMessage()
+            ])->setStatusCode(400);
+        }
     }
 }

@@ -46,11 +46,11 @@ class IuranBulananController extends BaseController
         }
         // contoh rekening statis (nanti bisa dari tabel bank)
         $data['rekening'] = [
-            'bank'   => 'BCA',
-            'no'     => '1234567890',
-            'nama'   => 'KOPERASI SEJAHTERA'
+            'bank'   => setting('nama_bank'),
+            'no'     => setting('norek'),
+            'nama'   => setting('nama_pemilik')
         ];
-        return view('admin/iuranBulanan/detail', $data);
+        return view('admin/iuranbulanan/detail', $data);
     }
 
     public function verifikasi()

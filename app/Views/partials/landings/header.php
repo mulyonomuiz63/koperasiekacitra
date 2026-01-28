@@ -15,8 +15,8 @@
                 <!--end::Mobile menu toggle-->
                 <!--begin::Logo image-->
                 <a href="<?= base_url('/') ?>">
-                    <img alt="Logo" src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" class="logo-default h-25px h-lg-30px" />
-                    <img alt="Logo" src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" class="logo-sticky h-20px h-lg-25px" />
+                    <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'logo-default h-25px h-lg-30px']) ?> 
+                    <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'logo-sticky h-20px h-lg-25px']) ?> 
                 </a>
                 <!--end::Logo image-->
             </div>

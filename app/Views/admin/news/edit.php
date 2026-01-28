@@ -13,6 +13,11 @@
                 <input type="text" name="title" class="form-control form-control-solid" value="<?= $news['title'] ?>" required />
             </div>
 
+            <div class="mb-10">
+                <label class="form-label">Keyword (Opsional)</label>
+                <input type="text" name="keyword" class="form-control form-control-solid" value="<?= $news['keyword'] ?>" placeholder="contoh: brita, koperasi" />
+            </div>
+
             <div class="row mb-10">
                 <div class="col-md-6">
                     <label class="required form-label">Kategori</label>
@@ -47,7 +52,7 @@
 
             <div class="mb-10">
                 <label class="form-label d-block">Gambar Saat Ini</label>
-                <img src="<?= base_url('uploads/news/' . $news['image']) ?>" class="rounded mb-3 w-150px border" alt="Thumbnail">
+                <?= img_lazy('uploads/news/' . $news['image'], '-', ['class'  => 'rounded mb-3 w-150px border']) ?>
                 <br>
                 <label class="form-label">Ganti Gambar (Kosongkan jika tidak ingin mengubah)</label>
                 <input type="file" name="image" class="form-control form-control-solid" accept="image/*" />

@@ -91,6 +91,8 @@ class Filters extends BaseFilters
                     'jabatan/datatable',
                     'galeri/datatable',
                     'galeri/tinymce/upload',
+                    'slider/datatable',
+                    'slider/tinymce/upload',
                     'faq/datatable',
                     'pembayaran/datatable',
                     'iuran-bulanan/datatable',

@@ -116,6 +116,17 @@ $routes->group('/', ['filter'=>['auth','role:1,2,3']], function($routes){ //untu
         $routes->post('tinymce/upload', 'Admin\TinymceController::upload');
     });
 
+    $routes->group('slider', function ($routes) {
+        $routes->get('/', 'Admin\SliderController::index',['filter' => 'permission:slider,view']);
+        $routes->post('datatable', 'Admin\SliderController::datatable',['filter' => 'permission:slider,view']);
+        $routes->get('create', 'Admin\SliderController::create',['filter' => 'permission:slider,create']);
+        $routes->post('store', 'Admin\SliderController::store');
+        $routes->get('edit/(:segment)', 'Admin\SliderController::edit/$1',['filter' => 'permission:slider,update']);
+        $routes->post('update/(:segment)', 'Admin\SliderController::update/$1');
+        $routes->get('delete/(:segment)', 'Admin\SliderController::delete/$1',['filter' => 'permission:slider,delete']);
+        $routes->post('tinymce/upload', 'Admin\TinymceController::uploadSlider');
+    });
+
     $routes->group('faq', function ($routes) {
         $routes->get('/', 'Admin\FaqController::index',['filter' => 'permission:faq,view']);
         $routes->post('datatable', 'Admin\FaqController::datatable',['filter' => 'permission:faq,view']);

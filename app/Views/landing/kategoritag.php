@@ -96,9 +96,7 @@
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column flex-md-row">
                                         <div class="main-img-container flex-shrink-0">
-                                            <img src="<?= base_url('uploads/news/' . $news['image']) ?>"
-                                                class="w-100 h-100 object-fit-cover transition-all hover-scale"
-                                                alt="<?= $news['title'] ?>" />
+                                            <?= img_lazy('uploads/news/' . $news['image'], $news['title'], ['class' => 'w-100 h-100 object-fit-cover transition-all hover-scale']) ?>
                                         </div>
 
                                         <div class="p-6 p-md-8 flex-grow-1 d-flex flex-column">

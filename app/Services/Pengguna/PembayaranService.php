@@ -71,7 +71,7 @@ class PembayaranService
         ];
     }
 
-    public function uploadBuktiPembayaran(string $pembayaranId, $file): array
+    public function uploadBuktiPembayaran(string $pembayaranId, $file, array $data = []): array
     {
         $db = Database::connect();
         $db->transBegin();
@@ -123,6 +123,8 @@ class PembayaranService
             // Update pembayaran
             $this->pembayaranModel->update($pembayaranId, [
                 'bukti_bayar' => $filename,
+                'tgl_bayar' => $data['tgl_bayar'],
+                'nama_pengirim' => $data['nama_pengirim'],
                 'status'      => 'V',
                 'updated_at'  => date('Y-m-d H:i:s')
             ]);

@@ -28,11 +28,21 @@
                         placeholder="Masukkan deskripsi"><?= esc($galeri['description']) ?></textarea>
             </div>
 
+            <div class="col-md-6">
+                <label class="form-label required">Tempat Penampilan</label>
+                <select name="jenis_galeri"
+                        class="form-select form-select-solid"
+                        required>
+                    <option value="atas"   <?= $galeri['jenis_galeri']=='atas'?'selected':'' ?>>Atas</option>
+                    <option value="bawah" <?= $galeri['jenis_galeri']=='bawah'?'selected':'' ?>>Bawah</option>
+                </select>
+            </div>
+
             <div class="mb-5">
                 <label class="form-label">Gambar</label>
                 <input type="file" class="form-control" name="filename">
                 <?php if(!empty($galeri['filename'])): ?>
-                    <img src="<?= base_url('uploads/galeri/thumbs/'.$galeri['filename']) ?>" alt="Thumbnail" class="mt-2" style="width:150px;height:100px;object-fit:cover;">
+                    <?= img_lazy('uploads/galeri/thumbs/' . $galeri['filename'], $galeri['title'], ['width'  => 150, 'height' => 100, 'style'  => 'width:150px; height:100px; object-fit:cover;','class'  => 'img-thumbnail']) ?>
                 <?php endif; ?>
             </div>
 

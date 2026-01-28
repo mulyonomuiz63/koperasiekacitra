@@ -3,17 +3,49 @@
 namespace App\Services\Pengguna;
 
 use App\Models\PegawaiModel;
+use App\Models\UserModel;
+use Config\Database;
+
 class ProfileService
 {
     protected $pegawaiModel;
+    protected $userModel;
+    protected $db;
 
     public function __construct()
     {
         $this->pegawaiModel    = new PegawaiModel();
+        $this->userModel    = new UserModel();
+        $this->db = Database::connect();
+    }
+
+    public function getProfilLengkap(string $userId): array
+    {
+        // 1. Ambil Data User, Pegawai, Perusahaan, dan Jabatan
+        $user = $this->userModel
+            ->join('pegawai', 'pegawai.user_id = users.id')
+            ->join('perusahaan', 'perusahaan.id = pegawai.perusahaan_id')
+            ->join('jabatan', 'jabatan.id = pegawai.jabatan_id')
+            ->select('users.email, perusahaan.nama_perusahaan, jabatan.nama_jabatan, pegawai.*')
+            ->where('users.id', $userId)
+            ->first();
+
+        // 2. Hitung Total Saldo (Hanya yang statusnya 'S' / Sukses)
+        $totalSaldo = $this->db->table('iuran_bulanan')
+            ->join('pegawai', 'pegawai.id = iuran_bulanan.pegawai_id')
+            ->where('iuran_bulanan.status', 'S')
+            ->where('pegawai.user_id', $userId)
+            ->selectSum('iuran_bulanan.jumlah_iuran')
+            ->get()->getRow()->jumlah_iuran ?? 0;
+
+        return [
+            'user'        => $user,
+            'total_saldo' => $totalSaldo
+        ];
     }
 
    
-    public function savePegawaiData(int $id, array $data): bool
+    public function savePegawaiData(string $id, array $data): bool
     {
         $updateData = [
             'nik'           => $data['nik'] ?? null,

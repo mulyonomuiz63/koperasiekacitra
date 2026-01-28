@@ -36,10 +36,47 @@ class CategoryService
         return [
             'id'                    => $row['id'],
             'category_name'         => $row['category_name'],
-            
+
             // 🔐 PERMISSION (INTI)
             'can_edit'   => can($menuId, 'update'),
             'can_delete' => can($menuId, 'delete'),
         ];
+    }
+
+    public function createCategory(array $data)
+    {
+        // Anda bisa menambahkan logika validasi atau manipulasi data di sini
+        return $this->category->insert($data);
+    }
+
+    public function updateCategory(string $id, array $data)
+    {
+        // Cek dulu apakah data kategorinya ada
+        $category = $this->category->find($id);
+
+        if (!$category) {
+            throw new \Exception('Kategori tidak ditemukan.');
+        }
+
+        // Lakukan update
+        return $this->category->update($id, $data);
+    }
+
+    public function deleteCategory(string $id)
+    {
+        // 1. Cari datanya
+        $category = $this->category->find($id);
+
+        if (!$category) {
+            throw new \Exception('Kategori tidak ditemukan.');
+        }
+
+        // 2. Opsi Tambahan: Cek relasi (Contoh)
+        // if ($this->productModel->where('category_id', $id)->first()) {
+        //     throw new \Exception('Kategori tidak bisa dihapus karena masih memiliki produk.');
+        // }
+
+        // 3. Eksekusi Hapus
+        return $this->category->delete($id);
     }
 }

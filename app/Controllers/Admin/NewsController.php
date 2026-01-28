@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -39,23 +40,15 @@ class NewsController extends BaseController
     }
     public function create()
     {
-        $this->categoryModel = new CategoryModel();
-        $this->tagModel = new TagModel();
-
-        $data = [
-            'categories' => $this->categoryModel->findAll(),
-            'tags'       => $this->tagModel->findAll()
-        ];
+        // Mengambil data kategori dan tags dari Service
+        $data = $this->service->getCreateData();
 
         return view('admin/news/create', $data);
     }
 
     public function store()
     {
-        $newsModel = new \App\Models\NewsModel();
-        $db = \Config\Database::connect();
-        
-        // 1. Validasi Input
+        // 1. Validasi Input (Tetap di Controller agar mudah handling redirect back)
         if (!$this->validate([
             'title' => 'required',
             'image' => 'uploaded[image]|max_size[image,2048]|is_image[image]',
@@ -63,208 +56,59 @@ class NewsController extends BaseController
             return redirect()->back()->withInput();
         }
 
-        // 2. Olah Gambar (Patenkan Ukuran)
-        $img = $this->request->getFile('image');
-        $newName = $img->getRandomName();
-        
-        // Simpan gambar asli
-        $img->move(FCPATH . 'uploads/news/', $newName);
+        try {
+            $data = $this->request->getPost();
+            $file = $this->request->getFile('image');
 
-        // 3. Simpan Data Berita
-        $dataNews = [
-            'category_id' => $this->request->getPost('category_id'),
-            'title'       => $this->request->getPost('title'),
-            'content'     => $this->request->getPost('content'),
-            'author'      => $this->request->getPost('author'),
-            'image'       => $newName,
-            'status'      => 'publish'
-        ];
+            // 2. Eksekusi via Service
+            $this->service->createNews($data, $file);
 
-        $newsId = $newsModel->insert($dataNews);
-
-        // --- PROSES TAG OTOMATIS ---
-        $tags = $this->request->getPost('tags');
-        if (!empty($tags)) {
-            foreach ($tags as $tagInput) {
-                // REGEX untuk mendeteksi format UUID (8-4-4-4-12 chars)
-                $isUuid = preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $tagInput);
-
-                if (!$isUuid) {
-                    // 1. Cek dulu apakah tag teks tersebut sebenarnya sudah ada di database 
-                    // (untuk menghindari duplikasi jika user mengetik tag yang sudah ada)
-                    $existingTag = $db->table('tags')->where('tag_name', $tagInput)->get()->getRow();
-
-                    if ($existingTag) {
-                        $tagId = $existingTag->id;
-                    } else {
-                        // 2. Simpan sebagai tag baru jika benar-kan belum ada
-                        $newTagData = [
-                            'tag_name' => $tagInput,
-                            'tag_slug' => url_title($tagInput, '-', true)
-                        ];
-                        $tagId = $this->tagModel->insert($newTagData);
-                    }
-                } else {
-                    $tagId = $tagInput; // Jika angka, berarti menggunakan ID yang sudah ada
-                }
-
-                // 3. Simpan ke tabel pivot news_tags
-                $db->table('news_tags')->insert([
-                    'news_id' => $newsId,
-                    'tag_id'  => $tagId
-                ]);
-            }
+            return redirect()->to('/news')->with('success', 'Berita berhasil disimpan!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
-
-        return redirect()->to('/news')->with('success', 'Berita berhasil disimpan!');
     }
+
     public function edit($id)
     {
-        $newsModel = new \App\Models\NewsModel();
-        $catModel = new \App\Models\CategoryModel();
-        $tagModel = new \App\Models\TagModel();
-        $db = \Config\Database::connect();
+        try {
+            $data = $this->service->getNewsForEdit($id);
 
-        $data = [
-            'news'         => $newsModel->find($id),
-            'categories'   => $catModel->findAll(),
-            'tags'         => $tagModel->findAll(),
-            'current_tags' => $db->table('news_tags')->where('news_id', $id)->get()->getResult()
-        ];
-
-        return view('admin/news/edit', $data);
+            return view('admin/news/edit', $data);
+        } catch (\Throwable $e) {
+            return redirect()->to('/news')->with('error', $e->getMessage());
+        }
     }
-
     public function update($id)
     {
-        $newsModel = new \App\Models\NewsModel();
-        $db        = \Config\Database::connect();
-
-        // 1. Ambil data lama untuk pengecekan gambar
-        $news = $newsModel->find($id);
-        if (!$news) {
-            return redirect()->back()->with('error', 'Data berita tidak ditemukan.');
+        // Validasi dasar
+        if (!$this->validate(['title' => 'required'])) {
+            return redirect()->back()->withInput();
         }
 
-        // Mulai Transaksi Database
-        $db->transStart();
-
         try {
-            $img = $this->request->getFile('image');
-            $fileName = $news['image'];
+            $data = $this->request->getPost();
+            $file = $this->request->getFile('image');
 
-            // 2. Olah Gambar
-            if ($img->isValid() && !$img->hasMoved()) {
-                $fileName = $img->getRandomName();
-                $img->move(FCPATH . 'uploads/news/', $fileName);
-                
-                // Hapus file lama jika ada
-                if ($news['image'] != 'default.jpg' && file_exists(FCPATH . 'uploads/news/' . $news['image'])) {
-                    @unlink(FCPATH . 'uploads/news/' . $news['image']);
-                }
-            }
-
-            // 3. Update Data Berita Utama
-            $dataUpdate = [
-                'category_id' => $this->request->getPost('category_id'),
-                'title'       => $this->request->getPost('title'),
-                'content'     => $this->request->getPost('content'),
-                'author'      => $this->request->getPost('author'),
-                'image'       => $fileName,
-            ];
-            
-            $newsModel->update($id, $dataUpdate);
-
-            // 4. Update Tags (UUID Handling)
-            // Hapus relasi lama terlebih dahulu
-            $db->table('news_tags')->where('news_id', $id)->delete();
-            
-            $tags = $this->request->getPost('tags');
-            if (!empty($tags)) {
-                foreach ($tags as $tagInput) {
-                    // REGEX untuk mendeteksi format UUID (8-4-4-4-12 chars)
-                    $isUuid = preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $tagInput);
-
-                    if (!$isUuid) {
-                        // 1. Cek dulu apakah tag teks tersebut sebenarnya sudah ada di database 
-                        // (untuk menghindari duplikasi jika user mengetik tag yang sudah ada)
-                        $existingTag = $db->table('tags')->where('tag_name', $tagInput)->get()->getRow();
-
-                        if ($existingTag) {
-                            $tagId = $existingTag->id;
-                        } else {
-                            // 2. Simpan sebagai tag baru jika benar-kan belum ada
-                            $newTagData = [
-                                'tag_name' => $tagInput,
-                                'tag_slug' => url_title($tagInput, '-', true)
-                            ];
-                            $tagId = $this->tagModel->insert($newTagData);
-                        }
-                    } else {
-                        $tagId = $tagInput; // Jika angka, berarti menggunakan ID yang sudah ada
-                    }
-
-                    // 3. Simpan ke tabel pivot news_tags
-                    $db->table('news_tags')->insert([
-                        'news_id' => $id,
-                        'tag_id'  => $tagId
-                    ]);
-                }
-            }
-
-            // Jika sampai sini tidak ada error, Commit transaksi
-            $db->transComplete();
-
-            if ($db->transStatus() === false) {
-                // Jika transaksi gagal secara internal
-                throw new \Exception('Gagal memproses transaksi database.');
-            }
+            // Eksekusi via Service
+            $this->service->updateNews($id, $data, $file);
 
             return redirect()->to('/news')->with('success', 'Berita berhasil diperbarui.');
-
-        } catch (\Exception $e) {
-            // Rollback otomatis jika terjadi error di blok try
-            $db->transRollback();
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
     }
 
     public function delete($id)
     {
-        $newsModel = new \App\Models\NewsModel();
-        $db = \Config\Database::connect();
-        
-        // Cari data berita
-        $news = $newsModel->find($id);
-
-        if (!$news) {
-            return redirect()->to('/news')->with('error', 'Berita tidak ditemukan.');
-        }
-
-        $db->transStart();
         try {
-            // 1. Hapus Gambar Fisik
-            if ($news['image'] != 'default.jpg' && file_exists(FCPATH . 'uploads/news/' . $news['image'])) {
-                @unlink(FCPATH . 'uploads/news/' . $news['image']);
-            }
-
-            // 2. Hapus Relasi di tabel news_tags
-            $db->table('news_tags')->where('news_id', $id)->delete();
-
-            // 3. Hapus Data Berita
-            $newsModel->delete($id);
-
-            $db->transComplete();
-
-            if ($db->transStatus() === false) {
-                throw new \Exception('Gagal menghapus data dari database.');
-            }
+            // Eksekusi via Service
+            $this->service->deleteNews($id);
 
             return redirect()->to('/news')->with('success', 'Berita berhasil dihapus.');
-
-        } catch (\Exception $e) {
-            $db->transRollback();
-            return redirect()->to('/news')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            // Tangkap pesan error (misal: data tidak ditemukan atau gagal hapus)
+            return redirect()->to('/news')->with('error', $e->getMessage());
         }
     }
 }

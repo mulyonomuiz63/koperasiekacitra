@@ -11,11 +11,9 @@
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <!--begin::Logo image-->
         <a href="../../demo1/dist/index.html">
-            <!-- <img alt="Logo" src="assets/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default">
-            <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize"> -->
             <div class="card-header d-flex align-items-center">
-                <img src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" alt="Logo"  class="h-25px app-sidebar-logo-default me-3">
-                <img src="<?= base_url('uploads/app-icon/'.setting('app_icon')) ?>" alt="Logo"  class="h-25px app-sidebar-logo-minimize me-3">
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-25px app-sidebar-logo-default me-3']) ?>
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-25px app-sidebar-logo-minimize me-3']) ?>
                 <h3 class="card-title text-dark app-sidebar-logo-default"><?= setting('app_name') ?></h3>
             </div>
         </a>

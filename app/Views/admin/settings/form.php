@@ -27,6 +27,18 @@
                 </a>
 
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_seo" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>SEO
+                </a>
+
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_recaptcha" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>reCAPTCHA
+                </a>
+
+            </li>
         </ul>
         <!--end:::Tabs-->
 
@@ -57,20 +69,20 @@
                         </div>
                         <div class="col-md-9">
                             <input type="file" class="form-control form-control-solid" name="app_icon">
-                            <?php if(!empty($settings['app_icon'])): ?>
-                                <img src="<?= base_url('uploads/app-icon/' . $settings['app_icon']) ?>" alt="App Icon" class="mt-2" style="width:50px;height:50px;">
+                            <?php if (!empty($settings['app_icon'])): ?>
+                                <?= img_lazy('uploads/app-icon/' . $settings['app_icon'], '-', ['width'  => 50, 'height' => 50, 'style' => 'width:50px;height:50px;']) ?>
                             <?php endif; ?>
                         </div>
                     </div>
-                     <!-- Icon Aplikasi -->
+                    <!-- Icon Aplikasi -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
                             <label class="fs-6 fw-semibold form-label mt-3">Logo Perusahaan</label>
                         </div>
                         <div class="col-md-9">
                             <input type="file" class="form-control form-control-solid" name="logo_perusahaan">
-                            <?php if(!empty($settings['logo_perusahaan'])): ?>
-                                <img src="<?= base_url('uploads/app-icon/' . $settings['logo_perusahaan']) ?>" alt="App Icon" class="mt-2" style="width:50px;height:50px;">
+                            <?php if (!empty($settings['logo_perusahaan'])): ?>
+                                <?= img_lazy('uploads/app-icon/' . $settings['logo_perusahaan'], '-', ['width'  => 50, 'height' => 50, 'style' => 'width:50px;height:50px;']) ?>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -95,7 +107,7 @@
                         </div>
                     </div>
 
-                     <!-- Alamat -->
+                    <!-- Alamat -->
                     <div class="row mb-7">
                         <div class="col-md-3 text-md-end">
                             <label class="fs-6 fw-semibold form-label mt-3">Alamat Lengkap</label>
@@ -307,15 +319,14 @@
                             <label class="fs-6 fw-semibold form-label mt-3">Tanggal Otomatis Tagihan Iuran</label>
                         </div>
                         <div class="col-md-9">
-                            <input 
+                            <input
                                 type="number"
                                 class="form-control form-control-solid"
                                 name="tgl_tagihan_iuran"
                                 min="1"
                                 max="28"
                                 placeholder="Tanggal (1 – 28)"
-                                value="<?= old('tgl_tagihan_iuran', $settings['tgl_tagihan_iuran'] ?? '') ?>"
-                            >
+                                value="<?= old('tgl_tagihan_iuran', $settings['tgl_tagihan_iuran'] ?? '') ?>">
 
                         </div>
                     </div>
@@ -332,11 +343,133 @@
                             </select>
                         </div>
                     </div>
+                    <hr>
+                    <div class="mb-10">
+                        <h5 class="mb-1">Setting Rekening Untuk Penerimaan Dana Iuran</h5>
+                    </div>
+                    <!-- Contoh: Bank -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Nama Bank</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="nama_bank" value="<?= old('nama_bank', $settings['nama_bank'] ?? '') ?>" placeholder="">
+                        </div>
+                    </div>
+                    <!-- Contoh: Norek -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">No Rekening</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="norek" value="<?= old('norek', $settings['norek'] ?? '') ?>" placeholder="">
+                        </div>
+                    </div>
+                    <!-- Contoh: Nama Pemilik -->
+                    <div class="row mb-7">
+                        <div class="col-md-3 text-md-end">
+                            <label class="fs-6 fw-semibold form-label mt-3">Nama Pemilik</label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-solid" name="nama_pemilik" value="<?= old('nama_pemilik', $settings['nama_pemilik'] ?? '') ?>" placeholder="">
+                        </div>
+                    </div>
+
 
                 </div>
-                <!--end:::Tab pane Footer Links-->
+                <!--end:::Tab pane iuran bulanan-->
 
+                <!--begin:::Tab pane seo-->
+                <div class="tab-pane fade" id="tab_seo" role="tabpanel">
+                    <div class="card-body pt-5">
 
+                        <div class="mb-10">
+                            <h5 class="mb-1">Pengaturan SEO (Search Engine Optimization)</h5>
+                            <p class="fs-7 text-muted">Kelola bagaimana website Anda muncul di mesin pencari seperti Google.</p>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Keywords</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Pisahkan kata kunci dengan tanda koma (,)"></i>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="site_keywords"
+                                    value="<?= old('site_keywords', $settings['site_keywords'] ?? '') ?>"
+                                    placeholder="Contoh: berita, koperasi, ekonomi bali" />
+                                <div class="text-muted fs-7">Kata kunci utama yang mendeskripsikan situs Anda.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span class="required">Deskripsi Situs</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea class="form-control form-control-solid" name="site_description"
+                                    rows="4" placeholder="Masukkan ringkasan singkat situs..."><?= old('site_description', $settings['site_description'] ?? '') ?></textarea>
+                                <div class="text-muted fs-7">Rekomendasi: Maksimal 160 karakter untuk hasil pencarian Google yang optimal.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--end:::Tab pane seo-->
+
+                <!--begin:::Tab pane recaptcha-->
+                <div class="tab-pane fade" id="tab_recaptcha" role="tabpanel">
+                    <div class="card-body pt-5">
+
+                        <div class="mb-10">
+                            <h5 class="mb-1">Pengaturan Untuk Keamanan Login</h5>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Site Key</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="captcha_site_key"
+                                    value="<?= old('captcha_site_key', $settings['captcha_site_key'] ?? '') ?>"
+                                    placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Secret Key</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="captcha_secret_key"
+                                    value="<?= old('captcha_secret_key', $settings['captcha_secret_key'] ?? '') ?>"
+                                    placeholder="" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span class="">Status Untuk reCAPTCHA</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <select name="captcha_status" class="form-select form-select-solid">
+                                    <option value="A" <?= ($settings['captcha_status'] ?? '') === 'A' ? 'selected' : '' ?>>Aktif</option>
+                                    <option value="T" <?= ($settings['captcha_status'] ?? '') === 'T' ? 'selected' : '' ?>>Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--end:::Tab pane seo-->
             </div>
             <!--end:::Tab content-->
 

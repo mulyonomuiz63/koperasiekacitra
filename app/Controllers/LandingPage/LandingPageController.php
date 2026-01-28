@@ -6,16 +6,22 @@ use App\Controllers\BaseController;
 use App\Models\GaleriModel;
 use App\Models\NewsModel;
 use App\Models\PegawaiModel;
+use App\Models\SliderModel;
+use App\Models\TagModel;
 
 class LandingPageController extends BaseController
 {
     protected $newsModel;
+    protected $tagModel;
     protected $galeriModel;
+    protected $sliderModel;
     protected $pegawaiModel;
     public function __construct()
     {
         $this->newsModel = new NewsModel();
+        $this->tagModel = new TagModel();
         $this->galeriModel = new GaleriModel();
+        $this->sliderModel = new SliderModel();
         $this->pegawaiModel = new PegawaiModel();
     }
     public function index()
@@ -28,7 +34,8 @@ class LandingPageController extends BaseController
             ->limit(15)
             ->findAll();
 
-        $data['galeri'] = $this->galeriModel->select('title, filename, jenis_galeri')->findAll();
+        $data['sliders'] = $this->sliderModel->select('title, filename')->where('jenis_slider','top')->where('status','A')->findAll();
+        $data['galeri'] = $this->galeriModel->select('title, filename, jenis_galeri')->where('status','A')->findAll();
         $data['pegawai'] = $this->pegawaiModel
             ->select('pegawai.nama as nama_lengkap, jabatan.nama_jabatan')
             ->join('jabatan', 'jabatan.id=pegawai.jabatan_id')
@@ -92,6 +99,8 @@ class LandingPageController extends BaseController
             ->where('news_tags.news_id', $news['id'])
             ->get()->getResult();
 
+        $news = $newsModel->where('slug', $slug)->first();
+
     
         $data = [
             'title'         => $news['title'],
@@ -99,7 +108,8 @@ class LandingPageController extends BaseController
             'news_tags'     => $news_tags,
             'categories'    => $categories,
             'popular_posts' => $popular_posts,
-            'popular_tags'  => $popular_tags
+            'popular_tags'  => $popular_tags,
+            'news_detail'   => $news
         ];
 
         return view('landing/detail', $data);
@@ -123,6 +133,9 @@ class LandingPageController extends BaseController
     // 1. Filter Kategori
     if ($categoryFilter) {
         $builder->where('categories.category_slug', $categoryFilter);
+        $data = [
+            'category_name'  => $categoryFilter, // Kirim nama tag
+        ];
     }
 
     // 2. Filter Tag (Join ke tabel news_tags)
@@ -130,6 +143,11 @@ class LandingPageController extends BaseController
         $builder->join('news_tags', 'news_tags.news_id = news.id')
                 ->join('tags', 'tags.id = news_tags.tag_id')
                 ->where('tags.tag_slug', $tagFilter);
+
+        $tagData = $this->tagModel->where('tag_slug', $tagFilter)->first();
+        $data = [
+            'tag_name'  => $tagData ? $tagData['tag_name'] : ucfirst($tagFilter), // Kirim nama tag
+        ];
     }
 
     // 3. Fitur Pencarian
