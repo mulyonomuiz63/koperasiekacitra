@@ -12,10 +12,21 @@
                     
                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
-                    <div class="text-center mb-11">
-                        <h1 class="text-dark fw-bolder mb-3 fs-1">Daftar Akun</h1>
-                        <div class="text-muted fw-semibold fs-6">
-                            Bergabunglah sebagai anggota koperasi
+                    <div class="text-center mb-13">
+                        <div class="mb-7 animate__animated animate__fadeInDown">
+                            <a href="<?= base_url() ?>" class="d-inline-block shadow-sm rounded-circle p-2 bg-light">
+                                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), [
+                                    'class' => 'h-75px h-lg-100px symbol bounce-on-hover'
+                                ]) ?>
+                            </a>
+                        </div>
+
+                        <h1 class="text-gray-900 fw-boldest mb-3 fs-2qx tracking-tight">
+                            Daftar Akun
+                        </h1>
+
+                        <div class="text-gray-500 fw-semibold fs-5 d-flex align-items-center justify-content-center">
+                                Bergabunglah sebagai anggota koperasi
                         </div>
                     </div>
 

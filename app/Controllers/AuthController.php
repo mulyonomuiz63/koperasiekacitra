@@ -121,7 +121,8 @@ class AuthController extends BaseController
 
     public function forgotPasswordForm()
     {
-        return view('auth/forgot_password');
+         $data['siteKey'] = $this->captchaService->getSiteKey();
+        return view('auth/forgot_password', $data);
     }
 
     public function forgotPassword()
@@ -129,6 +130,17 @@ class AuthController extends BaseController
         // 1. Guard Clause: Pastikan hanya request AJAX
         if (!$this->request->isAJAX()) {
             return redirect()->to('login');
+        }
+
+        $token = $this->request->getPost('g-recaptcha-response');
+
+        // 2. Validasi Captcha melalui Service
+        if (!$this->captchaService->verify($token)) {
+            return $this->response->setJSON([
+                'status'   => 'error',
+                'message'  => 'Verifikasi Captcha gagal. Silakan coba lagi.',
+                'csrfHash' => csrf_hash()
+            ]);
         }
 
         try {
@@ -185,7 +197,8 @@ class AuthController extends BaseController
             // 3. Tampilkan view jika token valid
             return view('auth/reset_password', [
                 'token' => $result['token'],
-                'title' => 'Reset Password Baru'
+                'title' => 'Reset Password Baru',
+                'siteKey' => null
             ]);
         } catch (\Exception $e) {
             // Tangkap error logika yang dilempar dari service

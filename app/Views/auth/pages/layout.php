@@ -69,7 +69,6 @@
 	<!--end::Theme mode setup on page load-->
 	<!--begin::Root-->
 	<div class="d-flex flex-column flex-root" id="kt_app_root">
-		<?= $this->include('partials/landings/header') ?>
 		<!--begin::Authentication - Sign-up -->
 		<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 			<div class="d-flex flex-lg-row-fluid">
