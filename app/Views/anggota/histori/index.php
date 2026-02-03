@@ -118,7 +118,7 @@ $(document).ready(function () {
 
                 <div class="fw-semibold">
                     <div class="fs-6 fw-bold">${row.nama_pegawai}</div>
-                    <div class="fs-6 text-muted">Pembayaran Iuran Bulanan ${row.bulan}-${row.tahun}</div>
+                    <div class="fs-6 text-muted">Pembayaran ${row.jenis_transaksi == 'pendaftaran'? 'pendaftaran': 'iuran '+ bulanIndoJS(row.bulan) +' - '+ row.tahun}</div>
                     <div class="fs-7 text-muted">
                         Tagihan • Rp ${parseInt(row.jumlah_bayar).toLocaleString('id-ID')}
                     </div>

@@ -81,7 +81,7 @@ class PembayaranService
             $pembayaran = $this->pembayaran->find($id);
             // Saya asumsikan ada relasi pegawai_id di tabel pembayaran pendaftaran
             $pembayaran = $this->db->table('pembayaran p')
-                ->select('p.*, pg.nama as nama_lengkap, u.email')
+                ->select('p.*, pg.nama as nama_lengkap, u.email, pg.user_id')
                 ->join('pegawai pg', 'pg.id = p.pegawai_id')
                 ->join('users u', 'u.id = pg.user_id')
                 ->where('p.id', $id)
@@ -107,6 +107,15 @@ class PembayaranService
 
             if ($status === 'R') {
                 $dataUpdate['keterangan'] = $rejectReason;
+                $dataUpdate['status_iuran'] = 'T';
+
+                 //untuk notif
+                send_notification_anggota($pembayaran['user_id'], [
+                    'title'   => 'Bukti pembayaran ditolak',
+                    'message' => $rejectReason,
+                    'link'    => 'sw-anggota/activity'
+                ]);
+                
             }
 
             $this->pembayaran->update($id, $dataUpdate);
@@ -115,6 +124,13 @@ class PembayaranService
             if ($status === 'A') {
                 $this->pegawai->update($pembayaran['pegawai_id'], [
                     'status'     => 'A',
+                    'status_iuran' => 'A',
+                ]);
+
+                send_notification_anggota($pembayaran['user_id'], [
+                    'title'   => 'Pembayaran diverifikasi',
+                    'message' => 'Pendaftaran berhasil diverifikasi',
+                    'link'    => 'sw-anggota'
                 ]);
             }
 

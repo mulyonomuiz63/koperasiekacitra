@@ -1,75 +1,79 @@
 <?php
 //untuk di header
-function render_menu_header(array $menus, $parentId = null)
+function render_menu_classic(array $menus, $parentId = null, $isFirstLevel = true)
 {
     foreach ($menus as $menu) {
+        // Filter Dasar
+        if ($menu['parent_id'] != $parentId || !$menu['is_active'] || !can_view_menu($menu['id'])) continue;
 
-        // ------------------ FILTER DASAR ------------------
-        if ($menu['parent_id'] != $parentId) continue;
-        if (!$menu['is_active']) continue;
-        if (!can_view_menu($menu['id'])) continue;
+        $icon = $menu['icon'] ?: 'ki-duotone ki-element-11';
+        $isActive = is_menu_active($menu['url']);
 
-        $icon = $menu['icon'] ?: 'ki-outline ki-menu fs-1';
-
-        // ------------------ CEK CHILD ------------------
+        // Cek apakah menu ini memiliki anak (Sub-menu)
         $hasChild = false;
         foreach ($menus as $child) {
-            if (
-                $child['parent_id'] == $menu['id'] &&
-                $child['is_active'] &&
-                can_view_menu($child['id'])
-            ) {
+            if ($child['parent_id'] == $menu['id'] && $child['is_active'] && can_view_menu($child['id'])) {
                 $hasChild = true;
                 break;
             }
         }
 
-        $isActive = is_menu_active($menu['url']);
-
-        // ====================================================
-        // SINGLE MENU (GRID STYLE)
-        // ====================================================
-        if (!$hasChild) {
-
-            echo '<div class="col-lg-6 mb-3">';
-            echo '<div class="menu-item p-0 m-0">';
-
-            echo '<a href="'.menu_url($menu['url']).'" class="menu-link '
-                . ($isActive ? 'active' : '') . '">';
-
-            echo '<span class="menu-custom-icon d-flex flex-center flex-shrink-0 rounded w-40px h-40px me-3">';
-            echo '<i class="'.$icon.' text-primary"></i>';
-            echo '</span>';
-
-            echo '<span class="d-flex flex-column">';
-            echo '<span class="fs-6 fw-bold text-gray-800">'.$menu['name'].'</span>';
-
-            // optional description
-            if (!empty($menu['description'])) {
-                echo '<span class="fs-7 fw-semibold text-muted">'.$menu['description'].'</span>';
+        if ($hasChild) {
+            // === ITEM DENGAN SUB-MENU (ACCORDION/DROPDOWN) ===
+            // Tambahkan class 'here show' jika ada anak yang sedang aktif
+            $isChildActive = false; // Anda bisa buat fungsi cek recursive jika perlu
+            
+            echo '';
+            echo '<div data-kt-menu-trigger="click" class="menu-item menu-accordion ' . ($isActive ? 'here show' : '') . '">';
+            echo '    <span class="menu-link">';
+            
+            if ($isFirstLevel) {
+                echo '        <span class="menu-icon">';
+                echo '            <i class="' . $icon . ' fs-2">';
+                // Render path otomatis (duotone biasanya butuh ini)
+                echo '                <span class="path1"></span><span class="path2"></span><span class="path3"></span>';
+                echo '            </i>';
+                echo '        </span>';
+            } else {
+                echo '        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>';
             }
 
-            echo '</span>';
-            echo '</a>';
-            echo '</div>';
-            echo '</div>';
+            echo '        <span class="menu-title">' . $menu['name'] . '</span>';
+            echo '        <span class="menu-arrow"></span>';
+            echo '    </span>';
 
-        }
-        // ====================================================
-        // JIKA MENU PARENT (SKIP / ATAU BISA DIBUAT GROUP)
-        // ====================================================
-        else {
-            // opsi 1: tampilkan title saja
-            echo '<div class="col-12 mb-4">';
-            echo '<h4 class="fw-bold text-gray-700">'.$menu['name'].'</h4>';
-            echo '<div class="row">';
-            render_menu_header($menus, $menu['id']);
+            echo '    ';
+            echo '    <div class="menu-sub menu-sub-accordion">';
+                         // Rekursif untuk level berikutnya
+                         render_menu_classic($menus, $menu['id'], false);
+            echo '    </div>';
+            echo '    ';
             echo '</div>';
+            echo '';
+
+        } else {
+            // === ITEM TUNGGAL (LINK) ===
+            echo '';
+            echo '<div class="menu-item">';
+            echo '    <a class="menu-link ' . ($isActive ? 'active' : '') . '" href="' . menu_url($menu['url']) . '">';
+            
+            if ($isFirstLevel) {
+                echo '        <span class="menu-icon">';
+                echo '            <i class="' . $icon . ' fs-2">';
+                echo '                <span class="path1"></span><span class="path2"></span>';
+                echo '            </i>';
+                echo '        </span>';
+            } else {
+                echo '        <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>';
+            }
+
+            echo '        <span class="menu-title">' . $menu['name'] . '</span>';
+            echo '    </a>';
             echo '</div>';
+            echo '';
         }
     }
 }
-
 //untuk di sidebar
 function render_menu(array $menus, $parentId = null)
 {

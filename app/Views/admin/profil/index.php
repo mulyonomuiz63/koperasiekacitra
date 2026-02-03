@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="form-label fw-bold text-dark">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" class="form-control" value="<?= old('tanggal_lahir', $user['tanggal_lahir'] ?? '') ?>" required>
+                        <input type="text" name="tanggal_lahir" class="form-control datepicker-indo" value="<?= old('tanggal_lahir', $user['tanggal_lahir'] ?? '') ?>" required>
                     </div>
                 </div>
                 <div class="row mb-6">

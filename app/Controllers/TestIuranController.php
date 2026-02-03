@@ -16,4 +16,15 @@ class TestIuranController extends BaseController
             'generated' => $total
         ]);
     }
+
+    public function generateNoLog()
+    {
+        $model = new IuranService();
+        $total = $model->generateBulananNoLog();
+
+        return $this->response->setJSON([
+            'status' => 'OK',
+            'generated' => $total
+        ]);
+    }
 }

@@ -123,7 +123,7 @@ class PegawaiController extends BaseController
 
         try {
             // 2. Serahkan pemetaan data dan proses update ke Service
-            $this->pegawai->updatePegawai($id, $data);
+            $this->service->updatePegawai($id, $data);
 
             return redirect()->to('/pegawai')
                 ->with('success', 'Data pegawai berhasil diperbarui.');

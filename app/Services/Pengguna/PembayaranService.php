@@ -4,71 +4,90 @@ namespace App\Services\Pengguna;
 
 use App\Models\PembayaranModel;
 use App\Models\IuranBulananModel;
+use App\Models\PegawaiModel;
 use App\Models\PembayaranDetailModel;
 use Config\Database;
-use CodeIgniter\Files\File;
 
 class PembayaranService
 {
     protected $pembayaranModel;
     protected $iuranModel;
+    protected $pegawaiModel;
     protected $detailModel;
 
     public function __construct()
     {
         $this->pembayaranModel = new PembayaranModel();
+        $this->pegawaiModel = new PegawaiModel();
         $this->iuranModel      = new IuranBulananModel();
         $this->detailModel     = new PembayaranDetailModel();
     }
 
     public function prosesPembayaran(array $data): array
     {
-        $db = Database::connect();
-        $db->transBegin();
+        $db = \Config\Database::connect();
+        $db->transBegin(); // Mulai transaksi
 
-        $pegawaiId = $data['pegawai_id'] ?? null;
-        $iuranIds  = $data['iuran_ids'] ?? [];
-        $total     = $data['total_bayar'] ?? 0;
-        $bulan     = $data['bulan'] ?? null;
-        $tahun     = $data['tahun'] ?? null;
+        try {
+            $pegawaiId = $data['pegawai_id'] ?? null;
+            $iuranIds  = $data['iuran_ids'] ?? [];
+            $total     = $data['total_bayar'] ?? 0;
+            $bulan     = $data['bulan'] ?? null;
+            $tahun     = $data['tahun'] ?? null;
 
-        if (!$pegawaiId || empty($iuranIds)) {
-            throw new \Exception('Data pembayaran tidak valid');
-        }
+            if (!$pegawaiId || empty($iuranIds)) {
+                throw new \Exception('Data pembayaran tidak valid');
+            }
 
-        $pembayaranId = $this->pembayaranModel->insert([
-            'pegawai_id'      => $pegawaiId,
-            'jenis_transaksi' => 'bulanan',
-            'bulan'           => $bulan,
-            'tahun'           => $tahun,
-            'jumlah_bayar'    => $total,
-            'status'          => 'P',
-        ]);
-
-        if (!$pembayaranId) {
-            $db->transRollback();
-            throw new \Exception('Gagal menyimpan pembayaran');
-        }
-
-        foreach ($iuranIds as $iuranId) {
-            $iuran = $this->iuranModel->find($iuranId);
-            if (!$iuran) continue;
-
-            $this->detailModel->insert([
-                'pembayaran_id' => $pembayaranId,
-                'iuran_id'      => $iuranId,
-                'jumlah_bayar'  => $iuran['jumlah_iuran'],
+            // 1. Insert ke Tabel Pembayaran
+            $pembayaranId = $this->pembayaranModel->insert([
+                'pegawai_id'      => $pegawaiId,
+                'jenis_transaksi' => 'bulanan',
+                'bulan'           => $bulan,
+                'tahun'           => $tahun,
+                'jumlah_bayar'    => $total,
+                'status'          => 'P', // Pending
             ]);
 
-            $this->iuranModel->update($iuranId, ['status' => 'P']);
+            if (!$pembayaranId) {
+                throw new \Exception('Gagal menyimpan data pembayaran utama');
+            }
+
+            // 2. Loop Detail & Update Status Iuran
+            foreach ($iuranIds as $iuranId) {
+                $iuran = $this->iuranModel->find($iuranId);
+                if (!$iuran) continue;
+
+                $this->detailModel->insert([
+                    'pembayaran_id' => $pembayaranId,
+                    'iuran_id'      => $iuranId,
+                    'jumlah_bayar'  => $iuran['jumlah_iuran'],
+                ]);
+
+                // Update status iuran menjadi P (Pending)
+                $this->iuranModel->update($iuranId, ['status' => 'P']);
+            }
+
+            // Cek apakah ada error database selama proses di atas
+            if ($db->transStatus() === false) {
+                $db->transRollback();
+                throw new \Exception('Transaksi Database Gagal');
+            }
+
+            $db->transCommit();
+
+            return [
+                'status'   => 'success',
+                'message'  => 'Pembayaran berhasil diproses',
+                'redirect' => base_url('sw-anggota/histori-iuran/' . $pembayaranId)
+            ];
+        } catch (\Exception $e) {
+            $db->transRollback(); // Pastikan rollback jika ada error apapun
+            return [
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ];
         }
-
-        $db->transCommit();
-
-        return [
-            'status'   => 'success',
-            'redirect' => base_url('sw-anggota/histori-iuran/' . $pembayaranId)
-        ];
     }
 
     public function uploadBuktiPembayaran(string $pembayaranId, $file, array $data = []): array
@@ -140,11 +159,20 @@ class PembayaranService
 
             $db->transCommit();
 
+            $pegawai = $this->pegawaiModel
+            ->where('user_id', session()->get('user_id'))
+            ->first();
+
+            send_notification('Bendahara', [
+                'title'   => 'Upload pembayaran iuran',
+                'message' => 'Ada bukti baru dari ' . $pegawai['nama'],
+                'link'    => 'iuran-bulanan/' . $pembayaranId
+            ]);
+
             return [
                 'status'  => 'success',
                 'message' => 'Bukti pembayaran berhasil diupload dan menunggu verifikasi'
             ];
-
         } catch (\Throwable $e) {
             if ($db->transStatus()) $db->transRollback();
             if ($filename) {

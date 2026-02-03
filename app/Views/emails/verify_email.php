@@ -12,7 +12,6 @@
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                     <tr>
                         <td style="padding: 40px 40px 20px 40px; text-align: center;">
-                            <img src="<?= base_url('uploads/app-icon/' . (setting('logo_perusahaan') ?? 'logo.png')) ?>" alt="Logo" style="height: 50px; width: auto; margin-bottom: 20px;">
                             <h2 style="margin: 0; color: #181c32; font-size: 24px; font-weight: 700;">Verifikasi Akun Anda</h2>
                         </td>
                     </tr>

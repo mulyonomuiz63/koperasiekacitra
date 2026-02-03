@@ -10,14 +10,14 @@ $menus = $menuModel->getMenuByUser(
 ?>
 
 <?php
-    $user_data = get_pegawai(session()->get('user_id'));
-    $nama = $user_data['nama_anggota'] ?? 'User';
+$user_data = get_pegawai(session()->get('user_id'));
+$nama = $user_data['nama_anggota'] ?? 'User';
 
-    // Logika mengambil inisial (2 huruf depan jika ada 2 kata)
-    $words = explode(" ", trim($nama));
-    $initials = (count($words) >= 2)
-        ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
-        : substr($words[0], 0, 1);
+// Logika mengambil inisial (2 huruf depan jika ada 2 kata)
+$words = explode(" ", trim($nama));
+$initials = (count($words) >= 2)
+    ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
+    : substr($words[0], 0, 1);
 ?>
 <div id="kt_app_header" class="app-header mb-2" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false"> <!--begin::Header container-->
     <div class="app-container container-xxl d-flex align-items-stretch justify-content-between" id="kt_app_header_container">
@@ -41,55 +41,22 @@ $menus = $menuModel->getMenuByUser(
                     <!--begin:Menu item-->
                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
                         <!--begin:Menu link-->
+                        <span class="menu-item">
+                            <a class="menu-link" href="<?= session()->get('role_key') == 'ADMIN' ? base_url('dashboard') : base_url('sw-anggota') ?>">
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </span>
+                    </div>
+                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+                        <!--begin:Menu link-->
                         <span class="menu-link">
-                            <span class="menu-title">Dashboards</span>
+                            <span class="menu-title">Pages</span>
                             <span class="menu-arrow d-lg-none"></span>
                         </span>
                         <!--end:Menu link-->
                         <!--begin:Menu sub-->
-                        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-450px" style="">
-                            <!--begin:Dashboards menu-->
-                            <div class="menu-state-bg menu-extended overflow-hidden overflow-lg-visible" data-kt-menu-dismiss="true">
-                                <!--begin:Row-->
-                                <div class="row">
-                                    <!--begin:Col-->
-                                    <div class="col-lg-12 mb-3 mb-lg-0 py-3 px-3 py-lg-6 px-lg-6">
-                                        <!--begin:Row-->
-                                        <div class="row">
-                                            <!--begin:Col-->
-                                            <?php render_menu_header($menus); ?>
-                                            <!--end:Col-->
-                                        </div>
-                                        <!--end:Row-->
-                                        <div class="separator separator-dashed my-5"></div>
-                                        <!--begin:Landing-->
-                                        <div class="d-flex flex-stack flex-wrap flex-lg-nowrap gap-3 bg-white bg-opacity-40 p-4 rounded-3 border border-dashed border-gray-300">
-                                            <div class="d-flex align-items-center me-3">
-                                                <div class="symbol symbol-40px me-4">
-                                                    <div class="symbol-label bg-light-info">
-                                                        <i class="ki-outline ki-notification-status fs-2 text-info"></i>
-                                                    </div>
-                                                </div>
-
-                                                <div class="d-flex flex-column">
-                                                    <span class="fs-6 fw-bold text-gray-800 lh-1 mb-1">Blog & News</span>
-                                                    <span class="fs-8 fw-semibold text-muted text-uppercase ls-1">Informasi Terbaru</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="d-flex align-items-center">
-                                                <a href="<?= base_url('blog') ?>" class="btn btn-sm btn-primary fw-bold px-5 shadow-sm">
-                                                    Kunjungi
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <!--end:Landing-->
-                                    </div>
-                                    <!--end:Col-->
-                                </div>
-                                <!--end:Row-->
-                            </div>
-                            <!--end:Dashboards menu-->
+                        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px" style="">
+                            <?php render_menu_classic($menus, null); ?>
                         </div>
                         <!--end:Menu sub-->
                     </div>
@@ -101,13 +68,52 @@ $menus = $menuModel->getMenuByUser(
             <!--begin::Navbar-->
             <div class="app-navbar flex-shrink-0">
                 <!--begin::User menu-->
+                <div class="d-flex align-items-center ms-1 ms-lg-3">
+                    <div class="btn btn-icon btn-custom btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative"
+                        data-kt-menu-trigger="click"
+                        data-kt-menu-attach="parent"
+                        data-kt-menu-placement="bottom-end">
+
+                        <i class="ki-outline ki-notification-on fs-1"></i>
+
+                        <span id="main-notif-badge"
+                            class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-danger w-15px h-15px ms-n3 mt-3 fs-10"
+                            style="display: none;">0</span>
+                    </div>
+
+                    <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true">
+                        <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('<?= base_url('assets/media/misc/menu-header-bg.jpg') ?>')">
+                            <h3 class="text-white fw-semibold px-9 mt-10 mb-6">
+                                Notifikasi <span class="fs-8 opacity-75 ms-3">Pemberitahuan Terbaru</span>
+                            </h3>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="scroll-y mh-325px my-5 px-8" id="notification-list">
+                                <div class="text-center py-10" id="notif-loader">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="text-muted fs-7 mt-2">Mengecek pemberitahuan...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="py-3 text-center border-top">
+                            <button type="button" id="btn-read-all" class="btn btn-color-gray-600 btn-active-color-primary">
+                                Tandai Semua Telah Dibaca
+                                <i class="ki-outline ki-arrow-right fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle"> <!--begin::Menu wrapper-->
-                    <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"> 
+                    <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         <div class="symbol symbol-50px me-5">
                             <div class="symbol-label fs-3 fw-bold bg-light-primary text-primary">
                                 <?= strtoupper($initials) ?>
                             </div>
-                        </div> 
+                        </div>
                     </div> <!--begin::User account menu-->
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true"> <!--begin::Menu item-->
                         <div class="menu-item px-3">
@@ -153,25 +159,34 @@ $menus = $menuModel->getMenuByUser(
 </div>
 
 <!-- tampilan untuk mobail -->
-<div class="d-lg-none fixed-bottom bg-white border-top shadow-lg p-2"
-    style="border-radius: 20px 20px 0 0; z-index: 1000; height: 75px;">
+<div class="d-lg-none fixed-bottom bg-white border-top shadow-sm p-2" 
+     style="border-radius: 20px 20px 0 0; z-index: 1000; height: 75px;">
 
     <div class="d-flex justify-content-around align-items-center h-100">
-        <a href="<?= base_url('sw-anggota/histori-iuran') ?>" class="d-flex flex-column align-items-center text-gray-700 text-hover-primary">
+        
+        <a href="<?= base_url('sw-anggota') ?>" 
+           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+            <i class="ki-outline ki-home fs-1 mb-1"></i>
+            <span class="fs-8 fw-bold">Beranda</span>
+        </a>
+
+        <a href="<?= base_url('sw-anggota/iuran') ?>" 
+           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+            <i class="ki-outline ki-wallet fs-1 mb-1"></i>
+            <span class="fs-8 fw-bold">Iuran</span>
+        </a>
+
+        <a href="<?= base_url('sw-anggota/histori-iuran') ?>" 
+           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/histori-iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-time fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Histori</span>
         </a>
 
-        <div class="position-relative" style="margin-top: -50px;">
-            <a href="<?= base_url('sw-anggota') ?>"
-                class="btn btn-icon btn-primary btn-circle w-65px h-65px shadow-lg border border-4 border-white">
-                <i class="ki-outline ki-home fs-2x"></i>
-            </a>
-        </div>
-
-        <a href="<?= base_url('sw-anggota/profil') ?>" class="d-flex flex-column align-items-center text-gray-700 text-hover-primary">
+        <a href="<?= base_url('sw-anggota/profil') ?>" 
+           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/profil')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-user fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Akun</span>
         </a>
+
     </div>
 </div>

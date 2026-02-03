@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Jan 2026 pada 04.23
+-- Waktu pembuatan: 31 Jan 2026 pada 17.59
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -63,14 +63,15 @@ CREATE TABLE `email_logs` (
 --
 
 INSERT INTO `email_logs` (`id`, `recipient`, `subject`, `status`, `error_message`, `created_at`) VALUES
-('0878e046-6877-478d-beca-f25d43ae086a', 'tes1@gmail.com', 'Invoice Pembayaran: INV/2026/01/00001', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 27 Jan 2026 07:47:47 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: tes1@gmail.com\r\nSubject: =?UTF-8?Q?Invoice=20Pembayaran:=20INV/2026/01/00001?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69786da31b63b6.67522702@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-27 14:47:47'),
-('1', 'tes@gmail.com', 'Reset Password', 'failed', '220 smtp.gmail.com ESMTP 98e67ed59e1d1-35273277f68sm2406647a91.0 - gsmtp\r\n<br><pre>hello: 250-smtp.gmail.com at your service, [114.10.100.116]\r\n250-SIZE 35882577\r\n250-8BITMIME\r\n250-STARTTLS\r\n250-ENHANCEDSTATUSCODES\r\n250-PIPELINING\r\n250-CHUNKING\r\n250 SMTPUTF8\r\n</pre><pre>starttls: 220 2.0.0 Ready to start TLS\r\n</pre><pre>hello: 250-smtp.gmail.com at your service, [114.10.100.116]\r\n250-SIZE 35882577\r\n250-8BITMIME\r\n250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH\r\n250-ENHANCEDSTATUSCODES\r\n250-PIPELINING\r\n250-CHUNKING\r\n250 SMTPUTF8\r\n</pre>Failed to authenticate password. Error: 535-5.7.8 Username and Password not accepted. For more information, go to\r\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-35273277f68sm2406647a91.0 - gsmtp\r\n<br>Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 17 Jan 2026 15:52:00 +0000\r\nFrom: &quot;Aplikasi Anda&quot; &lt;noreply@email.com&gt;\r\nReturn-Path: &lt;noreply@email.com&gt;\r\nTo: tes@gmail.com\r\nSubject: =?UTF-8?Q?Reset=20Password?=\r\nReply-To: &lt;noreply@email.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@email.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;696bb020867ea5.36442006@email.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-17 22:52:03'),
-('2bfae032-9977-454b-a606-f9413a524ec3', 'tes1@gmail.com', 'Pemberitahuan Penolakan Pembayaran', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 27 Jan 2026 07:05:45 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: tes1@gmail.com\r\nSubject: =?UTF-8?Q?Pemberitahuan=20Penolakan=20Pembayaran?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697863c9748ec2.99605799@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-27 14:05:45'),
-('45dc240c-72fe-46df-99e0-04c41af3452d', 'mulyonomuiz633@gmail.com', 'Verifikasi Akun Koperasi Eka Citra Mandiri', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sun, 25 Jan 2026 01:20:34 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz633@gmail.com\r\nSubject: =?UTF-8?Q?Verifikasi=20Akun=20Koperasi=20Eka=20Citra=20Mandiri?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69756fe2d56ff6.78893454@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-25 08:20:34'),
-('516dce2f-b2cb-4651-a437-b2dc22a4f711', 'mulyonoias68323@gmail.com', 'Verifikasi Akun Koperasi Eka Citra Mandiri', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 27 Jan 2026 06:37:24 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonoias68323@gmail.com\r\nSubject: =?UTF-8?Q?Verifikasi=20Akun=20Koperasi=20Eka=20Citra=20Mandiri?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69785d2786dd97.59944986@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-27 13:37:27'),
-('b852d773-363e-4141-87b0-991d272df236', 'mulyonoias68@gmail.com', 'Verifikasi Akun Koperasi Eka Citra Mandiri', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sun, 25 Jan 2026 01:10:55 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonoias68@gmail.com\r\nSubject: =?UTF-8?Q?Verifikasi=20Akun=20Koperasi=20Eka=20Citra=20Mandiri?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69756d9f48a344.21508432@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-25 08:10:55'),
-('bb4bca72-2191-421a-94ed-c9fe7f96416d', 'mulyonomuiz63@gmail.com', 'Reset Password', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sun, 25 Jan 2026 01:28:04 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Reset=20Password?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697571a4e970f9.00876379@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-25 08:28:04'),
-('ec6706d5-b0e2-4958-86dd-15ea6277f90a', 'mulyonomuiz63@gmail.com', 'Verifikasi Akun Koperasi', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 24 Jan 2026 16:19:39 +0000\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\nReturn-Path: &lt;noreply@gmail.com&gt;\nTo: mulyonomuiz63@gmail.com\nSubject: =?UTF-8?Q?Verifikasi=20Akun=20Koperasi?=\nReply-To: &lt;noreply@gmail.com&gt;\nUser-Agent: CodeIgniter\nX-Sender: noreply@gmail.com\nX-Mailer: CodeIgniter\nX-Priority: 3 (Normal)\nMessage-ID: &lt;6974f11b583ab7.16142389@gmail.com&gt;\nMime-Version: 1.0\n\n</pre>', '2026-01-24 23:19:39');
+('0b42863b-7de0-49e6-b3f7-f85051d722cd', 'mulyonomuiz63@gmail.com', 'Pemberitahuan Penolakan Pembayaran', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 30 Jan 2026 16:39:08 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Pemberitahuan=20Penolakan=20Pembayaran?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697cdeacc7e5b7.07960467@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-30 23:39:08'),
+('1b7ea4dc-f51b-432f-99be-5c6a658a1cbe', 'ketua@gmail.com', 'Invoice Pembayaran: INV/2026/01/00004', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 31 Jan 2026 15:57:26 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: ketua@gmail.com\r\nSubject: =?UTF-8?Q?Invoice=20Pembayaran:=20INV/2026/01/00004?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697e2666f36fb1.31357681@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-31 22:57:27'),
+('1e954475-1735-400e-8e4b-60c4fab305c6', 'mulyonomuiz63@gmail.com', 'Selamat! Pendaftaran & Pembayaran Anda Disetujui', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 31 Jan 2026 09:13:41 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Selamat!=20Pendaftaran=20&amp;=20Pembayaran=20Anda=20Disetujui?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697dc7c571f6e5.18248920@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-31 16:13:41'),
+('3b041650-7960-480f-a7c0-4eb00e4d2a90', 'mulyonomuiz63@gmail.com', 'Invoice Pembayaran: INV/2026/01/00003', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 31 Jan 2026 09:39:17 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Invoice=20Pembayaran:=20INV/2026/01/00003?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697dcdc5502630.95568232@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-31 16:39:17'),
+('5cf3552a-b3a2-466c-ac6e-b70e4d3c5e3b', 'mulyonomuiz63@gmail.com', 'Verifikasi Akun Koperasi Eka Citra Mandiri', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 30 Jan 2026 15:44:37 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Verifikasi=20Akun=20Koperasi=20Eka=20Citra=20Mandiri?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697cd1e56ea009.52331159@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-30 22:44:37'),
+('7e86d881-0ade-4283-af95-536e9fc9b9e2', 'mulyonomuiz63@gmail.com', 'Pemberitahuan: Pembayaran Pendaftaran Ditolak', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 30 Jan 2026 15:51:47 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Pemberitahuan:=20Pembayaran=20Pendaftaran=20Ditolak?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697cd393e5ff09.93933762@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-30 22:51:47'),
+('b571ee58-d96c-4d79-bacd-902bcc87dfa6', 'mulyonomuiz63@gmail.com', 'Invoice Pembayaran: INV/2026/01/00002', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sat, 31 Jan 2026 09:23:02 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Invoice=20Pembayaran:=20INV/2026/01/00002?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697dc9f6a5b689.99341046@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-31 16:23:02'),
+('ce272698-9105-4750-bddf-36c96182cc9d', 'mulyonomuiz63@gmail.com', 'Selamat! Pendaftaran & Pembayaran Anda Disetujui', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 30 Jan 2026 15:54:53 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Selamat!=20Pendaftaran=20&amp;=20Pembayaran=20Anda=20Disetujui?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697cd44d3f9dc7.26868425@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-30 22:54:53'),
+('ece12c56-4ed8-4493-adae-a242eeae3077', 'mulyonomuiz63@gmail.com', 'Invoice Pembayaran: INV/2026/01/00001', 'failed', 'Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 30 Jan 2026 16:40:40 +0000\r\nFrom: &quot;Koperasi Eka Citra Mandiri&quot; &lt;noreply@gmail.com&gt;\r\nReturn-Path: &lt;noreply@gmail.com&gt;\r\nTo: mulyonomuiz63@gmail.com\r\nSubject: =?UTF-8?Q?Invoice=20Pembayaran:=20INV/2026/01/00001?=\r\nReply-To: &lt;noreply@gmail.com&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@gmail.com\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;697cdf086300b9.78767440@gmail.com&gt;\r\nMime-Version: 1.0\r\n\n</pre>', '2026-01-30 23:40:40');
 
 -- --------------------------------------------------------
 
@@ -105,17 +106,6 @@ CREATE TABLE `galeri` (
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data untuk tabel `galeri`
---
-
-INSERT INTO `galeri` (`id`, `title`, `description`, `filename`, `jenis_galeri`, `status`, `created_at`, `updated_at`) VALUES
-('2', 'Tes  ok', '<p>tes</p>', '1769069733_b49f4b69a240558cd060.jpg', 'atas', 'A', '2026-01-17 07:58:28', '2026-01-27 09:29:41'),
-('2346534', 'Tes', '<p>tes</p>', '1769069733_b49f4b69a240558cd060.jpg', 'bawah', 'A', '2026-01-17 07:58:28', '2026-01-27 09:29:46'),
-('23465344545', 'Tes', '<p>tes</p>', '1769069733_b49f4b69a240558cd060.jpg', 'bawah', 'A', '2026-01-17 07:58:28', '2026-01-27 09:29:51'),
-('23465344545242', 'Tes', '<p>tes</p>', '1769069733_b49f4b69a240558cd060.jpg', 'bawah', 'A', '2026-01-17 07:58:28', '2026-01-27 09:29:55'),
-('23686', 'Tes', '<p>tes</p>', '1769069733_b49f4b69a240558cd060.jpg', 'atas', 'A', '2026-01-17 07:58:28', '2026-01-27 09:29:59');
-
 -- --------------------------------------------------------
 
 --
@@ -139,8 +129,9 @@ CREATE TABLE `iuran_bulanan` (
 --
 
 INSERT INTO `iuran_bulanan` (`id`, `pegawai_id`, `bulan`, `tahun`, `jumlah_iuran`, `tgl_tagihan`, `status`, `created_at`, `updated_at`) VALUES
-('104e622e-704b-4c17-b858-aa9f74871118', '556bdb4a-d932-4285-8373-13ec8d83246e', 1, 2026, 50000, '2026-01-27', 'B', '2026-01-27 13:47:22', NULL),
-('d4be8781-99fc-4b89-b2c7-6f38e6bd909d', '2', 1, 2026, 50000, '2026-01-27', 'S', '2026-01-27 13:47:22', '2026-01-27 14:47:47');
+('7805711e-9cba-4461-a2ee-d5fd18c8b701', '31c56167-ade8-4d89-acdb-a27020be42d1', 1, 2026, 50000, '2026-01-31', 'S', '2026-01-31 16:11:08', '2026-01-31 22:57:26'),
+('a234d203-2ea7-4430-a7bd-85d4b6db6c50', 'ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', 1, 2026, 50000, '2026-01-31', 'S', '2026-01-31 16:19:52', '2026-01-31 16:23:02'),
+('a234d203-2ea7-4430-a7bd-85d4b6db6c53', 'ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', 12, 2025, 50000, '2025-12-31', 'S', '2026-01-31 16:19:52', '2026-01-31 16:39:17');
 
 -- --------------------------------------------------------
 
@@ -164,7 +155,7 @@ CREATE TABLE `iuran_generate_log` (
 --
 
 INSERT INTO `iuran_generate_log` (`id`, `bulan`, `tahun`, `total_pegawai`, `nominal`, `dijalankan_pada`, `status`, `keterangan`) VALUES
-('13a64307-387e-4fd0-998f-cdf229ab78e7', 1, 2026, 2, 50000.00, '2026-01-27 06:47:22', 'SUCCESS', NULL);
+('fc43d183-74c0-4900-bb4d-c134d60b94c7', 1, 2026, 1, 50000.00, '2026-01-31 09:19:52', 'SUCCESS', NULL);
 
 -- --------------------------------------------------------
 
@@ -186,11 +177,10 @@ CREATE TABLE `jabatan` (
 --
 
 INSERT INTO `jabatan` (`id`, `nama_jabatan`, `jabatan_key`, `keterangan`, `created_at`, `updated_at`) VALUES
-('1', 'Ketua', 'ADMIN', '-', NULL, '2026-01-24 12:02:22'),
-('2', 'Sekertaris', 'ADMIN', '-', '2026-01-17 01:20:12', '2026-01-24 11:56:56'),
-('2523f7db-28e2-4f86-997a-e0adac2fad81', 'Komisaris', 'ADMIN', '-', '2026-01-24 12:03:10', NULL),
-('3', 'Bendahara', 'ADMIN', '-', '2026-01-17 01:20:36', '2026-01-24 11:57:00'),
-('4', 'Anggota', 'ANGGOTA', '-', '2026-01-17 01:20:45', '2026-01-24 11:57:04');
+('14dd0ae1-9d23-4c9a-970b-0b3a0ccfb68f', 'SEKERTARIS', 'ADMIN', 'Sekertaris koperasi', '2026-01-30 22:19:48', NULL),
+('34393209-acb2-4b6b-a6be-d3977adf651c', 'KETUA', 'ADMIN', 'Ketua koperasi', '2026-01-31 14:48:27', '2026-01-31 14:49:06'),
+('7db0a8d9-0bdc-48e1-be71-08b05fee44f0', 'ANGGOTA', 'ANGGOTA', 'Anggota koperasi', '2026-01-30 22:20:19', NULL),
+('fb4c7fa8-725b-4704-860f-2f2bf6c6fdc1', 'BENDAHARA', 'ADMIN', 'Bendahara koperasi', '2026-01-30 22:19:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -205,16 +195,6 @@ CREATE TABLE `login_attempts` (
   `attempts` int(11) NOT NULL DEFAULT 1,
   `last_attempt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `login_attempts`
---
-
-INSERT INTO `login_attempts` (`id`, `email`, `ip_address`, `attempts`, `last_attempt`) VALUES
-('2', 'asdsad@dsf', '::1', 1, '2026-01-17 14:47:05'),
-('6', 'tem@gmail.com', '::1', 1, '2026-01-18 05:24:21'),
-('7', 'tes1@gmail', '::1', 1, '2026-01-18 05:34:09'),
-('8', 'ts@gmail.com', '::1', 1, '2026-01-21 02:40:14');
 
 -- --------------------------------------------------------
 
@@ -240,25 +220,27 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `slug`, `url`, `icon`, `parent_id`, `menu_order`, `is_active`, `created_at`, `updated_at`) VALUES
-('10', 'Users', 'users', '/users', 'ki-outline ki-element-11', '7', 3, 1, '2026-01-15 15:56:45', '0000-00-00 00:00:00'),
-('11', 'Settings', 'settings', '/settings', 'ki-outline ki-element-11', NULL, 2, 1, '2026-01-16 15:19:56', '0000-00-00 00:00:00'),
-('15', 'Master Data', 'master-data', '#', 'ki-outline ki-element-11', NULL, 3, 1, '2026-01-16 22:42:46', '0000-00-00 00:00:00'),
-('16', 'Pegawai', 'pegawai', '/pegawai', 'ki-outline ki-element-11', '15', 2, 1, '2026-01-16 22:43:39', '0000-00-00 00:00:00'),
-('17', 'Perusahaan', 'perusahaan', '/perusahaan', 'ki-outline ki-element-11', '15', 1, 1, '2026-01-16 22:44:01', '0000-00-00 00:00:00'),
-('19', 'Jabatan', 'jabatan', '/jabatan', 'ki-outline ki-element-11', '15', 3, 1, '2026-01-17 08:09:26', '0000-00-00 00:00:00'),
-('1b1de8ff-1c7b-46c5-9368-2e504d3e4c00', 'Category', 'category', '/category', 'ki-outline ki-element-11', '3149b0e2-c230-4b78-a07f-cec023da2fe6', 1, 1, '2026-01-23 10:49:49', NULL),
-('20', 'Galeri', 'galeri', '/galeri', 'ki-outline ki-element-11', '15', 4, 1, '2026-01-17 14:32:10', '0000-00-00 00:00:00'),
-('21', 'Faq', 'faq', '/faq', 'ki-outline ki-element-11', '15', 4, 1, '2026-01-17 15:08:20', '0000-00-00 00:00:00'),
-('22', 'Pembayaran', 'pembayaran', '/pembayaran', 'ki-outline ki-element-11', NULL, 4, 1, '2026-01-18 15:47:41', '0000-00-00 00:00:00'),
-('23', 'Iuran', 'iuran', '/sw-anggota/iuran', 'ki-outline ki-element-11', NULL, 5, 1, '2026-01-20 09:53:56', '2026-01-21 21:32:56'),
-('24', 'Histori', 'histori-iuran', '/sw-anggota/histori-iuran', 'ki-outline ki-element-11', NULL, 5, 1, '2026-01-20 23:05:50', '2026-01-24 22:39:26'),
-('25', 'Iuran Bulanan', 'iuran-bulanan', '/iuran-bulanan', 'ki-outline ki-element-11', NULL, 6, 1, '2026-01-20 23:52:25', '0000-00-00 00:00:00'),
-('3149b0e2-c230-4b78-a07f-cec023da2fe6', 'Blog & News', 'blog-news', '#', 'ki-outline ki-element-11', NULL, 7, 1, '2026-01-23 10:48:43', '2026-01-23 14:56:45'),
-('58daa6c7-4e79-4a1c-97ef-0e168b7b10ea', 'News', 'news', '/news', 'ki-outline ki-element-11', '3149b0e2-c230-4b78-a07f-cec023da2fe6', 2, 1, '2026-01-23 11:53:59', '2026-01-23 14:56:40'),
-('7', 'User Management', 'user-management', '#', 'ki-outline ki-element-11', NULL, 1, 1, '2026-01-15 15:42:35', '0000-00-00 00:00:00'),
-('7de2bdfc-4bd9-42c7-b008-bb20febc2f23', 'Slider', 'slider', '/slider', 'ki-outline ki-element-11', '15', 7, 1, '2026-01-27 09:23:26', NULL),
-('8', 'Menus', 'menus', '/menus', 'ki-outline ki-element-11', '7', 1, 1, '2026-01-15 15:47:05', '0000-00-00 00:00:00'),
-('9', 'Roles', 'roles', '/roles', 'ki-outline ki-element-11', '7', 2, 1, '2026-01-15 15:48:09', '0000-00-00 00:00:00');
+('08520e54-27a3-4b24-a370-c6148ad1025b', 'Master Data', 'master-data', '#', 'ki-duotone ki-book-open fs-2', NULL, 2, 1, '2026-01-30 22:00:27', '2026-01-31 15:51:12'),
+('0b1728d9-fc0f-4917-89d5-e2e9f5caaaed', 'Laporan', 'laporan', '/laporan', 'ki-duotone ki-chart-line-star fs-2', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 3, 1, '2026-01-30 22:04:46', '2026-01-31 15:59:22'),
+('45d86c6e-852f-4b98-9a10-ce3752fe4d32', 'Menus', 'menus', '/menus', 'ki-duotone ki-burger-menu fs-2', 'ad1e981f-2503-447e-8ee6-62b08538cc57', 1, 1, '2026-01-30 16:58:54', '2026-01-31 15:44:39'),
+('468b0d9c-9329-4bfe-aa06-9215b897195d', 'Pembayaran', 'pembayaran', '/pembayaran', 'ki-duotone ki-credit-cart fs-2', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 1, 1, '2026-01-30 22:04:00', '2026-01-31 15:58:06'),
+('484b70d6-91da-4c3a-bc62-4cb4c43d7048', 'Settings', 'settings', '/settings', 'ki-duotone ki-setting-2 fs-2', NULL, 7, 1, '2026-01-30 22:08:01', '2026-01-31 15:41:49'),
+('54856bf1-42b8-4e64-9d2c-fa53d9f50efe', ' Pegawai', 'pegawai', '/pegawai', 'ki-duotone ki-address-book fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 2, 1, '2026-01-30 22:01:16', '2026-01-31 15:54:36'),
+('557135d1-49b1-4917-8b77-8d75e5e0d7a9', 'Jabatan', 'jabatan', '/jabatan', 'ki-duotone ki-medal-star fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 3, 1, '2026-01-30 22:01:43', '2026-01-31 15:55:07'),
+('56430441-9789-4ab8-b884-c0b1747804f0', 'News', 'news', '/news', 'ki-duotone ki-book fs-2', '9c6cdd4c-a2f9-427e-aa94-b3804e8c55cf', 2, 1, '2026-01-30 22:06:07', '2026-01-31 16:02:58'),
+('6356b71f-2231-4a33-abc7-940987158e02', 'Faq', 'faq', '/faq', 'ki-duotone ki-message-question fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 5, 1, '2026-01-30 22:02:28', '2026-01-31 15:55:57'),
+('68378c24-2093-4a36-b55e-d756c6b4b624', 'Category', 'category', '/category', 'ki-duotone ki-category fs-2', '9c6cdd4c-a2f9-427e-aa94-b3804e8c55cf', 1, 1, '2026-01-30 22:05:49', '2026-01-31 15:59:58'),
+('6fb528c4-4014-48ed-ad6b-23532d7d74dc', 'Keaungan', 'keaungan', '/keuangan', 'ki-duotone ki-wallet fs-2', NULL, 3, 1, '2026-01-30 22:03:31', '2026-01-31 15:49:12'),
+('72c97d31-984f-4b64-bf87-3ea4234c8277', 'Galeri', 'galeri', '/galeri', 'ki-duotone ki-picture fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 4, 1, '2026-01-30 22:02:08', '2026-01-31 15:55:30'),
+('75eabb9e-c0dd-4753-9d5a-0603f5685a3e', 'Roles', 'roles', '/roles', 'ki-duotone ki-shield-search fs-2', 'ad1e981f-2503-447e-8ee6-62b08538cc57', 2, 1, '2026-01-30 21:52:24', '2026-01-31 15:46:09'),
+('88d0ff51-0201-4832-b380-e8fb1cdc3e0c', 'Iuran Bulanan', 'iuran-bulanan', '/iuran-bulanan', 'ki-duotone ki-calendar-tick fs-2', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 2, 1, '2026-01-30 22:04:25', '2026-01-31 15:58:33'),
+('9c6cdd4c-a2f9-427e-aa94-b3804e8c55cf', 'Blog & News', 'blog-news', '#', 'ki-duotone ki-notepad fs-2', NULL, 4, 1, '2026-01-30 22:05:22', '2026-01-31 15:52:14'),
+('a120a4ae-4931-42d8-876c-606b3e0e0016', 'Histori', 'histori-iuran', '/sw-anggota/histori-iuran', 'ki-duotone ki-watch fs-2', NULL, 6, 1, '2026-01-30 22:07:37', '2026-01-31 16:01:43'),
+('ad1e981f-2503-447e-8ee6-62b08538cc57', 'User Management', 'user-management', '#', 'ki-duotone ki-profile-user fs-2', NULL, 1, 1, '2026-01-30 16:56:13', '2026-01-31 15:44:02'),
+('af6d4f6d-e530-4133-a3d6-59ca15e0d16c', 'Users', 'users', '/users', 'ki-duotone ki-people fs-2', 'ad1e981f-2503-447e-8ee6-62b08538cc57', 3, 1, '2026-01-30 21:59:38', '2026-01-31 15:47:00'),
+('af8ac9be-422f-4bce-a757-a276c7dbb847', 'Iuran', 'iuran', '/sw-anggota/iuran', 'ki-duotone ki-bill fs-2', NULL, 5, 1, '2026-01-30 22:07:08', '2026-01-31 15:52:42'),
+('cd3272b1-c35e-4583-8a34-49bdc1e2fc87', 'Slider', 'slider', '/slider', 'ki-duotone ki-slider-vertical fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 6, 1, '2026-01-30 22:02:58', '2026-01-31 15:56:29'),
+('e33a1f3b-58cd-43b8-8ea0-6747f8247ee4', 'Perusahaan', 'perusahaan', '/perusahaan', 'ki-duotone ki-shop fs-2', '08520e54-27a3-4b24-a370-c6148ad1025b', 1, 1, '2026-01-30 22:00:53', '2026-01-31 15:54:10');
 
 -- --------------------------------------------------------
 
@@ -324,9 +306,12 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`id`, `category_id`, `title`, `slug`, `keyword`, `content`, `image`, `author`, `views`, `status`, `created_at`, `updated_at`) VALUES
+('14496f02-f3e3-405f-a7d1-f9827d0dcc67', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'tes', 'tes-1', '', '<p>tes</p>', '1769164860_6c6b52090c2ebaf0c365.png', 'Admin', 7, 'publish', '2026-01-23 10:41:00', '2026-01-26 07:27:09'),
 ('14496f02-f3e3-405f-a7d1-f9827d0dcc68', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'tes', 'tes', '', '<p>tes</p>', '1769164860_6c6b52090c2ebaf0c365.png', 'Admin', 7, 'publish', '2026-01-23 10:41:00', '2026-01-26 07:27:09'),
 ('15d54546-8ec9-473c-b66e-4b48b9945508', '1cee8226-f834-11f0-b74b-68f728f3cb26', 'Koperasi Eka Citra Mandiri', 'koperasi-eka-citra-mandiri', '', '<p><strong class=\"Yjhzub\"><a class=\"GI370e\" href=\"https://www.google.com/search?q=Epsum+Labs+%28EpsumThings%29&amp;oq=ep&amp;gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg5MgYIARBFGDsyBwgCEAAYjwIyBwgDEAAYjwIyBwgEEAAYjwIyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQgyMDE1ajBqNKgCALACAQ&amp;sourceid=chrome&amp;ie=UTF-8&amp;ved=2ahUKEwjLi7SGnaGSAxUo1TgGHZi-BKkQgK4QegYIAQgAEAo\" data-ved=\"2ahUKEwjLi7SGnaGSAxUo1TgGHZi-BKkQgK4QegYIAQgAEAo\" data-hveid=\"CAEIABAK\">Epsum Labs (EpsumThings)</a></strong>: Sebuah platform IoT (Internet of Things) dan IIoT (Industrial Internet of Things) untuk otomatisasi, pemantauan, dan visualisasi proses, menawarkan solusi untuk manufaktur, logistik, dan lainnya d</p>', '1769160283_4c69f4866b13c294bb65.jpg', 'Admin', 12, 'publish', '2026-01-23 08:24:25', '2026-01-24 00:42:19'),
-('c3776c39-ceec-4130-8a50-ff4d28d4e7d3', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'Perkuat Fondasi Ekonomi Bali, OJK dan BPS Perluas Jangkauan Survei Literasi Keuangan 2026', 'perkuat-fondasi-ekonomi-bali-ojk-dan-bps-perluas-jangkauan-survei-literasi-keuangan-2026', '', '<p>Denpasar&ndash; Dalam upaya membangun masyarakat yang cerdas secara finansial, Otoritas Jasa Keuangan (OJK) Provinsi Bali bersinergi dengan Badan Pusat Statistik (BPS) dan Lembaga Penjamin Simpanan (LPS) resmi memulai persiapan Survei Nasional Literasi dan Inklusi Keuangan (SNLIK) 2026.</p>\r\n<p>Berbeda dari tahun-tahun sebelumnya, tahun ini Bali melakukan lompatan besar. Jika sebelumnya survei hanya menyasar tiga kabupaten, kini SNLIK 2026 akan menjangkau seluruh kabupaten/kota di Provinsi Bali.</p>\r\n<p>Perluasan ini bertujuan untuk menghasilkan peta kekuatan ekonomi masyarakat yang jauh lebih akurat hingga ke pelosok daerah.<br><br><br></p>', '1769164491_953282b326efdb64580e.jpg', 'Admin', 29, 'publish', '2026-01-23 10:34:51', '2026-01-27 15:21:11');
+('c3776c39-ceec-4130-8a50-ff4d28d4e7d3', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'Perkuat Fondasi Ekonomi Bali, OJK dan BPS Perluas Jangkauan Survei Literasi Keuangan 2026', 'perkuat-fondasi-ekonomi-bali-ojk-dan-bps-perluas-jangkauan-survei-literasi-keuangan-2026', '', '<p>Denpasar&ndash; Dalam upaya membangun masyarakat yang cerdas secara finansial, Otoritas Jasa Keuangan (OJK) Provinsi Bali bersinergi dengan Badan Pusat Statistik (BPS) dan Lembaga Penjamin Simpanan (LPS) resmi memulai persiapan Survei Nasional Literasi dan Inklusi Keuangan (SNLIK) 2026.</p>\r\n<p>Berbeda dari tahun-tahun sebelumnya, tahun ini Bali melakukan lompatan besar. Jika sebelumnya survei hanya menyasar tiga kabupaten, kini SNLIK 2026 akan menjangkau seluruh kabupaten/kota di Provinsi Bali.</p>\r\n<p>Perluasan ini bertujuan untuk menghasilkan peta kekuatan ekonomi masyarakat yang jauh lebih akurat hingga ke pelosok daerah.<br><br><br></p>', '1769164491_953282b326efdb64580e.jpg', 'Admin', 29, 'publish', '2026-01-23 10:34:51', '2026-01-27 15:21:11'),
+('c3776c39-ceec-4130-8a50-ff4d28d4e7d6', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'Perkuat Fondasi Ekonomi Bali, OJK dan BPS Perluas Jangkauan Survei Literasi Keuangan 2026', 'perkuat-fondasi-ekonomi-bali-ojk-dan-bps-perluas-jangkauan-survei-literasi-keuangan-2026-1', '', '<p>Denpasar&ndash; Dalam upaya membangun masyarakat yang cerdas secara finansial, Otoritas Jasa Keuangan (OJK) Provinsi Bali bersinergi dengan Badan Pusat Statistik (BPS) dan Lembaga Penjamin Simpanan (LPS) resmi memulai persiapan Survei Nasional Literasi dan Inklusi Keuangan (SNLIK) 2026.</p>\r\n<p>Berbeda dari tahun-tahun sebelumnya, tahun ini Bali melakukan lompatan besar. Jika sebelumnya survei hanya menyasar tiga kabupaten, kini SNLIK 2026 akan menjangkau seluruh kabupaten/kota di Provinsi Bali.</p>\r\n<p>Perluasan ini bertujuan untuk menghasilkan peta kekuatan ekonomi masyarakat yang jauh lebih akurat hingga ke pelosok daerah.<br><br><br></p>', '1769164491_953282b326efdb64580e.jpg', 'Admin', 29, 'publish', '2026-01-23 10:34:51', '2026-01-27 15:21:11'),
+('c3776c39-ceec-4130-8a50-ff4d28d4e7d7', 'b1d5261d-c3e0-47ec-aa78-10ab1d45fdce', 'Perkuat Fondasi Ekonomi Bali, OJK dan BPS Perluas Jangkauan Survei Literasi Keuangan 2026', 'perkuat-fondasi-ekonomi-bali-ojk-dan-bps-perluas-jangkauan-survei-literasi-keuangan-2026-2', '', '<p>Denpasar&ndash; Dalam upaya membangun masyarakat yang cerdas secara finansial, Otoritas Jasa Keuangan (OJK) Provinsi Bali bersinergi dengan Badan Pusat Statistik (BPS) dan Lembaga Penjamin Simpanan (LPS) resmi memulai persiapan Survei Nasional Literasi dan Inklusi Keuangan (SNLIK) 2026.</p>\r\n<p>Berbeda dari tahun-tahun sebelumnya, tahun ini Bali melakukan lompatan besar. Jika sebelumnya survei hanya menyasar tiga kabupaten, kini SNLIK 2026 akan menjangkau seluruh kabupaten/kota di Provinsi Bali.</p>\r\n<p>Perluasan ini bertujuan untuk menghasilkan peta kekuatan ekonomi masyarakat yang jauh lebih akurat hingga ke pelosok daerah.<br><br><br></p>', '1769164491_953282b326efdb64580e.jpg', 'Admin', 29, 'publish', '2026-01-23 10:34:51', '2026-01-27 15:21:11');
 
 -- --------------------------------------------------------
 
@@ -353,6 +338,23 @@ INSERT INTO `news_tags` (`news_id`, `tag_id`) VALUES
 ('c3776c39-ceec-4130-8a50-ff4d28d4e7d3', '307a0fb2-6d51-492c-91fc-93ab513f86f6'),
 ('c3776c39-ceec-4130-8a50-ff4d28d4e7d3', '453f9830-f852-4324-b3cd-df05925078c7'),
 ('c3776c39-ceec-4130-8a50-ff4d28d4e7d3', 'e85f6fbd-d45d-45dc-a816-9313628d68e0');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` char(36) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -399,10 +401,8 @@ CREATE TABLE `pegawai` (
 --
 
 INSERT INTO `pegawai` (`id`, `user_id`, `nip`, `nik`, `nama`, `jenis_kelamin`, `tanggal_lahir`, `tempat_lahir`, `alamat`, `no_hp`, `perusahaan_id`, `jabatan_id`, `tanggal_masuk`, `status`, `status_iuran`, `avatar`, `created_at`, `updated_at`) VALUES
-('2', '10', '435352', 13213, 'mulyono ias', 'L', '2026-01-09', 'Sumberjo', 'Tumijaya RT 010 RW 003 Kecamatan Jayapura Kabupaten OKU Timur Provinsi Sumatera Selatan', '63443634', '1', '1', '2026-01-18', 'A', 'A', 'default.jpg', '2026-01-16 23:16:35', '2026-01-25 01:13:44'),
-('556bdb4a-d932-4285-8373-13ec8d83246e', '3a488747-bd55-4f92-88ec-e4fcb54b03d6', '202601242668', 2147483647, 'mulyono ias', 'L', '1997-08-06', 'Sumberjo', 'Lampung selatan', '081532423436', '1', '4', '2026-01-24', 'A', 'A', 'default.jpg', '2026-01-24 23:19:39', '2026-01-25 00:25:27'),
-('6ee1897e-2a87-47a6-9597-17968b026f3b', '4f2e746f-41c7-476f-824d-0c259f282917', NULL, NULL, '', 'L', NULL, '', NULL, NULL, '1', '4', NULL, 'T', 'T', 'default.jpg', '2026-01-27 13:37:27', NULL),
-('94e3af69-f952-11f0-b74b-68f728f3cb26', '5', NULL, NULL, 'Super Admin', '', NULL, '', NULL, NULL, '1', '1', NULL, 'A', 'T', 'default.jpg', '2026-01-25 01:28:35', '2026-01-25 01:28:51');
+('31c56167-ade8-4d89-acdb-a27020be42d1', 'c8c91e6e-991e-496c-a7ef-6ba18fda3513', '43535242', NULL, 'Ketua', 'L', '1997-08-06', '', 'Tumijaya RT 010 RW 003 Kecamatan Jayapura Kabupaten OKU Timur Provinsi Sumatera Selatan', '081532423436', '0a6f632e-5b06-4299-9a14-1045719f9e36', '34393209-acb2-4b6b-a6be-d3977adf651c', '2026-01-30', 'A', 'A', 'default.jpg', '2026-01-30 22:37:55', '2026-01-31 14:49:49'),
+('ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', '54aa2657-a745-449e-b54a-fab1d2ea8501', '202601301222', 2147483647, 'Mulyono', 'L', '1997-08-06', 'Sumberjo', 'Tumijaya kec jayapura kab OKU Timur', '081532423436', '0a6f632e-5b06-4299-9a14-1045719f9e36', '7db0a8d9-0bdc-48e1-be71-08b05fee44f0', '2026-01-30', 'A', 'A', 'default.jpg', '2026-01-30 22:44:37', '2026-01-31 16:13:41');
 
 -- --------------------------------------------------------
 
@@ -435,8 +435,10 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id`, `invoice_no`, `invoice_at`, `pegawai_id`, `jenis_transaksi`, `bulan`, `tahun`, `jumlah_bayar`, `bukti_bayar`, `tgl_bayar`, `nama_pengirim`, `status`, `keterangan`, `catatan_verifikasi`, `validated_at`, `created_at`, `updated_at`) VALUES
-('78f72a22-fa34-4a9a-83ea-4cc41c255233', 'INV/2026/01/00001', '2026-01-27 07:47:47', '2', 'bulanan', 1, 2026, 50000, 'bukti_78f72a22-fa34-4a9a-83ea-4cc41c255233_20260127073236.jpeg', '2026-01-27', 'mulyono', 'A', NULL, '', '2026-01-27 07:47:47', '2026-01-27 14:09:17', '2026-01-27 14:47:47'),
-('c753d9a5-be85-4df2-bb0d-df683dbefd66', NULL, NULL, '2', 'bulanan', 1, 2026, 50000, 'bukti_c753d9a5-be85-4df2-bb0d-df683dbefd66_20260127065404.jpeg', NULL, '', 'R', NULL, '', NULL, '2026-01-27 13:48:10', '2026-01-27 14:05:45');
+('1ff9f332-9116-4d99-bbe6-3c11eee93a17', 'INV/2026/01/00003', '2026-01-31 09:39:17', 'ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', 'bulanan', 12, 2025, 50000, 'bukti_1ff9f332-9116-4d99-bbe6-3c11eee93a17_20260131093851.jpeg', '2026-01-31', 'Mulyono', 'A', NULL, '', '2026-01-31 09:39:17', '2026-01-31 16:38:06', '2026-01-31 16:39:17'),
+('9850331a-e2a0-4933-ad18-5516ff34cf77', 'INV/2026/01/00004', '2026-01-31 15:57:26', '31c56167-ade8-4d89-acdb-a27020be42d1', 'bulanan', 1, 2026, 50000, 'bukti_9850331a-e2a0-4933-ad18-5516ff34cf77_20260131155340.jpeg', '2026-01-31', 'Mulyono', 'A', NULL, '', '2026-01-31 15:57:26', '2026-01-31 22:43:11', '2026-01-31 22:57:26'),
+('bfb3bfa9-7655-4b42-bec2-8144f63986a8', 'INV/2026/01/00001', '2026-01-31 09:13:41', 'ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', 'pendaftaran', 1, 2026, 250000, '1769850745_50893b2e29e5855ec41e.jpeg', '2026-01-31', '', 'A', NULL, '', '2026-01-31 09:23:02', '2026-01-31 16:12:25', '2026-01-31 16:42:59'),
+('e43615fd-ff38-4c04-b80f-9a3b3bf80251', 'INV/2026/01/00002', '2026-01-31 09:23:02', 'ed78d26d-ee09-4d6e-8c9d-e2565e2db69d', 'bulanan', 1, 2026, 50000, 'bukti_e43615fd-ff38-4c04-b80f-9a3b3bf80251_20260131092145.jpeg', '2026-01-31', 'Mulyono', 'A', NULL, '', '2026-01-31 09:23:02', '2026-01-31 16:21:30', '2026-01-31 16:23:02');
 
 -- --------------------------------------------------------
 
@@ -456,8 +458,9 @@ CREATE TABLE `pembayaran_detail` (
 --
 
 INSERT INTO `pembayaran_detail` (`id`, `pembayaran_id`, `iuran_id`, `jumlah_bayar`) VALUES
-('78a3925a-6536-4342-9d93-c8eb4d6953a6', '78f72a22-fa34-4a9a-83ea-4cc41c255233', 'd4be8781-99fc-4b89-b2c7-6f38e6bd909d', 50000),
-('fca8ba45-83d6-44c9-b8d5-430879f74982', 'c753d9a5-be85-4df2-bb0d-df683dbefd66', 'd4be8781-99fc-4b89-b2c7-6f38e6bd909d', 50000);
+('7897be53-5f5b-48bd-97f8-99740cf19668', '1ff9f332-9116-4d99-bbe6-3c11eee93a17', 'a234d203-2ea7-4430-a7bd-85d4b6db6c53', 50000),
+('812f116e-4318-4977-8c82-46f55b652c3c', 'e43615fd-ff38-4c04-b80f-9a3b3bf80251', 'a234d203-2ea7-4430-a7bd-85d4b6db6c50', 50000),
+('fcd595cc-910d-4f80-91fd-9f867c2cdf22', '9850331a-e2a0-4933-ad18-5516ff34cf77', '7805711e-9cba-4461-a2ee-d5fd18c8b701', 50000);
 
 -- --------------------------------------------------------
 
@@ -496,7 +499,8 @@ CREATE TABLE `perusahaan` (
 --
 
 INSERT INTO `perusahaan` (`id`, `nama_perusahaan`, `alamat`, `telepon`, `email`, `perusahaan_key`, `created_at`, `updated_at`) VALUES
-('1', 'PT Masyon', 'Lampung', '081532423436', 'mulyonomuiz63@gmail.com', 'default', NULL, NULL);
+('0a6f632e-5b06-4299-9a14-1045719f9e36', 'Koperasi Eka Citra Mandiri', 'Koperasi eka citra ', '0812353533', 'koperasiekacitra@gmail.com', 'default', NULL, NULL),
+('1', 'Pt Masyon Kusuma', 'Bandar Lampung', '081532423436', 'mulyonomuiz63@gmail.com', 'default', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -517,11 +521,11 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `role_key`, `description`, `created_at`) VALUES
-('1', 'Ketua', 'ADMIN', 'tes', NULL),
-('2', 'Bendahara', 'ADMIN', NULL, NULL),
-('24801181-23c5-4d65-bcc8-cbfa032ca6e8', 'Superadmin', 'ADMIN', '-', '2026-01-24 11:26:33'),
-('3', 'Sekretaris', 'ADMIN', NULL, NULL),
-('4', 'Anggota', 'ANGGOTA', NULL, NULL);
+('2d440565-bda1-49cb-929c-42e1881c5beb', 'Sekretaris', 'ADMIN', 'Sekretaris koperasi', '2026-01-30 21:31:56'),
+('815e11b7-d224-4614-8a69-d7fda9a1b707', 'Superadmin', 'ADMIN', 'Role yang dapat memberikan seluruh akses', '2026-01-30 21:28:33'),
+('dc038392-4b5b-4f4c-83c7-c3677b54c9d9', 'Bendahara', 'ADMIN', 'Bendahara koperasi', '2026-01-30 21:32:30'),
+('dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'Ketua', 'ADMIN', 'Ketua Koperasi', '2026-01-30 21:29:47'),
+('fdd2255d-45b5-4b5d-939e-ce61c13fee57', 'Anggota', 'ANGGOTA', 'Anggota koperasi', '2026-01-30 21:32:49');
 
 -- --------------------------------------------------------
 
@@ -546,24 +550,52 @@ CREATE TABLE `role_permissions` (
 --
 
 INSERT INTO `role_permissions` (`id`, `role_id`, `menu_id`, `can_view`, `can_create`, `can_update`, `can_delete`, `created_at`, `updated_at`) VALUES
-('01c230e8-5e9c-4f2c-b44e-f21df1ccea9a', '1', '25', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('044f2d58-1a66-4e15-a9d0-8978da8aefcb', '1', '15', 1, 0, 0, 0, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('07e44524-37eb-406d-9034-6a06f7354e7f', '1', '20', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('126', '4', '23', 1, 1, 1, 1, '2026-01-20 16:06:08', '2026-01-20 16:06:08'),
-('127', '4', '24', 1, 1, 1, 1, '2026-01-20 16:06:08', '2026-01-20 16:06:08'),
-('178eda6d-a1b4-4a59-8a53-b3e7680207b1', '1', '3149b0e2-c230-4b78-a07f-cec023da2fe6', 1, 0, 0, 0, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('2e4f9ae0-96c6-42d0-8e1c-53fa458bd683', '1', '10', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('2f5693fa-11ef-46bc-8d29-6370c9df28e5', '1', '17', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('3dc7eba7-e769-4603-80e4-a15fa419d9ef', '1', '16', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('859dda6e-1807-4560-8f95-e78d85558662', '1', '9', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('86967e21-691b-497a-9431-ef1ec7bd4c6e', '1', '11', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('8cb937be-01b5-43b3-91ff-0f62d9080f18', '1', '1b1de8ff-1c7b-46c5-9368-2e504d3e4c00', 1, 1, 1, 0, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('acdc8bcf-48a9-4ba0-a333-ac9d1799768e', '1', '22', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('ba4dc06c-0f1c-47a2-a5a6-db53ab9842ab', '1', '58daa6c7-4e79-4a1c-97ef-0e168b7b10ea', 1, 1, 0, 0, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('ca2fb38e-6b60-45db-b803-473dcae67cf1', '1', '8', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('d03ec58c-f544-4d68-bf46-4f957247cefc', '1', '21', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('e6a2dc15-0d2a-40e3-8cdc-7be9e182ff24', '1', '19', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34'),
-('fbee84f1-abff-4031-9dcc-bbdca2ccbfac', '1', '7de2bdfc-4bd9-42c7-b008-bb20febc2f23', 1, 1, 1, 1, '2026-01-27 02:24:34', '2026-01-27 02:24:34');
+('0d7c3981-7bf0-4660-bf21-d297df566aca', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '6356b71f-2231-4a33-abc7-940987158e02', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('17657b73-b1c5-4a40-ae48-57af8886d2a7', '815e11b7-d224-4614-8a69-d7fda9a1b707', 'af6d4f6d-e530-4133-a3d6-59ca15e0d16c', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('1af535be-6f3f-4cfc-83f8-2c5115041e70', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '45d86c6e-852f-4b98-9a10-ce3752fe4d32', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('2243f163-abe5-4556-b48f-ed7a0ecc63e6', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '0b1728d9-fc0f-4917-89d5-e2e9f5caaaed', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('267a0df1-49d9-4ba1-9f5c-f54d033a583b', 'dc038392-4b5b-4f4c-83c7-c3677b54c9d9', '0b1728d9-fc0f-4917-89d5-e2e9f5caaaed', 1, 1, 1, 1, '2026-01-30 15:11:07', '2026-01-30 15:11:07'),
+('3048eac6-1cd1-4a7d-9cc4-995739b8b382', '815e11b7-d224-4614-8a69-d7fda9a1b707', '468b0d9c-9329-4bfe-aa06-9215b897195d', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('31697165-7e7b-43c3-a9f0-956a2bd73004', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '08520e54-27a3-4b24-a370-c6148ad1025b', 1, 0, 0, 0, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('37b78e3b-2a47-42aa-8aea-ef48405f78cc', '815e11b7-d224-4614-8a69-d7fda9a1b707', 'cd3272b1-c35e-4583-8a34-49bdc1e2fc87', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('3aa868b6-543f-4dcb-82ef-94f231fcf044', 'fdd2255d-45b5-4b5d-939e-ce61c13fee57', 'a120a4ae-4931-42d8-876c-606b3e0e0016', 1, 1, 1, 1, '2026-01-30 15:13:30', '2026-01-30 15:13:30'),
+('45011916-d23d-4a41-a5ff-daa247c0782b', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '56430441-9789-4ab8-b884-c0b1747804f0', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('4a46744c-999d-4ee0-993b-09bd71292632', 'dc038392-4b5b-4f4c-83c7-c3677b54c9d9', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 1, 0, 0, 0, '2026-01-30 15:11:07', '2026-01-30 15:11:07'),
+('4b9f1504-967a-4f89-9052-f000625588cf', '815e11b7-d224-4614-8a69-d7fda9a1b707', '557135d1-49b1-4917-8b77-8d75e5e0d7a9', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('4dd86d37-607e-4d16-b84a-5d9a0694c6a7', '815e11b7-d224-4614-8a69-d7fda9a1b707', '9c6cdd4c-a2f9-427e-aa94-b3804e8c55cf', 1, 0, 0, 0, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('51de6352-c9fb-4dd5-ba4d-04b51ddf4ea7', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '72c97d31-984f-4b64-bf87-3ea4234c8277', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('5ac5349c-9765-4e99-8484-cce1b8d527ae', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '468b0d9c-9329-4bfe-aa06-9215b897195d', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('743c08eb-ca9e-4cf7-a635-e5c7c79f1062', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '88d0ff51-0201-4832-b380-e8fb1cdc3e0c', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('771bc31c-870a-4521-a66c-ade616e29f4c', '815e11b7-d224-4614-8a69-d7fda9a1b707', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 1, 0, 0, 0, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('7b5ca11f-9f60-4c75-b3dc-74c8739db01c', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'e33a1f3b-58cd-43b8-8ea0-6747f8247ee4', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('86f8202d-c759-434f-982c-a7dc2fcc439c', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '54856bf1-42b8-4e64-9d2c-fa53d9f50efe', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('89738f21-799e-4ced-8aa1-1e139c671734', '815e11b7-d224-4614-8a69-d7fda9a1b707', '68378c24-2093-4a36-b55e-d756c6b4b624', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('94fa632f-8083-4632-9d97-3cdcacaaea17', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '557135d1-49b1-4917-8b77-8d75e5e0d7a9', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('a5344766-bbdb-4886-a24e-8b136031d103', '815e11b7-d224-4614-8a69-d7fda9a1b707', '54856bf1-42b8-4e64-9d2c-fa53d9f50efe', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('ab1dfd23-dbb8-446c-b8c0-620dcf42279d', 'dc038392-4b5b-4f4c-83c7-c3677b54c9d9', '88d0ff51-0201-4832-b380-e8fb1cdc3e0c', 1, 1, 1, 1, '2026-01-30 15:11:07', '2026-01-30 15:11:07'),
+('acd7d847-c842-4c85-b8f1-8ec779857514', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'af8ac9be-422f-4bce-a757-a276c7dbb847', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('aed71cd9-2266-4cc2-bc88-5556984b7f75', '815e11b7-d224-4614-8a69-d7fda9a1b707', '88d0ff51-0201-4832-b380-e8fb1cdc3e0c', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('afba52b5-1654-49e0-adaf-bddc553578ae', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '75eabb9e-c0dd-4753-9d5a-0603f5685a3e', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('b3bba716-8af1-4638-b2b8-894f6f7a55d2', '815e11b7-d224-4614-8a69-d7fda9a1b707', '0b1728d9-fc0f-4917-89d5-e2e9f5caaaed', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('b859cf50-c511-45be-88f1-2eabaa4b89e9', 'fdd2255d-45b5-4b5d-939e-ce61c13fee57', 'af8ac9be-422f-4bce-a757-a276c7dbb847', 1, 1, 1, 1, '2026-01-30 15:13:30', '2026-01-30 15:13:30'),
+('bc4f5b2d-65e4-4bb1-bdb4-ffdb334b6139', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'cd3272b1-c35e-4583-8a34-49bdc1e2fc87', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('c0bcaa4d-5b41-482c-8ab9-f5b42dae456d', '815e11b7-d224-4614-8a69-d7fda9a1b707', '45d86c6e-852f-4b98-9a10-ce3752fe4d32', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('cbd1603f-c45f-4d37-8e72-ba5ded6e3385', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'a120a4ae-4931-42d8-876c-606b3e0e0016', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('d1e84f5f-2d67-4597-97d5-1e0ba4ddbfef', '815e11b7-d224-4614-8a69-d7fda9a1b707', 'e33a1f3b-58cd-43b8-8ea0-6747f8247ee4', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('d298eb1a-c2df-40e2-bc8b-460bec613218', '815e11b7-d224-4614-8a69-d7fda9a1b707', '6356b71f-2231-4a33-abc7-940987158e02', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('d733e268-2b40-4f12-b362-f85b05694dce', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '484b70d6-91da-4c3a-bc62-4cb4c43d7048', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('d84b0fc6-57cb-45d8-92e5-1781aaada9c5', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '6fb528c4-4014-48ed-ad6b-23532d7d74dc', 1, 0, 0, 0, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('dd8315c2-7e51-477e-9abd-83eca8f903b5', '815e11b7-d224-4614-8a69-d7fda9a1b707', '56430441-9789-4ab8-b884-c0b1747804f0', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('ded95aa2-fe55-4b49-87fb-65af642b16f6', '815e11b7-d224-4614-8a69-d7fda9a1b707', '72c97d31-984f-4b64-bf87-3ea4234c8277', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('dff3ee39-f7a0-43ac-843f-73d5025e8e4a', 'dc038392-4b5b-4f4c-83c7-c3677b54c9d9', '468b0d9c-9329-4bfe-aa06-9215b897195d', 1, 1, 1, 1, '2026-01-30 15:11:07', '2026-01-30 15:11:07'),
+('e3a2cbee-43df-4a36-acfa-bdaf70dd250b', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '9c6cdd4c-a2f9-427e-aa94-b3804e8c55cf', 1, 0, 0, 0, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('e4a99636-a48c-4589-84b5-7b082e3f5080', '815e11b7-d224-4614-8a69-d7fda9a1b707', 'ad1e981f-2503-447e-8ee6-62b08538cc57', 1, 0, 0, 0, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('e885f3d5-6c6e-4dc9-b0b4-029ad6cedb87', '815e11b7-d224-4614-8a69-d7fda9a1b707', '75eabb9e-c0dd-4753-9d5a-0603f5685a3e', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('ee4b6539-3644-4688-996e-6ded03d1fba6', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'af6d4f6d-e530-4133-a3d6-59ca15e0d16c', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('eed208af-12d3-4b2a-8027-ea5ce4ed1ba7', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', '68378c24-2093-4a36-b55e-d756c6b4b624', 1, 1, 1, 1, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('efb60f53-8f7c-495a-9cd8-35ddb9256914', '815e11b7-d224-4614-8a69-d7fda9a1b707', '08520e54-27a3-4b24-a370-c6148ad1025b', 1, 0, 0, 0, '2026-01-31 09:06:14', '2026-01-31 09:06:14'),
+('f04bd94f-8ccf-49df-a7b4-6276d4681e9f', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'ad1e981f-2503-447e-8ee6-62b08538cc57', 1, 0, 0, 0, '2026-01-31 15:37:41', '2026-01-31 15:37:41'),
+('f1284c59-1397-446e-aa5b-5c24576e2de7', '815e11b7-d224-4614-8a69-d7fda9a1b707', '484b70d6-91da-4c3a-bc62-4cb4c43d7048', 1, 1, 1, 1, '2026-01-31 09:06:14', '2026-01-31 09:06:14');
 
 -- --------------------------------------------------------
 
@@ -692,16 +724,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `status`, `last_login`, `email_verified_at`, `verification_token`, `remember_token`, `created_at`, `updated_at`) VALUES
-('1', 'tesa', 'tesa@gmail.com', '$2y$10$X6hgBSUV3IfjLxNWq4DXX.9kkeyLxtrMPuLMzUT/xBseOnUksM86y', '4', 'inactive', NULL, NULL, '8d684e5e036d25e3974ecdd6151afdcd0176d4ee1b473055758541d627155ddb', NULL, NULL, '2026-01-21 15:15:00'),
-('10', 'tesd', 'tes1@gmail.com', '$2y$10$G7uKDINd5tsyyJFRAie92OKTMnd7hLvokulKJDKHS5WzG5YAbQ4yC', '4', 'active', NULL, NULL, '5288ebbe5bb7033f850416cf04d7b2c27607a7bbd5195805cabf617b6cf91412', '535eecbe22f31858f3bf7023642213cda4f4977c88a71fdc3d92580d76d27fcf', NULL, NULL),
-('11', 'ada', 'ada@gmail.com', '$2y$10$rTQ26qX5aitqDpPBcN1beuPRfElrcih7hw/ysbY0djFoBUuFKvJ5C', '4', 'active', NULL, '2026-01-24 16:30:57', NULL, NULL, NULL, '2026-01-24 23:30:57'),
-('3a488747-bd55-4f92-88ec-e4fcb54b03d6', 'mulyonomuiz63', 'mulyonomuiz63@gmail.com', '$2y$10$QHdukAYjywnFvfqhx8MBoORDrbK6uwNS0wla1hGJcZgV9.uWL6pIS', '4', 'active', NULL, '2026-01-24 16:25:39', NULL, NULL, '2026-01-24 23:19:39', '2026-01-25 08:53:10'),
-('4f2e746f-41c7-476f-824d-0c259f282917', 'mulyonoias68323', 'mulyonoias68323@gmail.com', '$2y$10$zUjO7xMqo29Vu2YgvQq5W.XxhPeJgpLfz.kGEanexL6SP9cyiYdJK', '4', 'inactive', NULL, NULL, '2bcf297eba834af2c1ad7c413b22d49bc109f2b9f8aa7fe491809862ce0fc713', NULL, '2026-01-27 13:37:27', NULL),
-('5', 'tes', 'tes@gmail.com', '$2y$10$G7uKDINd5tsyyJFRAie92OKTMnd7hLvokulKJDKHS5WzG5YAbQ4yC', '1', 'active', '2026-01-17 07:22:23', NULL, '967ef6e71f282e67e0e37f97d1c29cc49b63ea5e094fb6b0dd7e285330b17ed6', NULL, NULL, '2026-01-24 23:57:10'),
-('6', 'anissa', 'anissa@gmail.com', '$2y$10$az1KVGKEpQ5whzif/ILu3ODvhc31bRH6XVEMzQHg.loScgkBIW72a', '2', 'active', NULL, NULL, NULL, NULL, NULL, NULL),
-('8', 'tess', 'tess@gmail.com', '$2y$10$8aY6Pnz2tD78Y65pgjt6KO.C7/Bts6V95h8arPvkTSNxmmE2DBYge', '4', 'inactive', NULL, NULL, '767b42c93a294a9b15d80fb414767d511d3bc72df6aea3111884d786d8f61e70', NULL, NULL, NULL),
-('859fd4d0-b253-4304-972a-81b78a0ab146', 'mulyonomuiz633', 'mulyonomuiz633@gmail.com', '$2y$10$N711nOCKce4xtBS/F/WV1OlQMnnufzWvT.KFfu3eOo/tIwcrLqFdu', '4', 'inactive', NULL, NULL, '9a531ab5c58db18328c93054fcef7432d36d389be03f7af1a751b9e8d0dc0651', NULL, '2026-01-25 08:20:34', NULL),
-('f66fa219-ed64-46ef-85c8-1e95a47112c1', 'mulyonoias68', 'mulyonoias68@gmail.com', '$2y$10$dfHqPaQIXuIJ1GxlyWSTReEiBJFQzL76PizeqvdvK8GH7Qvmq4JH2', '4', 'inactive', NULL, NULL, '4c87b6cc8a22f18ff9f97dd9c160e9d8064d87d98c1259ce8bcfe1c16a3c78ab', NULL, '2026-01-25 08:10:55', NULL);
+('03523811-12b4-4879-94ae-638b0454ba8c', 'bendahara', 'bendahara@gmail.com', '$2y$10$7PWV543iyqVSiGQtlRCDbedis/sqLSqH0x8ZoEiLtVMLZcnrrreZ6', 'dc038392-4b5b-4f4c-83c7-c3677b54c9d9', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:32:04', NULL),
+('45a797b3-243a-4d64-b9d3-66b50287bef7', 'sekretaris', 'sekretaris@gmail.com', '$2y$10$BOBEnVJ012pZZSL9IsU2E.I94GPZUMcZcKDwa.vJ/uhCU2KqxSIFC', '2d440565-bda1-49cb-929c-42e1881c5beb', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:33:25', NULL),
+('54aa2657-a745-449e-b54a-fab1d2ea8501', 'mulyonomuiz63', 'mulyonomuiz63@gmail.com', '$2y$10$Twj2I30EkSRm1dhw9H29eOQq1SV6rlyHIe/Ji5dexpamjMLB9rUIC', 'fdd2255d-45b5-4b5d-939e-ce61c13fee57', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:44:37', '2026-01-30 22:45:15'),
+('55924364-7203-4c47-a5e8-5bd2bb534ca9', 'superadmin', 'superadmin@gmail.com', '$2y$10$.BMM/AffpjBE5oYZjoTqCOuWnfVDSXrxAmXBEes/zE.HxyZGBVtUy', '815e11b7-d224-4614-8a69-d7fda9a1b707', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:39:01', '2026-01-31 22:17:52'),
+('c8c91e6e-991e-496c-a7ef-6ba18fda3513', 'ketua', 'ketua@gmail.com', '$2y$10$.BMM/AffpjBE5oYZjoTqCOuWnfVDSXrxAmXBEes/zE.HxyZGBVtUy', 'dd35e6ec-b68a-45f6-b5cd-fd2ba5d505f1', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:31:27', NULL),
+('d309836b-4720-4bb2-b106-ac69e7ef39fe', 'anggota', 'anggota@gmail.com', '$2y$10$FeiWy.n1FSTNrj9rzBH7deTuV14frh8YWQ9LGSNITUsAu.KFgksey', 'fdd2255d-45b5-4b5d-939e-ce61c13fee57', 'active', NULL, NULL, NULL, NULL, '2026-01-30 22:34:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -720,23 +748,6 @@ CREATE TABLE `user_permissions` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data untuk tabel `user_permissions`
---
-
-INSERT INTO `user_permissions` (`id`, `user_id`, `menu_id`, `can_view`, `can_create`, `can_update`, `can_delete`, `created_at`, `updated_at`) VALUES
-('15', '1', '7', 1, 0, 0, 0, '2026-01-15 08:48:56', '2026-01-15 08:48:56'),
-('16', '1', '8', 1, 0, 0, 0, '2026-01-15 08:48:56', '2026-01-15 08:48:56'),
-('17', '1', '9', 1, 0, 0, 0, '2026-01-15 08:48:56', '2026-01-15 08:48:56'),
-('68', '5', '7', 1, 0, 0, 0, '2026-01-15 16:54:14', '2026-01-15 16:54:14'),
-('69', '5', '9', 1, 1, 1, 1, '2026-01-15 16:54:14', '2026-01-15 16:54:14'),
-('70', '5', '10', 1, 0, 0, 0, '2026-01-15 16:54:14', '2026-01-15 16:54:14'),
-('76', '6', '7', 1, 1, 1, 1, '2026-01-16 14:17:38', '2026-01-16 14:17:38'),
-('77', '6', '8', 1, 0, 0, 1, '2026-01-16 14:17:38', '2026-01-16 14:17:38'),
-('78', '6', '9', 1, 0, 0, 1, '2026-01-16 14:17:38', '2026-01-16 14:17:38'),
-('79', '6', '10', 1, 0, 0, 1, '2026-01-16 14:17:38', '2026-01-16 14:17:38'),
-('80', '6', '11', 1, 1, 1, 1, '2026-01-16 14:17:38', '2026-01-16 14:17:38');
 
 --
 -- Indexes for dumped tables
@@ -821,6 +832,13 @@ ALTER TABLE `news`
 ALTER TABLE `news_tags`
   ADD PRIMARY KEY (`news_id`,`tag_id`),
   ADD KEY `fk_news_tags_tag` (`tag_id`);
+
+--
+-- Indeks untuk tabel `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_notif` (`user_id`);
 
 --
 -- Indeks untuk tabel `password_resets`
@@ -954,6 +972,12 @@ ALTER TABLE `news`
 ALTER TABLE `news_tags`
   ADD CONSTRAINT `fk_news_tags_news` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_news_tags_tag` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_user_notif` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `password_resets`

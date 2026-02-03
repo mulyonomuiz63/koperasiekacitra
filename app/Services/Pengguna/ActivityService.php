@@ -44,15 +44,68 @@ class ActivityService
      */
     public function savePegawaiData(string $userId, array $data): bool
     {
+        $validation = \Config\Services::validation();
+
+        // 1. Definisi Aturan (Rules)
+        $rules = [
+            'nip'           => 'required|numeric|max_length[20]',
+            'nik'           => 'required|numeric|exact_length[16]',
+            'nama'          => 'required|alpha_space|max_length[25]',
+            'jenis_kelamin' => 'required|in_list[L,P]',
+            'no_hp'         => 'required|numeric|min_length[10]|max_length[15]',
+            'tempat_lahir'  => 'required|alpha_space|max_length[50]',
+            'alamat'        => 'required|string|max_length[255]'
+        ];
+
+        // 2. Definisi Pesan Error Custom (Bahasa Indonesia)
+        $errors = [
+            'nip' => [
+                'required'   => 'NIP wajib diisi.',
+                'numeric'    => 'NIP harus berupa angka.',
+                'max_length' => 'NIP tidak boleh lebih dari 20 karakter.'
+            ],
+            'nik' => [
+                'required'     => 'NIK wajib diisi.',
+                'numeric'      => 'NIK harus berupa angka.',
+                'exact_length' => 'NIK harus tepat 16 digit.'
+            ],
+            'nama' => [
+                'required'    => 'Nama lengkap wajib diisi.',
+                'alpha_space' => 'Nama hanya boleh berisi huruf dan spasi.',
+                'max_length'  => 'Nama tidak boleh lebih dari 25 karakter.'
+            ],
+            'jenis_kelamin' => [
+                'in_list' => 'Jenis kelamin harus Laki-laki (L) atau Perempuan (P).'
+            ],
+            'no_hp' => [
+                'required'   => 'Nomor HP wajib diisi.',
+                'numeric'    => 'Nomor HP harus berupa angka.',
+                'min_length' => 'Nomor HP minimal 10 digit.',
+                'max_length' => 'Nomor HP maksimal 15 digit.'
+            ],
+            'alamat' => [
+                'required'   => 'Alamat wajib diisi.',
+                'max_length' => 'Alamat terlalu panjang (maksimal 255 karakter).'
+            ]
+        ];
+
+        // Jalankan Validasi
+        if (!$validation->setRules($rules, $errors)->run($data)) {
+            // Ambil pesan error pertama dan lemparkan sebagai Exception
+            $errorMsg = $validation->getErrors();
+            throw new \RuntimeException(reset($errorMsg));
+        }
+
+        // 3. Sanitasi Data (Antisipasi Serangan XSS & SQL Injection)
         $updateData = [
-            'nip'           => $data['nip'] ?? null,
-            'nik'           => $data['nik'] ?? null,
-            'nama'          => $data['nama'] ?? null,
-            'jenis_kelamin' => $data['jenis_kelamin'] ?? null,
-            'tanggal_lahir' => $data['tanggal_lahir'] ?? null,
-            'tempat_lahir'  => $data['tempat_lahir'] ?? null,
-            'alamat'        => $data['alamat'] ?? null,
-            'no_hp'         => $data['no_hp'] ?? null,
+            'nip'           => esc($data['nip']),
+            'nik'           => esc($data['nik']),
+            'nama'          => strip_tags($data['nama']),
+            'jenis_kelamin' => $data['jenis_kelamin'],
+            'tanggal_lahir' => $data['tanggal_lahir'],
+            'tempat_lahir'  => strip_tags($data['tempat_lahir']),
+            'alamat'        => htmlspecialchars($data['alamat']),
+            'no_hp'         => esc($data['no_hp']),
             'tanggal_masuk' => date('Y-m-d')
         ];
 
@@ -118,9 +171,16 @@ class ActivityService
                 unlink($path . $pembayaran['bukti_bayar']);
             }
             $this->pembayaranModel->update($pembayaran['id'], $data);
+            $pembayaranID = $pembayaran['id'];
         } else {
-            $this->pembayaranModel->insert($data);
+            $pembayaranID = $this->pembayaranModel->insert($data);
         }
+        //untuk notif
+        send_notification('Bendahara', [
+            'title'   => 'Upload pembayaran pendaftaran',
+            'message' => 'Ada bukti baru dari ' . $pegawai['nama'],
+            'link'    => 'pembayaran/edit/' . $pembayaranID
+        ]);
 
         return ['status' => true, 'message' => 'Bukti pembayaran berhasil diupload, menunggu approval admin'];
     }

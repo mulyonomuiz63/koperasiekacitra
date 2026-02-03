@@ -20,8 +20,7 @@ class PembayaranModel extends BaseModel
         'status',
         'keterangan',
         'catatan_verifikasi',
-        'ref_id',
-        'validate_at'
+        'validated_at'
     ];
 
     public function getDatatable($request)
@@ -84,7 +83,6 @@ class PembayaranModel extends BaseModel
         $builder = $this->db->table($this->table)
         ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pembayaran.jenis_transaksi, pembayaran.bulan, pembayaran.tahun, pembayaran.jumlah_bayar, pegawai.nama as nama_pegawai')
         ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
-        ->where('jenis_transaksi', 'bulanan')
         ->where('pegawai.user_id', session()->get('user_id'));
 
         // Search
@@ -96,9 +94,7 @@ class PembayaranModel extends BaseModel
         }
 
         $total = $builder->countAllResults(false);
-        $builder->orderBy('pembayaran.created_at', 'ASC');
-        $builder->orderBy('pembayaran.tahun', 'DESC');
-        $builder->orderBy('pembayaran.bulan', 'DESC');
+        $builder->orderBy('pembayaran.created_at', 'DESC');
 
         $builder->limit($request['length'], $request['start']);
 

@@ -13,9 +13,6 @@
                     
                     <tr>
                         <td style="padding: 40px 40px 20px 40px; text-align: center;">
-                            <div style="background-color: #f1faff; width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 20px auto;">
-                                <img src="https://cdn-icons-png.flaticon.com/512/6195/6195699.png" alt="Lock Icon" style="width: 40px; vertical-align: middle;">
-                            </div>
                             <h2 style="margin: 0; color: #181c32; font-size: 24px; font-weight: 700;">Lupa Password?</h2>
                         </td>
                     </tr>

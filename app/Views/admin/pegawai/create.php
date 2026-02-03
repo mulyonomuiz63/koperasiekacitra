@@ -56,7 +56,7 @@
             <!-- TANGGAL LAHIR -->
             <div class="col-md-6">
                 <label class="required form-label">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" class="form-control form-control-solid" required>
+                <input type="text" name="tanggal_lahir" class="form-control form-control-solid datepicker-indo" required>
             </div>
 
             <!-- NO HP -->
@@ -90,7 +90,7 @@
             <!-- TANGGAL MASUK -->
             <div class="col-md-6">
                 <label class="required form-label">Tanggal  Daftar Anggota</label>
-                <input type="date" name="tanggal_masuk" class="form-control form-control-solid" required>
+                <input type="text" name="tanggal_masuk" class="form-control form-control-solid datepicker-indo" required>
             </div>
 
             <!-- STATUS -->
@@ -109,8 +109,8 @@
                 <select name="status_iuran"
                         class="form-select form-select-solid"
                         required>
-                    <option value="A"   <?= $user['status_iuran']=='A'?'selected':'' ?>>Aktif</option>
-                    <option value="T" <?= $user['status_iuran']=='T'?'selected':'' ?>>Tidak Aktif</option>
+                    <option value="A">Aktif</option>
+                    <option value="T">Tidak Aktif</option>
                 </select>
             </div>
 

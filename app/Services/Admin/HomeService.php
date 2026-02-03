@@ -15,13 +15,6 @@ class HomeService
 
     public function getDashboardStats(string $userId): array
     {
-        $cacheKey = 'dashboard_stats_' . $userId;
-
-        // 1. Cek Cache
-        if ($stats = $this->cache->get($cacheKey)) {
-            return $stats;
-        }
-
         // 2. Jika Cache Kosong, Jalankan Query
         $builder = $this->db->table('pembayaran');
         
@@ -55,10 +48,6 @@ class HomeService
             'saldo_bulanan'     => $saldoBulanan,
             'total_saldo'       => $saldoPendaftaran + $saldoBulanan,
         ];
-
-        // 3. Simpan ke Cache (300 detik / 5 menit)
-        $this->cache->save($cacheKey, $stats, 300);
-
         return $stats;
     }
 

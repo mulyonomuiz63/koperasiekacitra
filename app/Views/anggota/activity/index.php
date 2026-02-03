@@ -58,7 +58,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
         <div class="d-flex flex-wrap flex-sm-nowrap">
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <?= img_lazy('assets/media/avatars/300-1.jpg', 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                    <?= img_lazy('uploads/profile/default.png', 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
                     <?php if ($pegawai['status'] === 'A'): ?>
                         <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                     <?php endif ?>
@@ -162,7 +162,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Tanggal Lahir</label>
-                                    <input type="date" name="tanggal_lahir" class="form-control" value="<?= old('tanggal_lahir', $pegawai['tanggal_lahir'] ?? '') ?>" required>
+                                    <input type="text" name="tanggal_lahir" class="form-control datepicker-indo" value="<?= old('tanggal_lahir', $pegawai['tanggal_lahir'] ?? '') ?>" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Tempat Lahir</label>
@@ -184,7 +184,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label class="form-label">Tanggal Masuk</label>
-                                    <input type="date" name="tanggal_masuk" class="form-control" value="<?= old('tanggal_masuk', $pegawai['tanggal_masuk'] ?? '') ?>">
+                                    <input type="text" name="tanggal_masuk" class="form-control datepicker-indo" value="<?= old('tanggal_masuk', $pegawai['tanggal_masuk'] ?? '') ?>">
                                 </div>
                             </div>
 
@@ -226,9 +226,8 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                             </div>
 
                             <!-- Preview Gambar -->
-                            <?php $filePath = base_url('uploads/bukti-bayar/' . $pembayaran['bukti_bayar']); ?>
                             <div class="mb-3">
-                                <?= img_lazy($filePath, 'Bukti Pembayaran', ['style'  => 'max-width: 300px','class'  => 'img-thumbnail']) ?>
+                                <?= img_lazy('uploads/bukti-bayar/' . $pembayaran['bukti_bayar'], 'Bukti Pembayaran', ['style'  => 'max-width: 300px','class'  => 'img-thumbnail']) ?>
                             </div>
 
                             <div class="text-end">
@@ -244,7 +243,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal Bayar</label>
-                                        <input type="date" name="tgl_bayar" class="form-control" value="<?= old('tgl_bayar', $pembayaran['tgl_bayar'] ?? '') ?>" required>
+                                        <input type="text" name="tgl_bayar" class="form-control datepicker-indo" value="<?= old('tgl_bayar', $pembayaran['tgl_bayar'] ?? '') ?>" required>
                                     </div>
                                 </div>
                                 <div class="mb-4">

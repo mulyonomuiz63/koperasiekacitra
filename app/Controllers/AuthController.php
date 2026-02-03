@@ -121,7 +121,7 @@ class AuthController extends BaseController
 
     public function forgotPasswordForm()
     {
-         $data['siteKey'] = $this->captchaService->getSiteKey();
+        $data['siteKey'] = $this->captchaService->getSiteKey();
         return view('auth/forgot_password', $data);
     }
 
@@ -268,34 +268,48 @@ class AuthController extends BaseController
             return redirect()->back();
         }
 
+        // --- 1. TERAPKAN THROTTLER (Rate Limiting) ---
+        // Membatasi maksimal 5 percobaan pendaftaran per 1 Menit per alamat IP
+        $throttler = \Config\Services::throttler();
+        if ($throttler->check(md5($this->request->getIPAddress()), 5, MINUTE) === false) {
+            return $this->response->setJSON([
+                'status'    => 'error',
+                'message'   => 'Terlalu banyak percobaan registrasi. Silakan tunggu 1 menit lagi.',
+                'csrfHash'  => csrf_hash()
+            ])->setStatusCode(429); // 429 = Too Many Requests
+        }
+
+        // --- 2. VALIDASI RECAPTCHA ---
         $token = $this->request->getPost('g-recaptcha-response');
-        // Validasi Captcha
         if (!$this->captchaService->verify($token)) {
             return $this->response->setJSON([
                 'status'    => 'error',
-                'message'   => 'Gagal memproses aktivitas mencurigakan.',
+                'message'   => 'Gagal memproses aktivitas mencurigakan (Captcha Error).',
                 'csrfHash'  => csrf_hash()
             ]);
         }
+
         try {
             $data = $this->request->getPost();
 
+            // Panggil service pendaftaran
             $result = $this->service->register($data);
 
-            // Tambahkan CSRF hash
+            // Tambahkan CSRF hash baru untuk dikirim balik ke view
             $result['csrfHash'] = csrf_hash();
 
             return $this->response->setJSON($result);
         } catch (\Throwable $e) {
-            // Jika ada error tak terduga
+            // Log pesan error teknis ke log sistem
+            log_message('error', '[Register Error]: ' . $e->getMessage());
+
             return $this->response->setJSON([
                 'status'   => 'error',
-                'message'  => 'Terjadi kesalahan saat registrasi. Silakan coba lagi.',
+                'message'  => 'Terjadi kesalahan saat registrasi. Silakan coba lagi nanti.',
                 'csrfHash' => csrf_hash()
             ]);
         }
     }
-
     public function verify($token)
     {
         try {

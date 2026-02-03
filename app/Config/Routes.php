@@ -35,8 +35,15 @@ $routes->post('reset-password', 'AuthController::resetPasswordProcess');
 $routes->get('unauthorized', 'AuthController::unauthorized');
 $routes->get('logout','AuthController::logout');
 
+//untuk notifikasi
+$routes->group('notif', function($routes) {
+    $routes->get('get-data', 'NotificationController::getNotifications');
+    $routes->post('mark-read', 'NotificationController::markAsRead');
+    $routes->post('mark-all-read', 'NotificationController::markAllRead');
+});
 
-$routes->group('/', ['filter'=>['auth','role:1,2,3']], function($routes){ //untuk admin, ketua, bendahara, sekretaris
+
+$routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untuk admin, ketua, bendahara, sekretaris
     $routes->get('dashboard','Admin\HomeController::index');
 
     $routes->group('users', function ($routes) {
@@ -155,6 +162,13 @@ $routes->group('/', ['filter'=>['auth','role:1,2,3']], function($routes){ //untu
 
     });
 
+    $routes->group('laporan', function ($routes) {
+        $routes->get('/', 'Admin\LaporanController::index',['filter' => 'permission:laporan,view']);
+        $routes->post('datatable', 'Admin\LaporanController::datatable',['filter' => 'permission:laporan,view']);
+    });
+
+
+
     $routes->group('news', function ($routes) {
         $routes->get('/', 'Admin\NewsController::index',['filter' => 'permission:faq,view']);
         $routes->post('datatable', 'Admin\NewsController::datatable',['filter' => 'permission:faq,view']);
@@ -187,7 +201,7 @@ $routes->group('/', ['filter'=>['auth','role:1,2,3']], function($routes){ //untu
 });
 
 
-$routes->group('sw-anggota', ['filter'=>['auth','role:4', 'anggotaRedirect']], function($routes){ //untuk anggota
+$routes->group('sw-anggota', ['filter'=>['auth','role:ANGGOTA,ADMIN', 'anggotaRedirect']], function($routes){ //untuk anggota
     $routes->get('/','Pengguna\HomeController::index');
 
     $routes->get('activity', 'Pengguna\ActivityController::index');
@@ -215,3 +229,4 @@ $routes->group('sw-anggota', ['filter'=>['auth','role:4', 'anggotaRedirect']], f
 
 // Test generate iuran bulanan
 $routes->get('test-generate-iuran', 'TestIuranController::generate');
+$routes->get('test-iuran', 'TestIuranController::generateNoLog');

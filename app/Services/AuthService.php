@@ -39,24 +39,40 @@ class AuthService
     ): array {
         $ip = $ip ?? request()->getIPAddress();
 
-        // 🔍 Ambil attempt
+        // 1. 🛡️ SANITASI & NORMALISASI EMAIL
+        // Menghapus spasi di awal/akhir dan karakter ilegal dalam email
+        $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
+        $email = strtolower($email); // Normalisasi ke huruf kecil
+
+        // 🔍 Ambil attempt (Rate Limiting tetap yang utama)
         $attempt = $this->getAttempt($email, $ip);
 
         // ⛔ Lockout
         if ($this->isLocked($attempt)) {
-            return $this->error(
-                'Terlalu banyak percobaan login. Silakan coba beberapa menit lagi.'
-            );
+            return $this->error('Terlalu banyak percobaan login. Silakan coba beberapa menit lagi.');
         }
 
-        // 🔐 Validasi input
-        if (!$email || !$password) {
+        // 2. 🔐 VALIDASI FORMAT EMAIL (Mencegah Karakter Aneh Lolos)
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // Jangan beri tahu "format salah", cukup "Login Gagal" agar tidak memberi info ke penyerang
+            return $this->error('Email atau password salah.');
+        }
+
+        // Validasi input dasar
+        if (empty($email) || empty($password)) {
             return $this->error('Email dan password wajib diisi.');
         }
 
-        // 🔍 Cari user
+        // 3. 🛡️ CEK PANJANG INPUT (Mencegah ReDoS atau DoS via Long String)
+        if (strlen($email) > 100 || strlen($password) > 255) {
+            return $this->error('Input melebihi batas yang diizinkan.');
+        }
+
+        // 🔍 Cari user menggunakan Query Builder (Otomatis aman dari SQL Injection)
         $user = $this->userModel->where('email', $email)->first();
 
+        // 4. 🛡️ TIMING ATTACK PROTECTION (Opsional tapi bagus)
+        // Menggunakan password_verify sudah cukup aman dari timing attack
         if (!$user || !password_verify($password, $user['password'])) {
             $this->saveAttempt($attempt, $email, $ip);
             return $this->error('Email atau password salah.');
@@ -64,11 +80,11 @@ class AuthService
 
         // 🚫 Status user
         if ($user['status'] !== 'active') {
-            return $this->error('Akun belum diverifikasi.');
+            return $this->error('Akun Anda belum aktif atau belum diverifikasi.');
         }
 
-        // Setelah verifikasi password benar
-        $userId = $user['id']; 
+        // Caching logic
+        $userId = $user['id'];
         $cache = \Config\Services::cache();
         $cache->delete('dashboard_stats_' . $userId);
 
@@ -202,17 +218,28 @@ class AuthService
         try {
             $email = trim($postData['email']);
             $password = $postData['password'];
+
+            // 1. --- VALIDASI FORMAT EMAIL ---
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new \Exception('Format email tidak valid.');
+            }
+
+            // 2. --- VALIDASI DOMAIN EMAIL ---
+            if (!$this->is_valid_domain($email)) {
+                throw new \Exception('Domain email tidak valid atau tidak didukung.');
+            }
+
+            // 3. --- CEK APAKAH EMAIL SUDAH TERDAFTAR ---
+            $existingUser = $this->userModel->where('email', $email)->first();
+            if ($existingUser) {
+                throw new \Exception('Email sudah digunakan, silakan gunakan email lain.');
+            }
+
             $token = bin2hex(random_bytes(32));
 
             // --- CARI UUID SECARA DINAMIS ---
-            // Cari ID Role Anggota berdasarkan role_key
             $role = $this->roleModel->where('role_key', 'ANGGOTA')->first();
-            
-            // Cari ID Jabatan Anggota (asumsi tabel jabatan juga punya kolom code/key)
-            // Jika tidak ada kolom code, gunakan nama, tapi lebih aman tambahkan kolom code.
             $jabatan = $this->db->table('jabatan')->where('jabatan_key', 'ANGGOTA')->get()->getRowArray();
-            
-            // Cari ID Perusahaan default (misal berdasarkan kode perusahaan)
             $perusahaan = $this->db->table('perusahaan')->where('perusahaan_key', 'default')->get()->getRowArray();
 
             // Validasi jika data master tidak ditemukan
@@ -225,7 +252,7 @@ class AuthService
                 'username'           => explode('@', $email)[0],
                 'email'              => $email,
                 'password'           => password_hash($password, PASSWORD_BCRYPT),
-                'role_id'            => $role['id'], // anggota
+                'role_id'            => $role['id'],
                 'status'             => 'inactive',
                 'verification_token' => $token
             ]);
@@ -233,8 +260,8 @@ class AuthService
             // Insert pegawai otomatis
             $this->pegawaiModel->insert([
                 'user_id'       => $userId,
-                'perusahaan_id' => $perusahaan['id'], // Menggunakan UUID hasil query
-                'jabatan_id'    => $jabatan['id'],    // Menggunakan UUID hasil query
+                'perusahaan_id' => $perusahaan['id'],
+                'jabatan_id'    => $jabatan['id'],
                 'status'        => 'T'
             ]);
 
@@ -244,33 +271,41 @@ class AuthService
 
             $this->db->transCommit();
 
-            // ==========================================
-            // PROSES KIRIM EMAIL (Setelah Commit)
-            // ==========================================
-            
+            // PROSES KIRIM EMAIL
             $subject = "Verifikasi Akun " . setting('app_name');
-            $data['link']    = base_url("verify-email/" . $token);
-
+            $data['link'] = base_url("verify-email/" . $token);
             $message = view('emails/verify_email', $data);
 
             $sendEmail = $this->emailService->send($email, $subject, $message);
 
             return [
                 'status'  => 'success',
-                'message' => $sendEmail 
-                            ? 'Registrasi berhasil, silakan cek email untuk verifikasi.' 
-                            : 'Registrasi berhasil, namun gagal mengirim email verifikasi. Silakan hubungi admin.',
+                'message' => $sendEmail
+                    ? 'Registrasi berhasil, silakan cek email untuk verifikasi.'
+                    : 'Registrasi berhasil, namun gagal mengirim email verifikasi. Silakan hubungi admin.',
                 'token'   => $token,
             ];
-
         } catch (\Throwable $e) {
             $this->db->transRollback();
 
             return [
                 'status' => 'error',
-                'message'=> 'Terjadi kesalahan saat registrasi.'
+                // Menampilkan pesan error asli dari throw agar user tahu apa yang salah (email duplikat/domain salah)
+                'message' => $e->getMessage()
             ];
         }
+    }
+
+    /**
+     * Fungsi untuk validasi apakah domain email memiliki record DNS (MX) yang valid
+     */
+    private function is_valid_domain($email)
+    {
+        $domain = substr(strrchr($email, "@"), 1);
+        if (!$domain) return false;
+
+        // Cek record MX (Mail Exchange) dari domain tersebut
+        return checkdnsrr($domain, "MX");
     }
 
     /**

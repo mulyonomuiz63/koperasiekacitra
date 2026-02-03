@@ -10,5 +10,7 @@ helper([
     'invoice',
     'uang',
     'pegawai',
-    'seo'
+    'seo',
+    'notif',
+    'domain'
 ]);

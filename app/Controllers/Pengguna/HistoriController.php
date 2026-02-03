@@ -47,7 +47,7 @@ class HistoriController extends BaseController
     public function histori($id)
     {
         try {
-            $data = $this->service->getHistoriDetail((int) $id);
+            $data = $this->service->getHistoriDetail((string) $id);
 
             return view('anggota/histori/detail', $data);
 

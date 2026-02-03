@@ -110,98 +110,67 @@
                     <div class="card border-0 shadow rounded-3 mb-5 
                         <?= $pembayaran['status'] === 'P' ? 'border-start border-4 border-warning' : '' ?>">
 
-                        <div class="card-body p-5">
+                        <div class="card shadow-sm mb-5">
+                            <div class="card-body p-5">
+                                <div class="row g-4">
 
-                            <!-- HEADER -->
-                            <div class="d-flex align-items-center mb-4">
-                                <div class="symbol symbol-45px symbol-circle bg-light-primary me-3">
-                                    <i class="bi bi-wallet2 fs-2 text-primary"></i>
-                                </div>
-                                <div>
-                                    <h4 class="fw-bold mb-0 text-dark">Informasi Pembayaran</h4>
-                                    <span class="text-muted fs-7">
-                                        Segera lakukan pembayaran agar pesanan diproses
-                                    </span>
-                                </div>
-                            </div>
+                                    <?php if ($pembayaran['status'] !== 'A'): ?>
+                                        <div class="col-md-7">
+                                            <div class="d-flex align-items-center mb-4">
+                                                <div class="symbol symbol-45px symbol-circle bg-light-primary me-3">
+                                                    <i class="ki-outline ki-wallet fs-2 text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 class="fw-bold mb-0 text-dark">Metode Pembayaran</h4>
+                                                    <span class="text-muted fs-7">Silakan transfer ke rekening berikut</span>
+                                                </div>
+                                            </div>
 
-                            <div class="row g-4">
-
-                                <!-- BANK INFO -->
-                                <div class="col-md-7">
-                                    <div class="border rounded-3 p-4 h-100">
-
-                                        <div class="fw-semibold fs-6 mb-3 text-primary">
-                                            TRANSFER BANK
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="text-muted">Bank</span>
-                                            <span class="fw-semibold"><?= $rekening['bank'] ?></span>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="text-muted">No. Rekening</span>
-                                            <div class="d-flex align-items-center">
-                                                <span class="fw-bold fs-6 me-3" id="noRek">
-                                                    <?= $rekening['no'] ?>
-                                                </span>
-                                                <button type="button"
-                                                    class="btn btn-sm btn-light-primary"
-                                                    onclick="copyRekening()">
-                                                    <i class="bi bi-clipboard"></i>
-                                                </button>
+                                            <div class="border rounded-3 p-4">
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted">Bank</span>
+                                                    <span class="fw-semibold"><?= $rekening['bank'] ?></span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted">No. Rekening</span>
+                                                    <span class="fw-bold text-primary"><?= $rekening['no'] ?></span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-muted">Atas Nama</span>
+                                                    <span class="fw-semibold"><?= $rekening['nama'] ?></span>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="text-muted">Atas Nama</span>
-                                            <span class="fw-semibold"><?= $rekening['nama'] ?></span>
+                                    <?php else: ?>
+                                        <div class="col-md-7">
+                                            <div class="border border-dashed border-success rounded-3 p-9 h-100 d-flex flex-column flex-center bg-light-success">
+                                                <i class="ki-outline ki-check-circle fs-3x text-success mb-2"></i>
+                                                <div class="fw-bolder text-success fs-4">Pembayaran Lunas</div>
+                                                <div class="text-muted fs-7">Terima kasih, pesanan Anda sedang kami proses.</div>
+                                            </div>
                                         </div>
+                                    <?php endif; ?>
 
+                                    <div class="col-md-5">
+                                        <div class="bg-light rounded-3 p-4 h-100 text-center d-flex flex-column flex-center">
+                                            <div class="text-muted fw-semibold mb-2">TOTAL TAGIHAN</div>
+                                            <div class="fs-1 fw-bolder text-dark mb-3">
+                                                Rp <?= number_format($pembayaran['jumlah_bayar'], 0, ',', '.') ?>
+                                            </div>
+
+                                            <?php if ($pembayaran['status'] === 'P'): ?>
+                                                <span class="badge badge-light-warning fs-7 px-4 py-2">Menunggu Pembayaran</span>
+                                            <?php elseif ($pembayaran['status'] === 'V'): ?>
+                                                <span class="badge badge-light-info fs-7 px-4 py-2">Sedang Diverifikasi</span>
+                                            <?php elseif ($pembayaran['status'] === 'A'): ?>
+                                                <span class="badge badge-light-success fs-7 px-4 py-2">Lunas</span>
+                                            <?php else: ?>
+                                                <span class="badge badge-light-danger fs-7 px-4 py-2">Pembayaran Gagal</span>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
+
                                 </div>
-
-                                <!-- TOTAL & STATUS -->
-                                <div class="col-md-5">
-                                    <div class="bg-light rounded-3 p-4 h-100 text-center">
-
-                                        <div class="text-muted fw-semibold mb-2">
-                                            TOTAL TAGIHAN
-                                        </div>
-
-                                        <div class="fs-1 fw-bolder text-dark mb-3">
-                                            Rp <?= number_format($pembayaran['jumlah_bayar'], 0, ',', '.') ?>
-                                        </div>
-
-                                        <?php if ($pembayaran['status'] === 'P'): ?>
-                                            <span class="badge badge-light-warning fs-7 px-4 py-2 mb-3">
-                                                Menunggu Pembayaran
-                                            </span>
-
-                                            <!-- COUNTDOWN
-                                            <div class="mt-3 text-danger fw-semibold fs-7">
-                                                Batas pembayaran:
-                                                <span id="countdown"></span>
-                                            </div> -->
-
-                                        <?php elseif ($pembayaran['status'] === 'V'): ?>
-                                            <span class="badge badge-light-info fs-7 px-4 py-2">
-                                                Sedang Diverifikasi
-                                            </span>
-                                        <?php elseif ($pembayaran['status'] === 'A'): ?>
-                                            <span class="badge badge-light-success fs-7 px-4 py-2">
-                                                LUNAS
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="badge badge-light-danger fs-7 px-4 py-2">
-                                                Pembayaran Gagal
-                                            </span>
-                                        <?php endif; ?>
-
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -223,7 +192,7 @@
                         <div class="row g-5">
                             <div class="col-md-6 fv-row">
                                 <label class="fs-6 fw-semibold mb-2">Tanggal Bayar</label>
-                                <input type="date" name="tgl_bayar" class="form-control form-control-solid"
+                                <input type="text" name="tgl_bayar" class="form-control form-control-solid datepicker-indo"
                                     value="<?= $pembayaran['tgl_bayar'] ?>" required>
                             </div>
 

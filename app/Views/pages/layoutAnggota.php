@@ -23,7 +23,9 @@
 	<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
 	<link href="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 	<link href="<?= base_url('/') ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
 	<!--end::Global Stylesheets Bundle-->
+	<?= $this->include('partials/css/intro') ?>
 	<?= $this->renderSection('styles') ?>
 </head>
 <!--end::Head-->
@@ -86,6 +88,7 @@
 	</div>
 	<!--end::App-->
 	<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+	<script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 	<script src="<?= base_url('/') ?>assets/plugins/global/plugins.bundle.js"></script>
 	<script src="<?= base_url('/') ?>assets/js/scripts.bundle.js"></script>
 	<!--end::Global Javascript Bundle-->
@@ -110,54 +113,10 @@
 		});
 	</script>
 	<?= $this->include('partials/alert') ?>
+	<?= $this->include('partials/js/notification') ?>
+	<?= $this->include('partials/js/lazyimage') ?>
+	<?= $this->include('partials/js/tanggal') ?>
 	<?= $this->renderSection('scripts') ?>
-	<script>
-		(function() {
-			const initLazy = (img) => {
-				const observer = new IntersectionObserver((entries, obs) => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							const target = entry.target;
-							target.src = target.dataset.src;
-							target.removeAttribute("data-src");
-							target.classList.remove("lazy");
-							obs.unobserve(target);
-						}
-					});
-				});
-				observer.observe(img);
-			};
-
-			// Fungsi cari gambar lazy
-			const findAndObserve = () => {
-				document.querySelectorAll("img.lazy").forEach(img => {
-					// Pastikan tidak diobservasi dua kali
-					if (!img.dataset.observed) {
-						img.dataset.observed = "true";
-						initLazy(img);
-					}
-				});
-			};
-
-			// 1. Jalankan saat DOM Ready
-			document.addEventListener("DOMContentLoaded", findAndObserve);
-
-			// 2. Gunakan MutationObserver untuk mendeteksi elemen baru (Universal)
-			// Ini otomatis menangani DataTables, Modal, AJAX, dll.
-			const mutationObs = new MutationObserver(() => {
-				findAndObserve();
-			});
-
-			mutationObs.observe(document.body, {
-				childList: true,
-				subtree: true
-			});
-		})();
-		const namaBulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-		// Fungsi simple untuk menggantikan bulanIndo PHP
-		const bulanIndoJS = (angka) => namaBulan[parseInt(angka)] || '-';
-	</script>
-	<!--end::Custom Javascript-->
 </body>
 <!--end::Body-->
 

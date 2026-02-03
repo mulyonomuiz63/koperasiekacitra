@@ -100,7 +100,6 @@
 	<script src="<?= base_url('/') ?>assets/js/scripts.bundle.js"></script>
 	<!--end::Global Javascript Bundle-->
 	<!--end::Javascript-->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<?php if ($siteKey): ?>
 		<script src="https://www.google.com/recaptcha/api.js?render=<?= $siteKey ?>"></script>
 	<?php endif; ?>

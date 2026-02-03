@@ -82,9 +82,9 @@ class HistoriService
 
         // Contoh rekening statis (nanti bisa ambil dari tabel bank)
         $rekening = [
-            'bank' => 'BCA',
-            'no'   => '1234567890',
-            'nama' => 'KOPERASI SEJAHTERA'
+            'bank' => setting('nama_bank'),
+            'no'   => setting('norek'),
+            'nama' => setting('nama_pemilik')
         ];
 
         return [

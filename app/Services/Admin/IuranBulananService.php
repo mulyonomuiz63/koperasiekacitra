@@ -95,7 +95,7 @@ class IuranBulananService
             // 2. AMBIL PEMBAYARAN
             // =============================
             $pembayaran = $this->db->table('pembayaran p')
-                ->select('p.*, pg.nama as nama_lengkap, u.email')
+                ->select('p.*, pg.nama as nama_lengkap, u.email, pg.user_id')
                 ->join('pegawai pg', 'pg.id = p.pegawai_id')
                 ->join('users u', 'u.id = pg.user_id')
                 ->where('p.id', $pembayaranId)
@@ -152,7 +152,7 @@ class IuranBulananService
                 ]);
 
                 foreach ($detail as $row) {
-                    $this->db->table('iuran_bulanan')->where('id', $row['iuran_id'])->update(['status' => 'P']);
+                    $this->db->table('iuran_bulanan')->where('id', $row['iuran_id'])->update(['status' => 'B']);
                 }
                 $message = 'Pembayaran ditolak';
             }
@@ -179,6 +179,12 @@ class IuranBulananService
 
             // Kirim via library
             $this->emailService->send($pembayaran['email'], $subject, $htmlContent);
+
+            send_notification_anggota($pembayaran['user_id'], [
+                'title'   => $message,
+                'message' => $catatan,
+                'link'    => 'sw-anggota/iuran'
+            ]);
 
             return $message;
         } catch (\Throwable $e) {

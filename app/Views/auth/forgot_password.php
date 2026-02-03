@@ -3,37 +3,42 @@
     <!-- Body -->
     <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
         <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10">
-
             <div class="d-flex flex-center flex-column align-items-stretch w-md-400px">
-                <div class="d-flex flex-center flex-column pb-15 pb-lg-20">
-
-                    <form class="form w-100" id="form-forgot">
-                        <?= csrf_field() ?>
-
-                        <div class="fv-row mb-8">
-                            <input type="email"
-                                   name="email"
-                                   class="form-control bg-transparent"
-                                   placeholder="Email terdaftar"
-                                   required>
-                        </div>
-
-                        <div class="d-grid mb-10">
-                            <button type="submit" id="btn-forgot" class="btn btn-primary btn-sm">
-                                Kirim Link Reset
-                            </button>
-                        </div>
-
-                        <div class="text-gray-500 text-center fw-semibold fs-6">
-                            <a href="<?= base_url('login') ?>" class="link-primary">
-                                Kembali ke login
+                <div class="d-flex flex-center flex-column pb-10">
+                    
+                    <div class="text-center mb-11">
+                        <div class="mb-7">
+                            <a href="<?= base_url() ?>" class="d-inline-block shadow-sm rounded-circle p-2 bg-light">
+                                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), ['class' => 'h-75px h-lg-100px symbol']) ?>
                             </a>
                         </div>
+                        <h1 class="text-dark fw-bolder mb-3 fs-1">Lupa Password?</h1>
+                        <div class="text-muted fw-semibold fs-6">
+                            Masukkan email Anda untuk menerima instruksi reset password.
+                        </div>
+                    </div>
+    
+                    <form class="form w-100" id="form-forgot">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+    
+                        <div class="fv-row mb-8">
+                            <input type="email" name="email" class="form-control bg-transparent" placeholder="Email terdaftar" required autocomplete="off">
+                        </div>
+    
+                        <div class="d-grid mb-10">
+                            <button type="submit" id="btn-forgot" class="btn btn-primary">
+                                <span class="indicator-label">Kirim Link Reset</span>
+                            </button>
+                        </div>
+    
+                        <div class="text-gray-500 text-center fw-semibold fs-6">
+                            Tiba-tiba ingat? <a href="<?= base_url('login') ?>" class="link-primary fw-bold">Kembali ke login</a>
+                        </div>
                     </form>
-
+    
                 </div>
             </div>
-
         </div>
     </div>
 <?= $this->endSection() ?>

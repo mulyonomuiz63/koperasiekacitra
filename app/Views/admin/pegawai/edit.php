@@ -56,8 +56,8 @@
             <!-- TANGGAL LAHIR -->
             <div class="col-md-6">
                 <label class="required form-label">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir"
-                       class="form-control form-control-solid"
+                <input type="text" name="tanggal_lahir"
+                       class="form-control form-control-solid datepicker-indo"
                        value="<?= esc($pegawai['tanggal_lahir']) ?>" required>
             </div>
 
@@ -100,8 +100,8 @@
             <!-- TANGGAL MASUK -->
             <div class="col-md-6">
                 <label class="required form-label">Tanggal Daftar Anggota</label>
-                <input type="date" name="tanggal_masuk"
-                       class="form-control form-control-solid"
+                <input type="text" name="tanggal_masuk"
+                       class="form-control form-control-solid datepicker-indo"
                        value="<?= esc($pegawai['tanggal_masuk']) ?>" required>
             </div>
 

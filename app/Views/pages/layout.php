@@ -21,6 +21,23 @@
 	<link href="<?= base_url('/') ?>assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 	<!--end::Global Stylesheets Bundle-->
 	<?= $this->renderSection('styles') ?>
+	<style>
+		#main-notif-badge {
+			/* Memastikan konten angka di tengah */
+			justify-content: center;
+			align-items: center;
+
+			/* Memberi border putih agar kontras (opsional tapi bagus) */
+			border: 2px solid #ffffff;
+
+			/* Pastikan di atas ikon lonceng */
+			z-index: 10;
+
+			/* Ukuran font kecil tapi tegas */
+			font-weight: 800;
+			line-height: 1;
+		}
+	</style>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -114,87 +131,15 @@
 			}, 4000);
 		});
 	</script>
-	<script>
-		let deleteModal;
-		let lastFocusedButton = null;
-
-		$(document).on('click', '.btn-delete', function() {
-
-			lastFocusedButton = this;
-
-			$('#deleteModalTitle').html($(this).data('title'));
-			$('#deleteModalMessage').html($(this).data('message'));
-			$('#btn-confirm-delete').attr('href', $(this).data('url'));
-
-			const modalEl = document.getElementById('kt_modal_confirm_delete');
-
-			deleteModal = new bootstrap.Modal(modalEl, {
-				backdrop: 'static',
-				keyboard: true,
-				focus: false // ⬅️ PENTING
-			});
-
-			deleteModal.show();
-		});
-
-		// ⬅️ KEMBALIKAN FOCUS SEBELUM MODAL HILANG
-		document.getElementById('kt_modal_confirm_delete')
-			.addEventListener('hide.bs.modal', function() {
-				if (lastFocusedButton) {
-					lastFocusedButton.focus();
-				}
-			});
-	</script>
+	
 	<?= $this->include('partials/alert') ?>
+	<?= $this->include('partials/js/confirdelete') ?>
+	<?= $this->include('partials/js/notification') ?>
+	<?= $this->include('partials/js/lazyimage') ?>
+	<?= $this->include('partials/js/tanggal') ?>
 	<?= $this->renderSection('scripts') ?>
 
 
-	<script>
-		(function() {
-			const initLazy = (img) => {
-				const observer = new IntersectionObserver((entries, obs) => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							const target = entry.target;
-							target.src = target.dataset.src;
-							target.removeAttribute("data-src");
-							target.classList.remove("lazy");
-							obs.unobserve(target);
-						}
-					});
-				});
-				observer.observe(img);
-			};
-
-			// Fungsi cari gambar lazy
-			const findAndObserve = () => {
-				document.querySelectorAll("img.lazy").forEach(img => {
-					// Pastikan tidak diobservasi dua kali
-					if (!img.dataset.observed) {
-						img.dataset.observed = "true";
-						initLazy(img);
-					}
-				});
-			};
-
-			// 1. Jalankan saat DOM Ready
-			document.addEventListener("DOMContentLoaded", findAndObserve);
-
-			// 2. Gunakan MutationObserver untuk mendeteksi elemen baru (Universal)
-			// Ini otomatis menangani DataTables, Modal, AJAX, dll.
-			const mutationObs = new MutationObserver(() => {
-				findAndObserve();
-			});
-
-			mutationObs.observe(document.body, {
-				childList: true,
-				subtree: true
-			});
-		})();
-		const namaBulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-		// Fungsi simple untuk menggantikan bulanIndo PHP
-		const bulanIndoJS = (angka) => namaBulan[parseInt(angka)] || '-';
-	</script>
 
 
 </body>

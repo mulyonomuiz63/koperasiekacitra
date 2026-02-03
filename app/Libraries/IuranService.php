@@ -64,7 +64,7 @@ class IuranService
             // 1. Ambil data pegawai yang belum punya tagihan bulan ini
             // Gunakan query select saja untuk menghemat memori
             $pegawai = $this->db->query("
-                SELECT p.id FROM pegawai p 
+                SELECT p.id, p.user_id FROM pegawai p 
                 WHERE p.status = 'A' AND p.status_iuran = 'A'
                 AND NOT EXISTS (
                     SELECT 1 FROM iuran_bulanan i 
@@ -76,11 +76,13 @@ class IuranService
 
             if ($totalData > 0) {
                 $batch = [];
-                $chunkSize = 1000; // Masukkan per 1000 data agar stabil
-                
+                $chunkSize = 1000;
+
                 foreach ($pegawai as $index => $p) {
+                    $newIdIuran = uuid(); // Generate ID iuran di sini agar bisa dipakai untuk link
+
                     $batch[] = [
-                        'id'            => uuid(), // Tetap pakai helper PHP Anda
+                        'id'            => $newIdIuran,
                         'pegawai_id'    => $p['id'],
                         'bulan'         => $bulan,
                         'tahun'         => $tahun,
@@ -89,14 +91,23 @@ class IuranService
                         'status'        => 'B'
                     ];
 
-                    // Jika sudah mencapai batas chunk atau data terakhir, eksekusi insert
+                    // Karena Link Notif berbeda-beda per orang, kita kirim notif per orang
+                    // Tapi agar tidak berat, kita kirim hanya jika user_id ada
+                    if (!empty($p['user_id'])) {
+                        send_notification_anggota($p['user_id'], [
+                            'title'   => 'Tagihan Iuran Bulanan ' . bulanIndo($bulan),
+                            'message' => "Tagihan bulan " . bulanIndo($bulan) . " sudah terbit. Silahkan bayar.",
+                            'link'    => 'sw-anggota/iuran',
+                        ]);
+                    }
+
+                    // Insert Batch tetap berjalan per 1000 data agar insert ke tabel iuran cepat
                     if (count($batch) == $chunkSize || ($index + 1) == $totalData) {
                         $this->db->table('iuran_bulanan')->insertBatch($batch);
-                        $batch = []; // Kosongkan array untuk hemat memori (RAM)
+                        $batch = [];
                     }
                 }
             }
-
             $total = $totalData;
 
             // =========================
@@ -114,7 +125,6 @@ class IuranService
 
             $this->db->transCommit();
             return $total;
-
         } catch (\Throwable $e) {
 
             $this->db->transRollback();
@@ -134,5 +144,93 @@ class IuranService
         }
     }
 
+    public function generateBulananNoLog(): int
+    {
+        $this->db->transBegin();
 
+        try {
+
+            $bulan = (int) date('m');
+            $tahun = (int) date('Y');
+            // =========================
+            // Ambil setting
+            // =========================
+
+            if (setting('status_iuran') !== 'A') {
+                $this->db->transRollback();
+                return 0;
+            }
+
+            // =========================
+            // Cek tanggal
+            // =========================
+            $today      = (int) date('d');
+            $tglTagihan = (int) setting('tgl_tagihan_iuran');
+
+            if ($today < $tglTagihan) {
+                $this->db->transRollback();
+                return 0;
+            }
+
+            $nominal = (float) setting('nominal_iuran');
+
+            // =========================
+            // Generate iuran
+            // =========================
+            // 1. Ambil data pegawai yang belum punya tagihan bulan ini
+            // Gunakan query select saja untuk menghemat memori
+            $pegawai = $this->db->query("
+                SELECT p.id, p.user_id FROM pegawai p 
+                WHERE p.status = 'A' AND p.status_iuran = 'A'
+                AND NOT EXISTS (
+                    SELECT 1 FROM iuran_bulanan i 
+                    WHERE i.pegawai_id = p.id AND i.bulan = ? AND i.tahun = ?
+                )
+            ", [$bulan, $tahun])->getResultArray();
+
+            $totalData = count($pegawai);
+
+            if ($totalData > 0) {
+                $batch = [];
+                $chunkSize = 1000;
+
+                foreach ($pegawai as $index => $p) {
+                    $newIdIuran = uuid(); // Generate ID iuran di sini agar bisa dipakai untuk link
+
+                    $batch[] = [
+                        'id'            => $newIdIuran,
+                        'pegawai_id'    => $p['id'],
+                        'bulan'         => $bulan,
+                        'tahun'         => $tahun,
+                        'jumlah_iuran'  => $nominal,
+                        'tgl_tagihan'   => date('Y-m-d'),
+                        'status'        => 'B'
+                    ];
+
+                    // Karena Link Notif berbeda-beda per orang, kita kirim notif per orang
+                    // Tapi agar tidak berat, kita kirim hanya jika user_id ada
+                    if (!empty($p['user_id'])) {
+                        send_notification_anggota($p['user_id'], [
+                            'title'   => 'Tagihan Iuran Bulanan ' . bulanIndo($bulan),
+                            'message' => "Tagihan bulan " . bulanIndo($bulan) . " sudah terbit. Silahkan bayar.",
+                            'link'    => 'sw-anggota/iuran',
+                        ]);
+                    }
+
+                    // Insert Batch tetap berjalan per 1000 data agar insert ke tabel iuran cepat
+                    if (count($batch) == $chunkSize || ($index + 1) == $totalData) {
+                        $this->db->table('iuran_bulanan')->insertBatch($batch);
+                        $batch = [];
+                    }
+                }
+            }
+            $total = $totalData;
+            $this->db->transCommit();
+            return $total;
+        } catch (\Throwable $e) {
+
+            $this->db->transRollback();
+            return 0;
+        }
+    }
 }

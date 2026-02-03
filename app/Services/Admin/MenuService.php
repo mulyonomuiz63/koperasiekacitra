@@ -54,11 +54,11 @@ class MenuService
     {
         // Logika tambahan: Pastikan parent_id adalah integer
         $saveData = [
-            'nama_menu' => $data['nama_menu'],
+            'name' => $data['name'],
             'url'       => $data['url'] ?? '#',
             'icon'      => $data['icon'] ?? 'bi bi-grid',
             'parent_id' => !empty($data['parent_id']) ? (string)$data['parent_id'] : 0,
-            'urutan'    => !empty($data['urutan']) ? (int)$data['urutan'] : 1,
+            'menu_order'    => !empty($data['menu_order']) ? (int)$data['menu_order'] : 1,
             'is_active' => 1
         ];
 
@@ -80,11 +80,11 @@ class MenuService
 
         // 3. Susun data update
         $updateData = [
-            'nama_menu' => $data['nama_menu'],
+            'name'      => $data['name'],
             'url'       => $data['url'] ?? $menu['url'],
             'icon'      => $data['icon'] ?? $menu['icon'],
             'parent_id' => isset($data['parent_id']) ? (string)$data['parent_id'] : $menu['parent_id'],
-            'urutan'    => isset($data['urutan']) ? (int)$data['urutan'] : $menu['urutan'],
+            'menu_order'    => isset($data['menu_order']) ? (int)$data['menu_order'] : $menu['menu_order'],
         ];
 
         return $this->menu->update($id, $updateData);

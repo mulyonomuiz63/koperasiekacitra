@@ -38,7 +38,7 @@ class IuranBulananService
             'pegawai_id'            => $row['pegawai_id'],
             'nama_pegawai'          => $row['nama_pegawai'],
             'tgl_tagihan'          => $row['tgl_tagihan'],
-            'bulan_tahun'           => $row['bulan'] . ' - ' . $row['tahun'],
+            'bulan_tahun'           => bulanIndo($row['bulan']) . ' - ' . $row['tahun'],
             'bulan'                 => $row['bulan'],
             'tahun'                 => $row['tahun'],
             'jumlah_iuran'          => $row['jumlah_iuran'],
