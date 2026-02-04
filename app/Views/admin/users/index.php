@@ -135,13 +135,13 @@ $(document).ready(function () {
                     let btnDelete = '';
                     let btnPermission = '';
 
-                    btnPermission = `
-                        <a href="<?= base_url('users/permission') ?>/${row.id}"
-                        class="btn btn-sm btn-light-primary me-1"
-                        data-bs-toggle="tooltip"
-                        title="Atur Permission">
-                            <i class="bi bi-shield-lock"></i>
-                        </a>`;
+                    // btnPermission = `
+                    //     <a href="<?= base_url('users/permission') ?>/${row.id}"
+                    //     class="btn btn-sm btn-light-primary me-1"
+                    //     data-bs-toggle="tooltip"
+                    //     title="Atur Permission">
+                    //         <i class="bi bi-shield-lock"></i>
+                    //     </a>`;
 
                     if (row.can_edit) {
                         btnEdit = `
@@ -166,7 +166,6 @@ $(document).ready(function () {
 
                     return `
                         <div class="d-flex justify-content-end">
-                            ${btnPermission}
                             ${btnEdit}
                             ${btnDelete}
                         </div>`;
