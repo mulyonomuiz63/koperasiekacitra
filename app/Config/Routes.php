@@ -161,6 +161,7 @@ $routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untu
         $routes->post('datatable', 'Admin\PembayaranController::datatable',['filter' => 'permission:pembayaran,view']);
         $routes->get('edit/(:segment)', 'Admin\PembayaranController::edit/$1',['filter' => 'permission:pembayaran,update']);
         $routes->post('update/(:segment)', 'Admin\PembayaranController::update/$1');
+        $routes->get('invoice/(:segment)', 'Admin\PembayaranController::invoice/$1');
     });
 
 

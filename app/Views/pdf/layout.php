@@ -84,12 +84,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
-    <div class="pdf-header">
-        <h2><?= esc($header ?? 'Dokumen Resmi') ?></h2>
-        <small><?= esc($subheader ?? '') ?></small>
-    </div>
-
     <!-- CONTENT -->
     <div class="pdf-content">
         <?= $this->renderSection('content') ?>

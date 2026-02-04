@@ -75,10 +75,7 @@ class IuranBulananController extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException();
         }
 
-        $data['title']     = 'Invoice Pembayaran';
-        $data['header']    = 'INVOICE PEMBAYARAN';
-        $data['subheader'] = 'Sistem Iuran Bulanan';
-        $data['footer']    = 'Dokumen resmi';
+     
         $pdf = new PdfService();
 
         return $pdf->render('pdf/invoice', $data, 'invoice-' . $id . '.pdf');

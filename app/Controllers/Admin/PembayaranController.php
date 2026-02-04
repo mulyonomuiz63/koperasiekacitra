@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
@@ -22,7 +23,6 @@ class PembayaranController extends BaseController
         $this->pegawai = new PegawaiModel();
         $this->menuId = $this->setMenu('pembayaran');
         $this->service = new PembayaranService();
-
     }
 
     public function index()
@@ -44,7 +44,7 @@ class PembayaranController extends BaseController
         );
     }
 
-   
+
     public function edit($id)
     {
         $data = $this->service->getEditData($id);
@@ -70,11 +70,24 @@ class PembayaranController extends BaseController
 
             return redirect()->to(base_url('pembayaran'))
                 ->with('success', 'Pembayaran berhasil diproses');
-
         } catch (\Throwable $e) {
 
             return redirect()->back()
                 ->with('error', $e->getMessage());
         }
+    }
+
+    public function invoice($id)
+    {
+        $pembayaran = $this->pembayaran->getPembayaranWithPegawai($id); // Sesuaikan method model Anda
+
+        if (!$pembayaran || $pembayaran['status'] !== 'A') {
+            return redirect()->back()->with('error', 'Invoice tidak tersedia atau belum disetujui.');
+        }
+
+        return view('admin/pembayaran/invoice', [
+            'pembayaran' => $pembayaran,
+            'title'      => 'Invoice #' . $pembayaran['id']
+        ]);
     }
 }
