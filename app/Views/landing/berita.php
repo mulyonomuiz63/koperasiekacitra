@@ -84,7 +84,7 @@
                 data-tns-prev-button="#kt_news_slider_prev"
                 data-tns-next-button="#kt_news_slider_next"
                 data-tns-responsive='{
-                    "0": { "items": 3, "gutter": 8 },
+                    "0": { "items": 2, "gutter": 10 }, 
                     "768": { "items": 4, "gutter": 15 },
                     "1200": { "items": 5, "gutter": 20 }
                 }'>
