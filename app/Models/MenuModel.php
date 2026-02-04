@@ -19,7 +19,7 @@ class MenuModel extends BaseModel
 
     // Aktifkan event model
     protected $beforeInsert = ['setUUID', 'normalizeParent', 'generateSlug'];
-    protected $beforeUpdate = ['normalizeParent', 'generateSlug'];
+    protected $beforeUpdate = ['normalizeParent'];
 
     /* =======================
      *  PUBLIC METHODS
