@@ -21,7 +21,9 @@ class ActivityController extends BaseController
             $data = $this->service->getUserActivity(session()->get('user_id'));
             return view('anggota/activity/index', $data);
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengambil data aktivitas.');
+            return redirect()->back()
+                     ->withInput() // Agar input user tidak hilang saat refresh
+                     ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }    
 
@@ -36,7 +38,9 @@ class ActivityController extends BaseController
             $this->service->savePegawaiData(session()->get('user_id'), $this->request->getPost());
             return redirect()->to('/sw-anggota/activity')->with('success', 'Data pegawai berhasil disimpan.');
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data pegawai.');
+            return redirect()->back()
+                     ->withInput() // Agar input user tidak hilang saat refresh
+                     ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -56,7 +60,9 @@ class ActivityController extends BaseController
             return redirect()->to('/sw-anggota/activity')->with('error', $result['message']);
 
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengupload bukti pembayaran.');
+            return redirect()->back()
+                     ->withInput() // Agar input user tidak hilang saat refresh
+                     ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

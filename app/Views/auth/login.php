@@ -27,7 +27,7 @@
                         </h1>
 
                         <div class="text-gray-500 fw-semibold fs-5 d-flex align-items-center justify-content-center">
-                                Selamat datang kembali.
+                            Selamat datang kembali.
                         </div>
                     </div>
 
@@ -82,6 +82,20 @@
                             Buat Akun Baru
                         </a>
                     </div>
+                    <?php if(setting('client_status') == 'A'): ?>
+                        <div class="separator separator-content my-14">
+                            <span class="w-125px text-gray-500 fw-semibold fs-7">Atau gunakan akun Google</span>
+                        </div>
+        
+                        <div class="row g-3 mb-9">
+                            <div class="col-md-12">
+                                <a href="<?= base_url('auth/google/login') ?>" class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3">
+                                    <img alt="Logo Google" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" class="h-15px me-3" />
+                                    Masuk dengan Google
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>

@@ -34,6 +34,55 @@ class AuthController extends BaseController
         return view('auth/login', $data);
     }
 
+    //login menggunakan google
+    public function googleLogin()
+    {
+        $clientId = setting('client_id');
+        $clientSecret = setting('client_secret');
+
+        $client = new \Google\Client();
+        $client->setClientId($clientId);
+        $client->setClientSecret($clientSecret);
+        $client->setRedirectUri(base_url('auth/google/callback'));
+
+        // Memberitahu Google data apa saja yang kita minta
+        $client->addScope("email");
+        $client->addScope("profile");
+
+        // Redirect user ke halaman login Google
+        return redirect()->to($client->createAuthUrl());
+    }
+    public function googleCallback()
+    {
+        // Asumsi Anda punya helper atau model untuk ambil setting
+        $clientId = setting('client_id');
+        $clientSecret = setting('client_secret');
+
+        $client = new \Google\Client();
+        $client->setClientId($clientId);
+        $client->setClientSecret($clientSecret);
+        $client->setRedirectUri(base_url('auth/google/callback'));
+
+        $token = $client->fetchAccessTokenWithAuthCode($this->request->getGet('code'));
+
+        if (isset($token['error'])) {
+            return redirect()->to('/login')->with('error', 'Gagal otentikasi Google.');
+        }
+
+        $client->setAccessToken($token);
+        $googleService = new \Google\Service\Oauth2($client);
+        $userInfo = $googleService->userinfo->get(); // Ambil ID, Email, Nama, Picture
+
+        // Panggil service yang kita buat tadi
+        $result = $this->service->attemptGoogleLogin([
+            'id'      => $userInfo->id,
+            'email'   => $userInfo->email,
+            'name'    => $userInfo->name,
+        ]);
+
+        return redirect()->to($result['redirect']);
+    }
+
     public function attemptLogin()
     {
         // 1. Guard Clause: Pastikan hanya menerima request AJAX

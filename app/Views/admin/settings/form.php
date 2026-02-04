@@ -39,6 +39,12 @@
                 </a>
 
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link text-active-primary d-flex align-items-center pb-5" data-bs-toggle="tab" href="#tab_google" role="tab">
+                    <i class="ki-duotone ki-link fs-2 me-2"></i>Google
+                </a>
+
+            </li>
         </ul>
         <!--end:::Tabs-->
 
@@ -469,7 +475,67 @@
 
                     </div>
                 </div>
-                <!--end:::Tab pane seo-->
+                <!--end:::Tab pane recaptcha-->
+
+                <!--begin:::Tab pane google-->
+                <div class="tab-pane fade" id="tab_google" role="tabpanel">
+                    <div class="card-body pt-5">
+
+                        <div class="mb-10">
+                            <h5 class="mb-1">Pengaturan Untuk Registrasi / Login</h5>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Client ID</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="client_id"
+                                    value="<?= old('client_id', $settings['client_id'] ?? '') ?>"
+                                    placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Client Secret</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="client_secret"
+                                    value="<?= old('client_secret', $settings['client_secret'] ?? '') ?>"
+                                    placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Redirect URL</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="redirect_uri"
+                                    value="<?= old('redirect_uri', $settings['redirect_uri'] ?? '') ?>"
+                                    placeholder="" />
+                            </div>
+                        </div>
+                        <!-- Contoh: Status -->
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">Status</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select name="client_status" class="form-select form-select-solid">
+                                    <option value="A" <?= (isset($settings['client_status']) && $settings['client_status'] === 'A') ? 'selected' : '' ?>>Aktif</option>
+                                    <option value="T" <?= (isset($settings['client_status']) && $settings['client_status'] === 'T') ? 'selected' : '' ?>>Non-Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end:::Tab pane google-->
             </div>
             <!--end:::Tab content-->
 

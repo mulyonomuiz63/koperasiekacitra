@@ -49,12 +49,14 @@ class ActivityService
         // 1. Definisi Aturan (Rules)
         $rules = [
             'nip'           => 'required|numeric|max_length[20]',
-            'nik'           => 'required|numeric|exact_length[16]',
+            'nik'           => 'required|numeric|exact_length[16]|is_unique[pegawai.nik,user_id,' . $userId . ']',
             'nama'          => 'required|alpha_space|max_length[25]',
             'jenis_kelamin' => 'required|in_list[L,P]',
             'no_hp'         => 'required|numeric|min_length[10]|max_length[15]',
             'tempat_lahir'  => 'required|alpha_space|max_length[50]',
-            'alamat'        => 'required|string|max_length[255]'
+            'alamat'        => 'required|string|max_length[255]',
+            'angkatan'      => 'required|numeric',
+
         ];
 
         // 2. Definisi Pesan Error Custom (Bahasa Indonesia)
@@ -67,7 +69,8 @@ class ActivityService
             'nik' => [
                 'required'     => 'NIK wajib diisi.',
                 'numeric'      => 'NIK harus berupa angka.',
-                'exact_length' => 'NIK harus tepat 16 digit.'
+                'exact_length' => 'NIK harus tepat 16 digit.',
+                'is_unique'    => 'NIK ini sudah terdaftar di sistem.'
             ],
             'nama' => [
                 'required'    => 'Nama lengkap wajib diisi.',
@@ -86,7 +89,11 @@ class ActivityService
             'alamat' => [
                 'required'   => 'Alamat wajib diisi.',
                 'max_length' => 'Alamat terlalu panjang (maksimal 255 karakter).'
-            ]
+            ],
+            'angkatan' => [
+                'required'   => 'Angkatan wajib diisi.',
+                'numeric'    => 'Angkatan harus berupa angka.',
+            ],
         ];
 
         // Jalankan Validasi
@@ -106,7 +113,8 @@ class ActivityService
             'tempat_lahir'  => strip_tags($data['tempat_lahir']),
             'alamat'        => htmlspecialchars($data['alamat']),
             'no_hp'         => esc($data['no_hp']),
-            'tanggal_masuk' => date('Y-m-d')
+            'tanggal_masuk' => date('Y-m-d'),
+            'angkatan'      => esc($data['angkatan'])
         ];
 
         return (bool) $this->pegawaiModel

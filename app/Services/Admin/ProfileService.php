@@ -34,13 +34,12 @@ class ProfileService
         }
 
         // 2. Hitung Total Saldo Iuran (Hanya yang statusnya 'S' / Sukses)
-        $totalSaldo = $this->db->table('iuran_bulanan')
-            ->join('pegawai', 'pegawai.id = iuran_bulanan.pegawai_id')
-            ->where('iuran_bulanan.status', 'S')
-            ->where('pegawai.user_id', $userId) // Menggunakan user_id dari session
-            ->selectSum('jumlah_iuran')
-            ->get()
-            ->getRow()->jumlah_iuran ?? 0;
+        $totalSaldo = $this->db->table('pembayaran')
+            ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
+            ->where('pembayaran.status', 'A')
+            ->where('pegawai.user_id', $userId)
+            ->selectSum('pembayaran.jumlah_bayar')
+            ->get()->getRow()->jumlah_bayar ?? 0;
 
         return [
             'user'        => $userData,
@@ -86,7 +85,11 @@ class ProfileService
             'alamat' => [
                 'required'   => 'Alamat wajib diisi.',
                 'max_length' => 'Alamat terlalu panjang (maksimal 255 karakter).'
-            ]
+            ],
+            'angkatan' => [
+                'required'   => 'Angkatan wajib diisi.',
+                'numeric'    => 'Angkatan harus berupa angka.',
+            ],
         ];
 
         // Jalankan Validasi
@@ -105,12 +108,30 @@ class ProfileService
             'tempat_lahir'  => strip_tags($data['tempat_lahir']),
             'alamat'        => htmlspecialchars($data['alamat']),
             'no_hp'         => esc($data['no_hp']),
-            'tanggal_masuk' => date('Y-m-d')
+            'tanggal_masuk' => date('Y-m-d'),
+            'angkatan'      => esc($data['angkatan'])
         ];
 
         return (bool) $this->pegawaiModel
             ->where('id', $id)
             ->set($updateData)
             ->update();
+    }
+
+    public function updatePassword(string $id, array $data): bool
+    {
+        // 1. Pastikan key sesuai dengan input form (tadi kita pakai 'new_password')
+        // Jika di controller Anda sudah mengubahnya menjadi 'password', ini sudah oke.
+        $passwordBaru = $data['new_password'] ?? $data['password'];
+
+        // 2. Lakukan Hashing
+        $updateData = [
+            'password' => password_hash($passwordBaru, PASSWORD_DEFAULT),
+            'updated_at' => date('Y-m-d H:i:s') // Opsional: catat waktu perubahan
+        ];
+
+        // 3. Jalankan Update
+        // Menggunakan return langsung karena update() mengembalikan boolean
+        return $this->userModel->update($id, $updateData);
     }
 }

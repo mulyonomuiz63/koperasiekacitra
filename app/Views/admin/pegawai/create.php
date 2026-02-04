@@ -34,7 +34,7 @@
             <!-- NIP -->
             <div class="col-md-6">
                 <label class="form-label">NIP</label>
-                <input type="number" name="nip" class="form-control form-control-solid">
+                <input type="text" name="nip" class="form-control form-control-solid" value="<?=  date('Ymd') . rand(1000, 9999) ?>" readonly>
             </div>
 
             <!-- NAMA -->
@@ -113,7 +113,10 @@
                     <option value="T">Tidak Aktif</option>
                 </select>
             </div>
-
+            <div class="col-md-6">
+                <label class="required form-label">Angkatan <span style="opacity: 0.6; font-size: 0.9em;">(Isi 0 untuk yang tidak memiliki angkatan)</span></label>
+                <input type="number" name="angkatan" class="form-control form-control-solid" value="0" required>
+            </div>
             <!-- ALAMAT -->
             <div class="col-md-6">
                 <label class="required form-label">Alamat</label>

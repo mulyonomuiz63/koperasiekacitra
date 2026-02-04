@@ -6,36 +6,20 @@
         <div class="d-flex flex-wrap flex-sm-nowrap">
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <?php if (empty($user['avatar'])): ?>
-                        <?= img_lazy('uploads/avatars/' . $user['avatar'], 'Image', ['style'  => 'width: 100px; height: 100px; object-fit: cover']) ?>
-                    <?php else: ?>
-                        <div style="
-                            width: 100px; 
-                            height: 100px; 
-                            background-color: #009ef7; 
-                            color: #ffffff; 
-                            display: flex; 
-                            align-items: center; 
-                            justify-content: center; 
-                            font-size: 35px; 
-                            font-weight: bold; 
-                            border-radius: 50%;
-                            text-transform: uppercase;
-                        ">
-                            <?php
-                            $nama = get_pegawai(session()->get('user_id'))['nama_anggota'];
-                            $words = explode(" ", $nama);
-                            $initials = "";
-
-                            if (count($words) >= 2) {
-                                $initials = substr($words[0], 0, 1) . substr($words[1], 0, 1);
-                            } else {
-                                $initials = substr($nama, 0, 1);
-                            }
-                            echo strtoupper($initials);
-                            ?>
-                        </div>
-                    <?php endif; ?>
+                    <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                        <?php if (!empty($user['avatar'])): ?>
+                            <?= img_lazy('uploads/avatars/' . $user['avatar'], 'Image', ['style' => 'width: 100px; height: 100px; object-fit: cover', 'class' => 'rounded-circle']) ?>
+                        <?php else: ?>
+                            <div class="rounded-circle" style="width: 100px; height: 100px; background-color: #009ef7; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 35px; font-weight: bold; text-transform: uppercase;">
+                                <?php
+                                $nama = $user['nama'];
+                                $words = explode(" ", $nama);
+                                echo (count($words) >= 2) ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1)) : strtoupper(substr($nama, 0, 1));
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+                    </div>
                     <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                 </div>
             </div>
@@ -60,7 +44,7 @@
                     <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
                         <div class="d-flex align-items-center">
                             <i class="ki-outline ki-arrow-up fs-3 text-success me-2"></i>
-                            <div class="fs-2 fw-bold">Rp <?= ringkas_uang(500000000) ?></div>
+                            <div class="fs-2 fw-bold">Rp <?= ringkas_uang($total_saldo) ?></div>
                         </div>
                         <div class="fw-semibold fs-6 text-gray-400">Saldo Iuran</div>
                     </div>
@@ -101,6 +85,10 @@
             <div class="row mb-7">
                 <label class="col-lg-4 fw-semibold text-muted">Jenis Kelamin</label>
                 <div class="col-lg-8"><span class="fw-bold fs-6 text-gray-800"><?= $user['jenis_kelamin'] === 'L' ? 'Laki-Laki' : 'Perempuan' ?></span></div>
+            </div>
+            <div class="row mb-7">
+                <label class="col-lg-4 fw-semibold text-muted">Angkatan</label>
+                <div class="col-lg-8"><span class="fw-bold fs-6 text-gray-800"><?= $user['angkatan'] ?></span></div>
             </div>
         </div>
     </div>
@@ -155,12 +143,71 @@
                         <label class="form-label fw-bold text-dark">Alamat Lengkap</label>
                         <textarea name="alamat" class="form-control" rows="3" required><?= old('alamat', $user['alamat'] ?? $user['alamat']) ?></textarea>
                     </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Angkatan <span style="opacity: 0.6; font-size: 0.9em;">(Isi 0 untuk yang tidak memiliki angkatan)</span></label>
+                        <input type="number" name="angkatan" class="form-control" value="<?= old('angkatan', $user['angkatan'] ?? '0') ?>">
+                    </div>
                 </div>
                 <div class="d-flex justify-content-end gap-3 mt-4">
                     <button type="button" class="btn btn-light" onclick="toggleEdit(false)">Batal</button>
                     <button type="submit" class="btn btn-primary px-10 shadow-sm">Simpan Perubahan</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush">
+    <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Keamanan & Password</h3>
+        </div>
+    </div>
+
+    <div id="kt_account_signin_method" class="collapse show">
+        <div class="card-body border-top p-9">
+            <div id="password_display" class="d-flex flex-wrap align-items-center">
+                <div id="password_summary">
+                    <div class="fs-6 fw-bold mb-1">Password</div>
+                    <div class="fw-semibold text-gray-600">************</div>
+                </div>
+                <div id="password_button" class="ms-auto">
+                    <button class="btn btn-light btn-active-light-primary fw-bold" onclick="togglePasswordEdit(true)">Ubah Password</button>
+                </div>
+            </div>
+
+            <div id="password_edit" class="flex-row-fluid d-none">
+                <form action="<?= base_url('sw-anggota/profil/update-password') ?>" method="post" id="kt_signin_change_password">
+                    <?= csrf_field() ?>
+                    <div class="row mb-1">
+                        <div class="col-lg-6">
+                            <div class="fv-row mb-0">
+                                <label for="new_password" class="form-label fs-6 fw-bold mb-3">Password Baru</label>
+                                <input type="password" class="form-control form-control-lg form-control-solid" name="new_password" id="new_password" placeholder="Masukkan password baru" required />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="fv-row mb-0">
+                                <label for="confirm_password" class="form-label fs-6 fw-bold mb-3">Konfirmasi Password Baru</label>
+                                <input type="password" class="form-control form-control-lg form-control-solid" name="confirm_password" id="confirm_password" placeholder="Ulangi password baru" required />
+                                <div id="password-error-msg" class="invalid-feedback fw-bold">
+                                    Konfirmasi password tidak cocok dengan password baru.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-text mb-5 mt-2 text-muted">
+                        <i class="ki-duotone ki-information fs-7 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        Minimal 8 karakter. Pastikan password sulit ditebak untuk keamanan akun Anda.
+                    </div>
+
+                    <div class="d-flex mt-5">
+                        <button type="submit" class="btn btn-primary me-2 px-6 shadow-sm">Simpan Password</button>
+                        <button type="button" class="btn btn-light btn-active-light-primary px-6" onclick="togglePasswordEdit(false)">Batal</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -178,6 +225,71 @@
             formSection.style.display = 'none';
         }
     }
+
+    function togglePasswordEdit(show) {
+        const display = document.getElementById('password_display');
+        const editForm = document.getElementById('password_edit');
+
+        if (show) {
+            display.classList.add('d-none');
+            editForm.classList.remove('d-none');
+        } else {
+            display.classList.remove('d-none');
+            editForm.classList.add('d-none');
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('kt_signin_change_password');
+        const newPass = document.getElementById('new_password');
+        const confirmPass = document.getElementById('confirm_password');
+        const submitBtn = form.querySelector('button[type="submit"]');
+
+        function validatePassword() {
+            const passVal = newPass.value;
+            const confirmVal = confirmPass.value;
+            
+            // Syarat 1: Password minimal 8 karakter
+            const isLongEnough = passVal.length >= 8;
+            
+            // Syarat 2: Password dan Konfirmasi harus cocok
+            const isMatch = passVal === confirmVal;
+
+            // Validasi Field Password Baru (Panjang Karakter)
+            if (passVal.length > 0) {
+                if (!isLongEnough) {
+                    newPass.classList.add('is-invalid');
+                } else {
+                    newPass.classList.remove('is-invalid');
+                    newPass.classList.add('is-valid');
+                }
+            } else {
+                newPass.classList.remove('is-invalid', 'is-valid');
+            }
+
+            // Validasi Field Konfirmasi (Kecocokan)
+            if (confirmVal.length > 0) {
+                if (!isMatch) {
+                    confirmPass.classList.add('is-invalid');
+                    confirmPass.classList.remove('is-valid');
+                } else {
+                    confirmPass.classList.remove('is-invalid');
+                    confirmPass.classList.add('is-valid');
+                }
+            } else {
+                confirmPass.classList.remove('is-invalid', 'is-valid');
+            }
+
+            // Aktifkan tombol hanya jika kedua syarat terpenuhi
+            submitBtn.disabled = !(isMatch && isLongEnough);
+        }
+
+        // Gunakan event 'input' agar perubahan langsung terdeteksi saat mengetik/paste
+        newPass.addEventListener('input', validatePassword);
+        confirmPass.addEventListener('input', validatePassword);
+    });
 </script>
 
 <?= $this->endSection() ?>

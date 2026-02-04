@@ -54,7 +54,36 @@ class ProfilController extends BaseController
         } catch (\Throwable $e) {
             // Menangkap error sistem yang tidak terduga (Database crash, dll)
             // Log error asli untuk internal, tapi tampilkan pesan umum ke user
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat memproses data.');
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updatePassword()
+    {
+        try {
+            $userId = session()->get('user_id');
+            $postData = $this->request->getPost();
+
+            // 1. Tambahkan Validasi Manual di Controller
+            // Agar tidak berat ke database jika inputnya saja sudah salah
+            if ($postData['new_password'] !== $postData['confirm_password']) {
+                return redirect()->back()->with('error', 'Konfirmasi password tidak cocok.');
+            }
+
+            if (strlen($postData['new_password']) < 8) {
+                return redirect()->back()->with('error', 'Password minimal harus 8 karakter.');
+            }
+
+            // 2. Jalankan service
+            $this->service->updatePassword($userId, $postData);
+
+            // Ubah pesan sukses agar lebih relevan
+            return redirect()->to('/sw-anggota/profil')->with('success', 'Password berhasil diperbarui.');
+        } catch (\RuntimeException $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            // Gunakan pesan yang lebih ramah pengguna untuk error sistem
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat mengubah password.');
         }
     }
 }

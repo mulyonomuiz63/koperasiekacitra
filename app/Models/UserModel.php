@@ -8,6 +8,7 @@ class UserModel extends BaseModel
     protected $table = 'users';
     
     protected $allowedFields = [
+        'google_id',
         'username',
         'email',
         'password',

@@ -30,9 +30,9 @@
             <!-- NIP -->
             <div class="col-md-6">
                 <label class="form-label">NIP</label>
-                <input type="number" name="nip"
+                <input type="text" name="nip"
                        class="form-control form-control-solid"
-                       value="<?= esc($pegawai['nip']) ?>">
+                       value="<?= esc($pegawai['nip']) ?>" readonly>
             </div>
 
             <!-- NAMA -->
@@ -126,6 +126,10 @@
                     <option value="T" <?= $pegawai['status_iuran']=='T'?'selected':'' ?>>Tidak Aktif</option>
                 </select>
             </div>
+            <div class="col-md-6">
+                <label class="required form-label">Angkatan <span style="opacity: 0.6; font-size: 0.9em;">(Isi 0 untuk yang tidak memiliki angkatan)</span></label>
+                <input type="number" name="angkatan" class="form-control form-control-solid" value="<?= esc($pegawai['angkatan']) ?>" required>
+            </div>
 
             <!-- ALAMAT -->
             <div class="col-md-6">
@@ -134,6 +138,8 @@
                           class="form-control form-control-solid"
                           rows="3" required><?= esc($pegawai['alamat']) ?></textarea>
             </div>
+
+            
 
         </div>
     </div>

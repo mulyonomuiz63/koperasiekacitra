@@ -22,6 +22,8 @@ class PegawaiModel extends BaseModel
         'tanggal_masuk',
         'status',
         'status_iuran',
+        'avatar',
+        'angkatan',
     ];
 
     /* =========================

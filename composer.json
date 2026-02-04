@@ -13,6 +13,7 @@
         "php": "^8.1",
         "codeigniter4/framework": "^4.0",
         "dompdf/dompdf": "^3.1",
+        "google/apiclient": "^2.19",
         "phpoffice/phpspreadsheet": "^5.4",
         "ramsey/uuid": "^4.9"
     },

@@ -31,6 +31,48 @@ class AuthService
         $this->emailService = new EmailService();
     }
 
+    //login menggunakan google
+    public function attemptGoogleLogin(array $googleUser): array 
+    {
+        $email = strtolower(filter_var($googleUser['email'], FILTER_SANITIZE_EMAIL));
+        
+        // 1. Cari user berdasarkan email
+        $user = $this->userModel->where('email', $email)->first();
+
+        if ($user) {
+            // Jika user ditemukan, pastikan akunnya aktif
+            if ($user['status'] !== 'active') {
+                return $this->error('Akun Google Anda terdaftar, namun status akun non-aktif.');
+            }
+
+            // Opsional: Update google_id jika sebelumnya kosong (Link Account otomatis)
+            if (empty($user['google_id'])) {
+                $this->userModel->update($user['id'], ['google_id' => $googleUser['id']]);
+            }
+        } else {
+            // 2. Jika user TIDAK ADA, maka otomatis DAFTARKAN (Auto-Registration)
+            $role = $this->roleModel->where('role_key', 'ANGGOTA')->first();
+            $userId = $this->userModel->insert([
+                'nama'      => $googleUser['name'],
+                'email'     => $email,
+                'google_id' => $googleUser['id'],
+                'password'  => null, // User Google tidak punya password lokal di awal
+                'status'    => 'active', // Langsung aktif karena email sudah diverifikasi Google
+                'role_id'   => $role['id'], // Default role anggota
+            ]);
+            
+            $user = $this->userModel->find($userId);
+        }
+
+        // 3. Set Session (Gunakan logic yang sama dengan Login Manual)
+        $this->setSession($user);
+
+        return [
+            'status'   => 'success',
+            'redirect' => $this->redirectByRole($user['role_id'])
+        ];
+    }
+
     public function attemptLogin(
         string $email,
         string $password,

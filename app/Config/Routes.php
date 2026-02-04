@@ -18,6 +18,17 @@ $routes->group('blog', function ($routes) {
 $routes->get('/login', 'AuthController::login', ['filter' => 'guest']);
 $routes->post('/login', 'AuthController::attemptLogin', ['filter' => 'guest']);
 
+// Route Google Authentication
+$routes->group('auth', function($routes) {
+    $routes->group('google', function($routes) {
+        // Ini yang dipanggil di tombol "Masuk dengan Google"
+        $routes->get('login', 'AuthController::googleLogin'); 
+        
+        // Ini adalah Redirect URI yang didaftarkan di Google Console
+        $routes->get('callback', 'AuthController::googleCallback'); 
+    });
+});
+
 $routes->get('register', 'AuthController::register');
 $routes->post('register', 'AuthController::store');
 $routes->post('auth/check-email', 'AuthController::checkEmail');
@@ -192,6 +203,7 @@ $routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untu
     $routes->group('profil', function ($routes) {
         $routes->get('/', 'Admin\ProfilController::index');
         $routes->post('update', 'Admin\ProfilController::saveData');
+        $routes->post('update-password', 'Admin\ProfilController::updatePassword');
     });
 
     $routes->group('settings', function ($routes) {
@@ -211,6 +223,7 @@ $routes->group('sw-anggota', ['filter'=>['auth','role:ANGGOTA,ADMIN', 'anggotaRe
 
     $routes->get('profil', 'Pengguna\ProfilController::index');
     $routes->post('profil/update', 'Pengguna\ProfilController::saveData');
+    $routes->post('profil/update-password', 'Pengguna\ProfilController::updatePassword');
     $routes->get('iuran', 'Pengguna\IuranBulananController::index');
     $routes->post('iuran/datatable', 'Pengguna\IuranBulananController::datatable');
 
