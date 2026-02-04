@@ -237,17 +237,19 @@
 
             <!-- ================= FOOTER ================= -->
             <?php if ($pembayaran['status'] === 'A'): ?>
-                <div class="d-flex flex-stack flex-wrap mt-20 pt-13">
+                <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end gap-3">
 
                     <button type="button"
-                        class="btn btn-success me-3"
+                        class="btn btn-success px-9 py-4 shadow-sm order-2 order-sm-1"
                         onclick="window.print()">
-                        Print Invoice
+                        <i class="ki-outline ki-printer fs-2 me-2"></i>
+                        Cetak Invoice
                     </button>
 
                     <a href="<?= base_url('sw-anggota/histori-iuran/download/' . $pembayaran['id']) ?>"
-                        class="btn btn-light-success">
-                        Download Invoice
+                        class="btn btn-light-success px-9 py-4 order-1 order-sm-2">
+                        <i class="ki-outline ki-download fs-2 me-2"></i>
+                        Unduh PDF
                     </a>
 
                 </div>

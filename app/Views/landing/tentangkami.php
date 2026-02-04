@@ -49,7 +49,7 @@
                         Momentum ini bertepatan dengan Peringatan Hari Ulang Tahun <strong>Keluarga Mahasiswa Pencinta Alam Eka Citra UNJ yang ke-44 tahun</strong>. Para anggota luar biasa mendirikan wadah ini dengan penuh kesadaran dan cita-cita luhur terhadap kemajuan organisasi, almamater, hingga bangsa.
                     </p>
 
-                    <p class="mb-0 border-start border-success border-4 ps-6 py-2 bg-light-success rounded-end">
+                    <p class="mb-0 border-start border-success border-4 ps-6 p-2 bg-light-success rounded-end">
                         Koperasi ini merupakan <span class="text-dark fw-bold">badan usaha otonom</span> di bawah naungan <strong>Yayasan Eka Citra Indonesia (YAKANESIA)</strong>, sebagai wadah pemberdayaan ekonomi, profesionalisme, dan kemandirian seluruh anggota.
                     </p>
                 </div>
