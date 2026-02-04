@@ -86,15 +86,6 @@ $(document).ready(function () {
     $('[data-kt-ecommerce-order-filter="search"]').keyup(function () {
         table.search(this.value).draw();
     });
-
-    // Delete confirmation
-    $(document).on('click', '.btn-delete', function () {
-        let url = $(this).data('url');
-        if (confirm('Yakin ingin menghapus slider ini?')) {
-            window.location.href = url;
-        }
-    });
-
 });
 </script>
 <?= $this->endSection() ?>

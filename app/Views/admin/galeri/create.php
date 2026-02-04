@@ -29,10 +29,16 @@
                         placeholder="Masukkan deskripsi"></textarea>
             </div>
 
-            <div class="col-md-6">
+            <div class="mb-5">
+                <label class="form-label">Gambar</label>
+                <input type="file" class="form-control" name="filename" required>
+            </div>
+
+
+            <div class="mb-5">
                 <label class="form-label required">Tempat Penampilan</label>
                 <select name="jenis_galeri"
-                        class="form-select form-select-solid"
+                        class="form-select"
                         required>
                     <option value="atas">Atas</option>
                     <option value="bawah">Bawah</option>
@@ -40,11 +46,7 @@
             </div>
 
 
-            <div class="mb-5">
-                <label class="form-label">Gambar</label>
-                <input type="file" class="form-control" name="filename" required>
-            </div>
-
+            
             <div class="text-end">
                 <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
             </div>
