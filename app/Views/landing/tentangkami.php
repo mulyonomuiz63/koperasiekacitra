@@ -61,7 +61,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 px-7 px-lg-2">
                 <div class="d-flex flex-column gap-5" data-aos="fade-left" data-aos-duration="1200">
 
                     <div class="animated-card d-flex align-items-center p-6 rounded-4 shadow-sm border border-gray-100">
