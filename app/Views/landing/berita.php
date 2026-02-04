@@ -1,18 +1,20 @@
 <?= $this->section('styles') ?>
 <style>
-    /* slider base styles */
+    /* Slider base padding */
     .tns-ovh {
         padding: 15px 0 !important;
     }
 
+    /* Utilitas Gambar */
     .object-fit-cover {
         object-fit: cover;
         width: 100%;
         height: 100%;
     }
 
+    /* Efek Hover Kartu */
     .card-flush {
-        transition: transform 0.3s ease, shadow 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         border: none !important;
     }
 
@@ -21,33 +23,38 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 767.98px) {
-        #berita .card-img-custom {
-            height: 100px !important; /* Tinggi gambar pendek agar 3 item tidak terlalu panjang */
-        }
-        
-        .news-card-mobile .card-body {
-            padding: 0.75rem !important;
-        }
-
-        /* Line clamping height adjustment for mobile */
-        .title-clamp {
-            height: 2.4em !important;
-            min-height: 2.4em !important;
-            font-size: 0.75rem !important; /* Font judul kecil untuk mobile */
-        }
-    }
-
-    /* Desktop line clamping */
+    /* Batasan Baris Judul (Line Clamping) */
     .title-clamp {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-        height: 2.8em;
-        min-height: 2.8em;
+        min-height: 2.8em; /* Menjaga agar card tetap sejajar */
+        line-height: 1.4;
+    }
+
+    /* Penyesuaian Responsif (Khusus Mobile < 768px) */
+    @media (max-width: 767.98px) {
+        #berita .card-img-custom {
+            height: 130px !important; /* Tinggi gambar ideal untuk 2 kolom */
+        }
+        
+        .news-card-mobile .card-body {
+            padding: 1rem !important;
+        }
+
+        .title-clamp {
+            -webkit-line-clamp: 3; /* Mobile boleh 3 baris agar teks tidak terpotong */
+            min-height: 3.5em; /* Memberi ruang agar teks panjang tidak menumpuk ke bawah */
+            font-size: 0.85rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Mengecilkan meta info agar proporsional di 2 kolom */
+        .news-card-mobile .fs-10 {
+            font-size: 0.65rem !important;
+        }
     }
 </style>
 <?= $this->endSection() ?>
@@ -95,7 +102,7 @@
                             <div class="overlay overflow-hidden position-relative">
                                 <?= img_lazy('uploads/news/' . $news['image'], $news['title'], ['class' => 'w-100 h-200px object-fit-cover card-img-custom']) ?>
                             </div>
-
+                            
                             <div class="card-body p-4 p-md-6 d-flex flex-column h-100">
                                 <div class="mb-2">
                                     <span class="text-success fw-bold fs-10 fs-md-8 text-uppercase tracking-widest">
@@ -103,12 +110,14 @@
                                     </span>
                                 </div>
 
-                                <a href="<?= base_url('blog/read/' . $news['slug']) ?>" 
-                                   class="text-gray-900 fw-bolder text-hover-success fs-7 fs-md-4 lh-base mb-4 d-block title-clamp">
-                                    <?= $news['title'] ?>
-                                </a>
+                                <div class="flex-grow-1">
+                                    <a href="<?= base_url('blog/read/' . $news['slug']) ?>" 
+                                    class="text-gray-900 fw-bolder text-hover-success fs-14 fs-md-8 lh-base d-block title-clamp">
+                                        <?= $news['title'] ?>
+                                    </a>
+                                </div>
 
-                                <div class="d-flex align-items-center mt-auto pt-2">
+                                <div class="d-flex align-items-center pt-2">
                                     <div class="symbol symbol-30px symbol-md-40px symbol-circle me-3 flex-shrink-0">
                                         <div class="symbol-label fw-bold bg-light-success text-success fs-7">
                                             <?= strtoupper(substr($news['author'], 0, 1)) ?>
@@ -133,7 +142,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> </div>
+                            </div> 
+                        </div>
                     </div>
                 <?php endforeach; ?>
 

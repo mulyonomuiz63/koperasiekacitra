@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row gy-10" data-aos="fade-up" data-aos-duration="1000">
 
-            <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1200">
+            <div class="col-lg-6 px-7 px-lg-2" data-aos="fade-right" data-aos-duration="1200">
                 <span class="badge badge-light-success fs-7 fw-bold px-4 py-3 mb-5 shadow-sm text-uppercase ls-1">Tentang Kami</span>
                 <h2 class="text-dark fw-bolder fs-2qx mb-7">Mengenal Koperasi Eka Citra</h2>
 
