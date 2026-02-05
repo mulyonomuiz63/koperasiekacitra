@@ -13,11 +13,6 @@ $menus = $menuModel->getMenuByUser(
 $user_data = get_pegawai(session()->get('user_id'));
 $nama = $user_data['nama_anggota'] ?? 'User';
 
-// Logika mengambil inisial (2 huruf depan jika ada 2 kata)
-$words = explode(" ", trim($nama));
-$initials = (count($words) >= 2)
-    ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
-    : substr($words[0], 0, 1);
 ?>
 <div id="kt_app_header" class="app-header mb-2" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false"> <!--begin::Header container-->
     <div class="app-container container-xxl d-flex align-items-stretch justify-content-between" id="kt_app_header_container">
@@ -111,7 +106,9 @@ $initials = (count($words) >= 2)
                     <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         <div class="symbol symbol-50px me-5">
                             <div class="symbol-label fs-3 fw-bold bg-light-primary text-primary">
-                                <?= strtoupper($initials) ?>
+                                <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                    <?= img_lazy(get_user_avatar(session()->get('user_id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                                </div>
                             </div>
                         </div>
                     </div> <!--begin::User account menu-->
@@ -120,7 +117,9 @@ $initials = (count($words) >= 2)
                             <div class="menu-content d-flex align-items-center px-3">
                                 <div class="symbol symbol-50px me-5">
                                     <div class="symbol-label fs-3 fw-bold bg-light-primary text-primary">
-                                        <?= strtoupper($initials) ?>
+                                        <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                            <?= img_lazy(get_user_avatar(session()->get('user_id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column">
@@ -159,31 +158,31 @@ $initials = (count($words) >= 2)
 </div>
 
 <!-- tampilan untuk mobail -->
-<div class="d-lg-none fixed-bottom bg-white border-top shadow-sm p-2" 
-     style="border-radius: 20px 20px 0 0; z-index: 1000; height: 75px;">
+<div class="d-lg-none fixed-bottom bg-white border-top shadow-sm p-2"
+    style="border-radius: 20px 20px 0 0; z-index: 1000; height: 75px;">
 
     <div class="d-flex justify-content-around align-items-center h-100">
-        
-        <a href="<?= base_url('sw-anggota') ?>" 
-           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+
+        <a href="<?= base_url('sw-anggota') ?>"
+            class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-home fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Beranda</span>
         </a>
 
-        <a href="<?= base_url('sw-anggota/iuran') ?>" 
-           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+        <a href="<?= base_url('sw-anggota/iuran') ?>"
+            class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-wallet fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Iuran</span>
         </a>
 
-        <a href="<?= base_url('sw-anggota/histori-iuran') ?>" 
-           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/histori-iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+        <a href="<?= base_url('sw-anggota/histori-iuran') ?>"
+            class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/histori-iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-time fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Histori</span>
         </a>
 
-        <a href="<?= base_url('sw-anggota/profil') ?>" 
-           class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/profil')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+        <a href="<?= base_url('sw-anggota/profil') ?>"
+            class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/profil')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-user fs-1 mb-1"></i>
             <span class="fs-8 fw-bold">Akun</span>
         </a>

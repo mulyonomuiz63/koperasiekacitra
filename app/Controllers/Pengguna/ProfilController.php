@@ -37,6 +37,51 @@ class ProfilController extends BaseController
         }
     }
 
+    public function uploadAvatar()
+    {
+        // Panggil Service
+        try {
+            $userId = session()->get('user_id');
+            $file = $this->request->getFile('avatar');
+
+            // Pastikan ada file yang diunggah sebelum diproses service
+            if (!$file || $file->getError() == 4) {
+                return $this->response->setJSON([
+                    'status'  => 'error',
+                    'message' => 'Silakan pilih file terlebih dahulu.'
+                ]);
+            }
+
+            // Eksekusi Service
+            $result = $this->service->updateAvatar($userId, $file);
+
+            // Berikan response JSON berdasarkan hasil service
+            if ($result['status']) {
+                return $this->response->setJSON([
+                    'status'  => 'success',
+                    'message' => $result['message']
+                ]);
+            }
+
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => $result['message']
+            ]);
+        } catch (\Exception $e) {
+            // Menangkap error tak terduga (database, file system, dll)
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
+            ]);
+        } catch (\Throwable $t) {
+            // Menangkap error level rendah (PHP 7+)
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => 'Kritis: ' . $t->getMessage()
+            ]);
+        }
+    }
+
     public function saveData()
     {
         try {

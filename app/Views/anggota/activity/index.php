@@ -61,7 +61,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
         <div class="d-flex flex-wrap flex-sm-nowrap">
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <?= img_lazy('uploads/profile/default.png', 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                    <?= img_lazy(get_user_avatar(session()->get('id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
                     <?php if ($pegawai['status'] === 'A'): ?>
                         <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                     <?php endif ?>
@@ -207,7 +207,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
         </div>
         <div class="timeline">
 
-            <!-- STEP 1: Lengkapi Data Pegawai -->
+            <!-- STEP 1: Lengkapi Data -->
             <div class="timeline-item">
                 <div class="timeline-line w-40px"></div>
                 <div class="timeline-icon symbol symbol-circle symbol-40px">
@@ -220,7 +220,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                     </div>
                 </div>
                 <div class="timeline-content mb-10">
-                    <div class="fs-5 fw-semibold">1. Lengkapi Data Pegawai</div>
+                    <div class="fs-5 fw-semibold">1. Lengkapi Data</div>
 
                     <?php if (!$isDataLengkap || $editing): ?>
                         <form action="<?= base_url('sw-anggota/lengkapi-data') ?>" method="post">
@@ -385,7 +385,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                             </form>
                         <?php endif ?>
                     <?php else: ?>
-                        <span class="badge badge-light-secondary mt-3">Lengkapi Data Pegawai terlebih dahulu</span>
+                        <span class="badge badge-light-secondary mt-3">Lengkapi Data terlebih dahulu</span>
                     <?php endif ?>
                 </div>
             </div>
@@ -405,7 +405,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                 <div class="timeline-content">
                     <div class="fs-5 fw-semibold">3. Approval Admin</div>
                     <?php if ($pembayaranStatus === 'A'): ?>
-                        <span class="badge badge-light-success mt-3">Disetujui | Pegawai Aktif</span>
+                        <span class="badge badge-light-success mt-3">Disetujui | Aktif</span>
 
                     <?php elseif ($pembayaranStatus === 'P'): ?>
                         <span class="badge badge-light-warning mt-3">Menunggu Approval</span>

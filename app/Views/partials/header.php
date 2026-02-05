@@ -67,7 +67,9 @@ $initials = (count($words) >= 2)
                 <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle"> <!--begin::Menu wrapper-->
                     <div class="cursor-pointer symbol symbol-35px symbol-label fs-3 fw-bold bg-light-primary text-primary" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         <div class="symbol-label fs-3 fw-bold bg-light-primary text-primary">
-                            <?= strtoupper($initials) ?>
+                            <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                <?= img_lazy(get_user_avatar(session()->get('user_id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                            </div>
                         </div>
                     </div>
                     <!--begin::User account menu-->
@@ -76,7 +78,9 @@ $initials = (count($words) >= 2)
                             <div class="menu-content d-flex align-items-center px-3"> <!--begin::Avatar-->
                                 <div class="symbol symbol-50px me-5 bg-light-primary text-primary">
                                     <div class="symbol-label fs-3 fw-bold bg-light-primary text-primary">
-                                        <?= strtoupper($initials) ?>
+                                        <div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+                                            <?= img_lazy(get_user_avatar(session()->get('user_id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm']) ?>
+                                        </div>
                                     </div>
                                 </div> <!--end::Avatar--> <!--begin::Username-->
                                 <div class="d-flex flex-column">
@@ -89,9 +93,6 @@ $initials = (count($words) >= 2)
                         <div class="menu-item px-5"> <a href="<?= base_url('/logout') ?>" class="menu-link px-5">Keluar</a> </div> <!--end::Menu item-->
                     </div> <!--end::User account menu--> <!--end::Menu wrapper-->
                 </div> <!--end::User menu--> <!--begin::Header menu toggle-->
-                <div class="app-navbar-item d-lg-none ms-2 me-n2" title="Show header menu">
-                    <div class="btn btn-flex btn-icon btn-active-color-primary w-30px h-30px" id="kt_app_header_menu_toggle"> <i class="ki-outline ki-element-4 fs-1"></i> </div>
-                </div> <!--end::Header menu toggle--> <!--begin::Aside toggle--> <!--end::Header menu toggle-->
             </div> <!--end::Navbar-->
         </div> <!--end::Header wrapper-->
     </div> <!--end::Header container-->

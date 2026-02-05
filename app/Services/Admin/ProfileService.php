@@ -10,12 +10,14 @@ class ProfileService
 {
     protected $pegawaiModel;
     protected $userModel;
+    protected $uploadPath;
     protected $db;
 
     public function __construct()
     {
         $this->pegawaiModel    = new PegawaiModel();
         $this->userModel    = new UserModel();
+        $this->uploadPath = FCPATH . 'uploads/avatars/';
         $this->db = Database::connect();
     }
     public function getProfilData(string $userId): array
@@ -46,7 +48,7 @@ class ProfileService
             'total_saldo' => $totalSaldo
         ];
     }
-   
+
     public function savePegawaiData(string $id, array $data): bool
     {
         $validation = \Config\Services::validation();
@@ -133,5 +135,76 @@ class ProfileService
         // 3. Jalankan Update
         // Menggunakan return langsung karena update() mengembalikan boolean
         return $this->userModel->update($id, $updateData);
+    }
+
+    public function updateAvatar($userId, $file)
+    {
+        // 1. Validasi File awal
+        if (!$file->isValid() || $file->hasMoved()) {
+            return ['status' => false, 'message' => 'File tidak valid, Coba dengan file lain.'];
+        }
+
+        // Cek mime type
+        if (!in_array($file->getMimeType(), ['image/jpg', 'image/jpeg', 'image/png'])) {
+            return ['status' => false, 'message' => 'Format file harus JPG atau PNG.'];
+        }
+
+        // 2. Ambil data user
+        $user = $this->pegawaiModel->where('user_id', $userId)->first();
+        if (!$user) {
+            return ['status' => false, 'message' => 'User tidak ditemukan.'];
+        }
+
+        // 3. Generate nama unik
+        $newName = $file->getRandomName();
+
+        // 4. Pindahkan file asli sementara
+        if ($file->move($this->uploadPath, $newName)) {
+
+            // --- PROSES KOMPRESI & RESIZE ---
+            $this->compressImage($newName);
+
+            // 5. Logika Hapus Foto Lama (Kecuali default.jpg)
+            $oldAvatar = is_array($user) ? $user['avatar'] : $user->avatar;
+            $this->deleteOldAvatar($oldAvatar);
+
+            // 6. Update Database
+            $this->pegawaiModel->where('user_id', $userId)->set(['avatar' => $newName])->update();
+
+            return [
+                'status' => true,
+                'message' => 'Avatar berhasil diperbarui dan dikompres.',
+                'file_name' => $newName
+            ];
+        }
+
+        return ['status' => false, 'message' => 'Gagal memindahkan file ke server.'];
+    }
+
+    /**
+     * Fungsi privat untuk kompresi gambar
+     */
+    private function compressImage($fileName)
+    {
+        $imageService = \Config\Services::image();
+        $fullPath = $this->uploadPath . $fileName;
+
+        // Proses: Resize ke 300x300 (biar simetris) dan kualitas 70%
+        $imageService->withFile($fullPath)
+            ->resize(300, 300, true, 'center') // Resize ke 300px agar seragam
+            ->save($fullPath, 70); // Simpan kembali dengan kualitas 70%
+    }
+
+    /**
+     * Fungsi internal untuk menghapus file fisik
+     */
+    private function deleteOldAvatar($fileName)
+    {
+        if (!empty($fileName) && $fileName !== 'default.jpg') {
+            $fullPath = $this->uploadPath . $fileName;
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
+        }
     }
 }

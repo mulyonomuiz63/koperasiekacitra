@@ -12,5 +12,6 @@ helper([
     'pegawai',
     'seo',
     'notif',
-    'domain'
+    'domain',
+    'avatar'
 ]);

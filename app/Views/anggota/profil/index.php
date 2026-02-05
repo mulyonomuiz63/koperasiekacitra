@@ -5,24 +5,21 @@
     <div class="card-body pt-9 pb-0">
         <div class="d-flex flex-wrap flex-sm-nowrap">
             <div class="me-7 mb-4">
-                <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                        <?php if (!empty($user['avatar'])): ?>
-                            <?= img_lazy('uploads/avatars/' . $user['avatar'], 'Image', ['style' => 'width: 100px; height: 100px; object-fit: cover', 'class' => 'rounded-circle']) ?>
-                        <?php else: ?>
-                            <div class="rounded-circle" style="width: 100px; height: 100px; background-color: #009ef7; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 35px; font-weight: bold; text-transform: uppercase;">
-                                <?php
-                                $nama = $user['nama'];
-                                $words = explode(" ", $nama);
-                                echo (count($words) >= 2) ? strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1)) : strtoupper(substr($nama, 0, 1));
-                                ?>
-                            </div>
-                        <?php endif; ?>
-                        <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+                <div class="image-input image-input-outline position-relative" data-kt-image-input="true">
+
+                    <div class="image-input-wrapper symbol symbol-100px symbol-lg-160px" style="width: 120px; height: 120px; overflow: hidden; border-radius: 50%;">
+                        <?= img_lazy(get_user_avatar(session()->get('user_id')), 'Profile', ['class'  => 'img-fluid rounded shadow-sm', 'style' => 'width: 100%; height: 100%; object-fit: cover']) ?>
                     </div>
-                    <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow position-absolute translate-middle bottom-0 start-100 mb-6" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Ubah Avatar">
+                        <i class="ki-outline ki-pencil fs-7"></i>
+                        <input type="file" name="avatar" id="avatar-input" accept=".png, .jpg, .jpeg" />
+                        <input type="hidden" name="avatar_remove" />
+                    </label>
+
                 </div>
             </div>
+
             <div class="flex-grow-1">
                 <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
                     <div class="d-flex flex-column">
@@ -211,6 +208,49 @@
         </div>
     </div>
 </div>
+
+<?= $this->endSection() ?>
+<?= $this->section('scripts') ?>
+<script>
+    document.getElementById('avatar-input').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+            // Tambahkan CSRF Token jika aktif di CI4 Anda
+            formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+            // Tampilkan loading sederhana (Opsional)
+            Swal.fire({
+                title: 'Mengunggah...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch('<?= base_url("sw-anggota/profil/upload-avatar") ?>', {
+                    method: 'POST',
+                    body: formData,
+                    referrerPolicy: 'no-referrer' // Agar tidak mengacaukan redirect()->back()
+                })
+                .then(response => response.json())
+                .then(res => {
+                    Swal.close();
+                    if (res.status === 'success') {
+                        Swal.fire('Berhasil!', 'Foto profil diperbarui.', 'success').then(() => {
+                            location.reload(); // Refresh halaman untuk melihat perubahan
+                        });
+                    } else {
+                        Swal.fire('Gagal!', res.message, 'error');
+                    }
+                })
+                .catch(err => {
+                    Swal.fire('Error!', 'Terjadi kesalahan sistem.', err.message);
+                });
+        }
+    });
+</script>
 
 <script>
     function toggleEdit(isEdit) {

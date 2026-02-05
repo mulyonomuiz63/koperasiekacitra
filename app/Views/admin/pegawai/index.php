@@ -136,7 +136,7 @@ $(document).ready(function () {
                             class="btn btn-sm btn-light-danger btn-delete"
                             data-url="<?= base_url('pegawai/delete') ?>/${row.id}"
                             data-title="Hapus Menu"
-                            data-message="Yakin ingin menghapus menu <b>${row.name}</b>?">
+                            data-message="Yakin ingin menghapus menu <b>${row.namaPegawai}</b>?">
                                 <i class="bi bi-trash"></i>
                             </a>`;
                     }

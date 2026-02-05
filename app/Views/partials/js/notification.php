@@ -1,7 +1,9 @@
 <!-- //untuk notif -->
 <script>
     function updateNotification() {
-        fetch('<?= base_url("notif/get-data") ?>')
+        fetch('<?= base_url("notif/get-data") ?>', {
+            referrerPolicy: 'no-referrer',
+        })
             .then(response => response.json())
             .then(res => {
                 const listContainer = document.getElementById('notification-list');
@@ -83,6 +85,7 @@
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                         },
+                        referrerPolicy: 'no-referrer',
                         body: formData // UUID dikirim di sini (Data Body)
                     });
                 } catch (err) {
@@ -94,12 +97,8 @@
             };
         });
     }
-    // Jalankan otomatis
-    updateNotification();
-    setInterval(updateNotification, 30000); // Cek tiap 30 detik
-</script>
+    
 
-<script>
     document.getElementById('btn-read-all').onclick = async function() {
         const targetUrl = '<?= base_url("notif/mark-all-read") ?>';
         const btn = this;
@@ -133,4 +132,11 @@
             btn.disabled = false;
         }
     };
+
+    // Jalankan otomatis
+    updateNotification();
+    const notifInterval = setInterval(updateNotification, 30000);
+    $(document).on('submit', 'form', function() {
+        clearInterval(notifInterval);
+    });
 </script>

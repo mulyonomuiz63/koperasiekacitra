@@ -142,4 +142,17 @@ class UserService
     {
         return $this->validasi->getErrors();
     }
+
+    public function deleteUser(string $id)
+    {
+        // Cek apakah data ada
+        $user = $this->user->find($id);
+
+        if (!$user) {
+            throw new \Exception('User tidak ditemukan atau sudah dihapus.');
+        }
+
+        // Eksekusi hapus
+        return $this->user->delete($id);
+    }
 }

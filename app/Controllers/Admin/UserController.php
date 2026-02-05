@@ -100,18 +100,19 @@ class UserController extends BaseController
         }
     }
 
-
     public function delete($id)
     {
-        $user = $this->userModel->find($id);
-        if (!$user) {
-            return redirect()->back()->with('error','User tidak ditemukan');
+        try {
+            // Eksekusi penghapusan melalui service
+            $this->service->deleteUser($id);
+
+            return redirect()->to(base_url('user'))
+                ->with('success', 'Data user berhasil dihapus.');
+        } catch (\Throwable $e) {
+            // Tangkap pesan error jika data tidak ditemukan atau gagal hapus
+            return redirect()->to(base_url('user'))
+                ->with('error', $e->getMessage());
         }
-
-        $this->userModel->delete($id);
-
-        return redirect()->to('/users')
-            ->with('success','User berhasil dihapus');
     }
 
 
