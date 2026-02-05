@@ -2,15 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Models\IuranBulananModel;
 use App\Models\JabatanModel;
+use Config\Database;
 
 class LaporanService
 {
     protected $jabatan;
+    protected $iuranBulanan;
+    protected $db;
 
     public function __construct()
     {
         $this->jabatan = new JabatanModel();
+        $this->iuranBulanan = new IuranBulananModel();
+        $this->db = Database::connect();
     }
 
     public function get(array $request, string $menuId): array
@@ -44,53 +50,49 @@ class LaporanService
         ];
     }
 
-    public function createJabatan(array $data)
+    public function simpanManual($post)
     {
-        // Anda bisa menambahkan logika tambahan di sini
-        // Contoh: memastikan nama jabatan disimpan dalam huruf kapital
-        if (isset($data['nama_jabatan'])) {
-            $data['nama_jabatan'] = strtoupper($data['nama_jabatan']);
+        $pegawai_id    = $post['pegawai_id'];
+        $tahun         = $post['tahun'];
+        $bulan_mulai   = (int)$post['bulan_mulai'];
+        $bulan_selesai = (int)$post['bulan_selesai'];
+        $status        = $post['status'];
+        $jumlah        = $post['jumlah'];
+
+        $this->db->transStart();
+
+        for ($i = $bulan_mulai; $i <= $bulan_selesai; $i++) {
+            // Membuat format tanggal: YYYY-MM-01 (contoh: 2025-03-01)
+            // str_pad digunakan agar bulan 1-9 menjadi 01-09
+            $bulanPad = str_pad($i, 2, '0', STR_PAD_LEFT);
+            $tgl_tagihan = "{$tahun}-{$bulanPad}-01";
+
+            $exist = $this->db->table('iuran_bulanan')
+                ->where([
+                    'pegawai_id' => $pegawai_id,
+                    'bulan'      => $i,
+                    'tahun'      => $tahun
+                ])->get()->getRow();
+
+            $data = [
+                'pegawai_id'   => $pegawai_id,
+                'bulan'        => $i,
+                'tahun'        => $tahun,
+                'jumlah_iuran' => $jumlah,
+                'status'       => $status,
+                'tgl_tagihan'  => $tgl_tagihan // Tanggal sesuai bulan yang di-loop
+            ];
+
+            if ($exist) {
+                $this->db->table('iuran_bulanan')
+                    ->where('id', $exist->id)
+                    ->update($data);
+            } else {
+                $this->iuranBulanan->insert($data);
+            }
         }
 
-        return $this->jabatan->insert($data);
-    }
-    public function updateJabatan(string $id, array $data)
-    {
-        // 1. Validasi keberadaan data
-        $jabatan = $this->jabatan->find($id);
-
-        if (!$jabatan) {
-            throw new \Exception('Data jabatan tidak ditemukan.');
-        }
-
-        // 2. Tambahan: Normalisasi data jika perlu
-        if (isset($data['nama_jabatan'])) {
-            $data['nama_jabatan'] = strtoupper($data['nama_jabatan']);
-        }
-
-        // 3. Eksekusi update
-        return $this->jabatan->update($id, $data);
-    }
-
-    public function deleteJabatan(string $id)
-    {
-        // 1. Cari datanya
-        $jabatan = $this->jabatan->find($id);
-
-        if (!$jabatan) {
-            throw new \Exception('Jabatan tidak ditemukan.');
-        }
-
-        // 2. Cek Relasi: Apakah masih ada pegawai dengan jabatan ini?
-        // Asumsi Anda punya PegawaiModel atau tabel 'pegawai'
-        $db = \Config\Database::connect();
-        $isUsed = $db->table('pegawai')->where('jabatan_id', $id)->countAllResults();
-
-        if ($isUsed > 0) {
-            throw new \Exception('Jabatan tidak bisa dihapus karena masih digunakan oleh ' . $isUsed . ' pegawai.');
-        }
-
-        // 3. Eksekusi Hapus
-        return $this->jabatan->delete($id);
+        $this->db->transComplete();
+        return $this->db->transStatus();
     }
 }

@@ -122,6 +122,7 @@ $routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untu
     $routes->group('laporan', function ($routes) {
         $routes->get('/', 'Admin\LaporanController::index',['filter' => 'permission:laporan,view']);
         $routes->post('datatable', 'Admin\LaporanController::datatable',['filter' => 'permission:laporan,view']);
+        $routes->post('simpan-manual', 'Admin\LaporanController::simpanManual'); // Simpan Range Bulan
     });
 
 

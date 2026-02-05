@@ -4,7 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\SliderModel;
-use App\Services\Admin\sliderService;
+use App\Services\Admin\SliderService;
 
 class SliderController extends BaseController
 {
