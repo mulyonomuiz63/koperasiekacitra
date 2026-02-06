@@ -15,7 +15,7 @@ $initials = (count($words) >= 2)
         </div> <!--end::Sidebar mobile toggle--> <!--begin::Mobile logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="<?= base_url('/') ?>" class="d-lg-none">
-                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), ['class'  => 'h-30px']) ?>
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), setting('app_name'), ['class'  => 'h-40px']) ?>
             </a>
         </div> <!--end::Mobile logo--> <!--begin::Header wrapper-->
         <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper"> <!--begin::Menu wrapper-->

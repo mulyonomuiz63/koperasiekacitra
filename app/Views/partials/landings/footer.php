@@ -67,11 +67,9 @@
         <div class="container">
             <div class="d-flex flex-column flex-md-row flex-stack py-7 py-lg-10">
                 <div class="d-flex align-items-center order-2 order-md-1">
-                    <a href="#">
-                        <?= img_lazy('uploads/app-icon/' . setting('logo_perusahaan'), '-', ['class' => 'h-20px h-md-25px']) ?> 
-                    </a>
                     <span class="mx-5 fs-6 fw-semibold text-gray-600">
                        Copyright &copy; <?= setting('tahun_berdiri') ?> <?= setting('app_name') ?>. All Rights Reserved.
+                    </span>
                 </div>
                 <div class="d-flex align-items-center order-1 mb-5 mb-md-0">
                     <spa class="text-gray-600 fw-semibold fs-6 me-3">

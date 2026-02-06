@@ -114,23 +114,7 @@ class PegawaiService
                 throw new \Exception('Data pegawai tidak ditemukan.');
             }
 
-            // 2. Mapping data (Pindahkan logika pemetaan dari Controller ke sini)
-            $updateData = [
-                'nip'           => $data['nip'],
-                'nama'          => $data['nama'],
-                'jenis_kelamin' => $data['jenis_kelamin'],
-                'tanggal_lahir' => $data['tanggal_lahir'],
-                'no_hp'         => $data['no_hp'],
-                'perusahaan_id' => $data['perusahaan_id'],
-                'jabatan_id'    => $data['jabatan_id'],
-                'tanggal_masuk' => $data['tanggal_masuk'],
-                'status'        => $data['status'],
-                'status_iuran'  => $data['status_iuran'],
-                'alamat'        => $data['alamat'],
-            ];
-
-            // 3. Eksekusi Update
-            return $this->pegawai->update($id, $updateData);
+            return $this->pegawai->update($id, $data);
         } catch (\Throwable $e) {
             throw new \Exception($e->getMessage());
         }

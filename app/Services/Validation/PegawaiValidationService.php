@@ -64,6 +64,14 @@ class PegawaiValidationService
                     'is_unique' => 'NIP sudah digunakan.',
                 ],
             ],
+            'nik' => [
+                'rules'  => 'permit_empty|numeric|exact_length[16]|is_unique[pegawai.nik]',
+                'errors' => [
+                    'is_unique' => 'NIK sudah digunakan.',
+                    'numeric'      => 'NIK harus berupa angka.',
+                    'exact_length' => 'NIK harus tepat 16 digit.',
+                ],
+            ],
             'nama' => [
                 'rules'  => 'required',
                 'errors' => [
@@ -95,6 +103,14 @@ class PegawaiValidationService
                 'rules'  => "permit_empty|is_unique[pegawai.nip,id,{$pegawaiId}]",
                 'errors' => [
                     'is_unique' => 'NIP sudah digunakan.',
+                ],
+            ],
+            'nik' => [
+                'rules'  => "permit_empty|numeric|exact_length[16]|is_unique[pegawai.nik,id,{$pegawaiId}]",
+                'errors' => [
+                    'is_unique' => 'NIK sudah digunakan.',
+                    'numeric'      => 'NIK harus berupa angka.',
+                    'exact_length' => 'NIK harus tepat 16 digit.',
                 ],
             ],
             'nama' => [

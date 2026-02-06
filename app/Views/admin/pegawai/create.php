@@ -37,6 +37,11 @@
                 <input type="text" name="nip" class="form-control form-control-solid" value="<?=  date('Ymd') . rand(1000, 9999) ?>" readonly>
             </div>
 
+            <div class="col-md-6">
+                <label class="required form-label">NIK</label>
+                <input type="text" name="nik" class="form-control form-control-solid" required>
+            </div>
+
             <!-- NAMA -->
             <div class="col-md-6">
                 <label class="required form-label">Nama Lengkap</label>

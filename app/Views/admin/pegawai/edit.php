@@ -35,6 +35,14 @@
                        value="<?= esc($pegawai['nip']) ?>" readonly>
             </div>
 
+            <!-- NIK -->
+            <div class="col-md-6">
+                <label class="required form-label">NIK</label>
+                <input type="text" name="nik"
+                       class="form-control form-control-solid"
+                       value="<?= esc($pegawai['nik']) ?>" required>
+            </div>
+
             <!-- NAMA -->
             <div class="col-md-6">
                 <label class="required form-label">Nama Lengkap</label>

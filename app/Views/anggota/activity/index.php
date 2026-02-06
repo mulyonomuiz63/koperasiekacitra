@@ -334,7 +334,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
 
                             <!-- Preview Gambar -->
                             <div class="mb-3">
-                                <?= img_lazy('uploads/bukti-bayar/' . $pembayaran['bukti_bayar'], 'Bukti Pembayaran', ['style'  => 'max-width: 300px', 'class'  => 'img-thumbnail']) ?>
+                                <?= img_lazy('uploads/bukti-bayar/' . $pembayaran['bukti_bayar'], 'Bukti Pembayaran', ['style'  => 'max-width: 150px', 'class'  => 'img-thumbnail']) ?>
                             </div>
 
                             <div class="text-end">

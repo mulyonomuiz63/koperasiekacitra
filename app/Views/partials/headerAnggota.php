@@ -22,8 +22,8 @@ $nama = $user_data['nama_anggota'] ?? 'User';
         <!--begin::Logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
             <a href="<?= base_url('sw-anggota') ?>">
-                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-20px h-lg-30px app-sidebar-logo-default theme-light-show']) ?>
-                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-20px h-lg-30px app-sidebar-logo-default theme-dark-show']) ?>
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-40px h-lg-40px app-sidebar-logo-default theme-light-show']) ?>
+                <?= img_lazy('uploads/app-icon/' . setting('app_icon'), '-', ['class' => 'h-40px h-lg-40px app-sidebar-logo-default theme-dark-show']) ?>
             </a>
         </div>
         <!--end::Logo-->
@@ -141,15 +141,6 @@ $nama = $user_data['nama_anggota'] ?? 'User';
                     </div> <!--end::User account menu--> <!--end::Menu wrapper-->
                 </div>
                 <!--end::User menu-->
-                <!--begin::Header menu toggle-->
-                <div class="app-navbar-item d-lg-none ms-2 me-n2" title="Show header menu">
-                    <div class="btn btn-flex btn-icon btn-active-color-primary w-30px h-30px" id="kt_app_header_menu_toggle">
-                        <i class="ki-outline ki-element-4 fs-1"></i>
-                    </div>
-                </div>
-                <!--end::Header menu toggle-->
-                <!--begin::Aside toggle-->
-                <!--end::Header menu toggle-->
             </div>
             <!--end::Navbar-->
         </div>
