@@ -350,8 +350,6 @@ class AuthController extends BaseController
             return $this->response->setJSON($result);
         } catch (\Throwable $e) {
             // Log pesan error teknis ke log sistem
-            log_message('error', '[Register Error]: ' . $e->getMessage());
-
             return $this->response->setJSON([
                 'status'   => 'error',
                 'message'  => 'Terjadi kesalahan saat registrasi. Silakan coba lagi nanti.',

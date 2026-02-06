@@ -23,6 +23,43 @@ class PembayaranModel extends BaseModel
         'validated_at'
     ];
 
+    protected $afterInsert = ['updateSummary'];
+
+    protected function updateSummary(array $data)
+    {
+        // Hanya jika statusnya 'A' (Approved/Sukses)
+        if ($data['data']['status'] === 'A') {
+            $pembayaran = $data['data'];
+            $db = \Config\Database::connect();
+            
+            // Ambil user_id dari tabel pegawai (karena di pembayaran hanya ada pegawai_id)
+            $pegawai = $db->table('pegawai')->select('user_id')->where('id', $pembayaran['pegawai_id'])->get()->getRow();
+
+            if ($pegawai) {
+                $summaryTable = $db->table('saldo_ringkasan');
+                
+                // Cek apakah baris summary sudah ada
+                $exist = $summaryTable->where('user_id', $pegawai->user_id)->countAllResults();
+
+                if ($exist) {
+                    // Jika sudah ada, tinggal tambah saldonya (Increment)
+                    if ($pembayaran['jenis_transaksi'] === 'pendaftaran') {
+                        $summaryTable->where('user_id', $pegawai->user_id)->increment('total_pendaftaran', $pembayaran['jumlah_bayar']);
+                    } else {
+                        $summaryTable->where('user_id', $pegawai->user_id)->increment('total_iuran', $pembayaran['jumlah_bayar']);
+                    }
+                } else {
+                    // Jika belum ada, buat baris baru
+                    $summaryTable->insert([
+                        'user_id' => $pegawai->user_id,
+                        'total_pendaftaran' => ($pembayaran['jenis_transaksi'] === 'pendaftaran' ? $pembayaran['jumlah_bayar'] : 0),
+                        'total_iuran' => ($pembayaran['jenis_transaksi'] === 'bulanan' ? $pembayaran['jumlah_bayar'] : 0),
+                    ]);
+                }
+            }
+        }
+    }
+
     public function getDatatable($request)
     {
         $builder = $this->db->table($this->table)

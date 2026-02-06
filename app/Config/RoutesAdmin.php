@@ -158,5 +158,12 @@ $routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untu
         $routes->get('/', 'Admin\SettingsController::index',['filter' => 'permission:settings,view']);
         $routes->post('update', 'Admin\SettingsController::update',['filter' => 'permission:settings,update']);
     });    
+
+
+    //untuk sync saldo tapi saat ini belum di gunakan kalau datanya udah jutaan baru gunakan ini
+    $routes->group('sync-saldo', function ($routes) {
+        $routes->get('/', 'Admin\SaldoController::massSync');
+        $routes->get('(:segment)', 'Admin\SaldoController::userSync/$1');
+    });
 });
 

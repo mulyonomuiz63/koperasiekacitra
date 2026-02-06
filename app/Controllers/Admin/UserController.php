@@ -106,11 +106,11 @@ class UserController extends BaseController
             // Eksekusi penghapusan melalui service
             $this->service->deleteUser($id);
 
-            return redirect()->to(base_url('user'))
+            return redirect()->to(base_url('users'))
                 ->with('success', 'Data user berhasil dihapus.');
         } catch (\Throwable $e) {
             // Tangkap pesan error jika data tidak ditemukan atau gagal hapus
-            return redirect()->to(base_url('user'))
+            return redirect()->to(base_url('users'))
                 ->with('error', $e->getMessage());
         }
     }

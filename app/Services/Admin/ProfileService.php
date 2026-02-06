@@ -36,6 +36,7 @@ class ProfileService
         }
 
         // 2. Hitung Total Saldo Iuran (Hanya yang statusnya 'S' / Sukses)
+        
         $totalSaldo = $this->db->table('pembayaran')
             ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
             ->where('pembayaran.status', 'A')
