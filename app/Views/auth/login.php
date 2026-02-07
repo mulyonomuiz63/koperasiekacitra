@@ -27,7 +27,7 @@
                         </h1>
 
                         <div class="text-gray-500 fw-semibold fs-5 d-flex align-items-center justify-content-center">
-                            Selamat datang kembali.
+                            Selamat Datang Dikoperasi <?= setting('app_name') ?>.
                         </div>
                     </div>
 

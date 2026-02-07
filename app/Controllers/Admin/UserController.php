@@ -38,7 +38,7 @@ class UserController extends BaseController
     public function create()
     {
         return view('admin/users/create', [
-            'roles' => db_connect()->table('roles')->get()->getResult()
+            'roles' => db_connect()->table('roles')->where(['name !=' => 'Superadmin'])->get()->getResult()
         ]);
     }
 
@@ -75,7 +75,7 @@ class UserController extends BaseController
 
         return view('admin/users/edit', [
             'user'  => $user,
-            'roles' => db_connect()->table('roles')->get()->getResult()
+            'roles' => db_connect()->table('roles')->where(['name !=' => 'Superadmin'])->get()->getResult()
         ]);
     }
 

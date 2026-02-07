@@ -69,10 +69,10 @@
 	<!--end::Theme mode setup on page load-->
 	<!--begin::Root-->
 	<div class="d-flex flex-column flex-root" id="kt_app_root">
-		<?= $this->include('partials/landings/header') ?>
+		<?= $this->include('auth/pages/header') ?>
 		<!--begin::Authentication - Sign-up -->
 		<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-			<div class="d-flex flex-lg-row-fluid">
+			<div class="d-flex flex-lg-row-fluid d-none d-lg-flex">
 				<div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100">
 					<?= img_lazy('assets/media/auth/agency.png', '-', ['class' => 'theme-light-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down']) ?>
 					<?= img_lazy('assets/media/auth/agency-dark.png', '-', ['class' => 'theme-dark-show mx-auto mw-100 w-150px w-lg-350px mb-10 mb-lg-20 anim-up-down']) ?>

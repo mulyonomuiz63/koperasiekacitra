@@ -5,12 +5,24 @@
     <!-- HEADER -->
     <div class="card-header align-items-center gap-2 gap-md-5">
         <div class="card-title">
-            <div class="d-flex align-items-center position-relative my-1">
+            <div class="d-flex align-items-center position-relative my-1 me-3 d-none d-lg-flex">
                 <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"></i>
                 <input type="text"
-                        data-kt-ecommerce-order-filter="search"
-                        class="form-control form-control-solid w-250px ps-12"
-                        placeholder="Cari histro transaksi">
+                    data-kt-ecommerce-order-filter="search"
+                    class="form-control form-control-solid w-250px ps-12"
+                    placeholder="Cari histori transaksi">
+            </div>
+
+            <div class="w-150px">
+                <select id="filter-tahun" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Pilih Tahun">
+                    <option value="">Semua Tahun</option>
+                    <?php
+                    $tahunSekarang = date('Y');
+                    for ($i = $tahunSekarang; $i >= $tahunSekarang - 2; $i--):
+                    ?>
+                        <option value="<?= $i ?>" <?= $tahunSekarang == $i? 'selected':'' ?>><?= $i ?></option>
+                    <?php endfor; ?>
+                </select>
             </div>
         </div>
     </div>
@@ -40,73 +52,92 @@
 
 <?= $this->section('scripts') ?>
 <script>
-$(document).ready(function () {
+    $(document).ready(function() {
 
-    let table = $('#kt_histori_iuran_table').DataTable({
-        processing: true,
-        serverSide: true,
-        ordering: false,
-        paging: true,
-        searching: true,
-        lengthChange: false,
+        let table = $('#kt_histori_iuran_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: false,
+            paging: true,
+            searching: true,
+            lengthChange: false,
 
-        ajax: {
-            url: "<?= base_url('sw-anggota/histori-iuran/datatable') ?>",
-            type: "POST",
-            error: function (xhr, error, thrown) {
-            console.error("Backend Error Area:");
-            console.log(xhr.responseText); // Ini akan menampilkan isi error dari PHP
-        },
-            dataSrc: function (json) {
-                renderIuranList(json.data);
-                return [];
+            ajax: {
+                url: "<?= base_url('sw-anggota/histori-iuran/datatable') ?>",
+                type: "POST",
+                data: function(d) {
+                    d.tahun = $('#filter-tahun').val();
+                },
+                error: function(xhr, error, thrown) {
+                    console.error("Backend Error Area:");
+                    console.log(xhr.responseText); // Ini akan menampilkan isi error dari PHP
+                },
+                dataSrc: function(json) {
+                    renderIuranList(json.data);
+                    return [];
+                }
+            },
+
+            columns: [{
+                    data: 'jenis_transaksi'
+                },
+                {
+                    data: 'bulan'
+                },
+                {
+                    data: 'tahun'
+                },
+                {
+                    data: 'jumlah_bayar'
+                },
+                {
+                    data: 'status'
+                },
+                {
+                    data: 'id'
+                }
+            ]
+        });
+
+        // SEARCH
+        $('[data-kt-ecommerce-order-filter="search"]').keyup(function() {
+            table.search(this.value).draw();
+        });
+
+        // TRIGGER FILTER TAHUN
+        $('#filter-tahun').on('change', function() {
+            table.draw(); // Gambar ulang tabel dengan filter tahun baru
+        });
+
+
+        // RENDER LIST
+        function renderIuranList(data) {
+
+            if (!data || data.length === 0) {
+                $('#iuran-list').html(
+                    '<div class="text-center text-muted py-10">Data tidak ditemukan</div>'
+                );
+                return;
             }
-        },
+            let html = '';
 
-        columns: [
-            { data: 'jenis_transaksi' },
-            { data: 'bulan' },
-            { data: 'tahun' },
-            { data: 'jumlah_bayar' },
-            { data: 'status' },
-            { data: 'id' }
-        ]
-    });
+            data.forEach(row => {
+                if (row.status === 'A') {
+                    var statusBadge = '<span class="badge badge-light-success">Lunas</span>';
+                    var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/' + row.id + '" class="btn btn-sm btn-success ms-4">Invoice</a>';
+                } else if (row.status === 'P') {
+                    var statusBadge = '<span class="badge badge-light-info">Menunggu Pembayaran</span>';
+                    var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/' + row.id + '" class="btn btn-sm btn-info ms-4">Upload Bukti</a>';
+                } else if (row.status === 'V') {
+                    var statusBadge = '<span class="badge badge-light-warning">Menunggu Verifikasi</span>';
+                    var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/' + row.id + '" class="btn btn-sm btn-warning ms-4">Invoice</a>';
+                } else {
+                    var statusBadge = '<span class="badge badge-light-danger">Pembayaran Dibatalkan</span>';
+                    var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/' + row.id + '" class="btn btn-sm btn-danger ms-4">Invoice</a>';
+                }
 
-    // SEARCH
-    $('[data-kt-ecommerce-order-filter="search"]').keyup(function () {
-        table.search(this.value).draw();
-    });
-
-   
-    // RENDER LIST
-    function renderIuranList(data) {
-
-        if (!data || data.length === 0) {
-            $('#iuran-list').html(
-                '<div class="text-center text-muted py-10">Data tidak ditemukan</div>'
-            );
-            return;
-        }
-        let html = '';
-
-        data.forEach(row => {
-            if(row.status === 'A') {
-                var statusBadge = '<span class="badge badge-light-success">Lunas</span>';
-                var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/'+row.id+'" class="btn btn-sm btn-success ms-4">Invoice</a>';
-            } else if (row.status === 'P') {
-                var statusBadge = '<span class="badge badge-light-info">Menunggu Pembayaran</span>';
-                var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/'+row.id+'" class="btn btn-sm btn-info ms-4">Upload Bukti</a>';
-            }else if (row.status === 'V') {
-                var statusBadge = '<span class="badge badge-light-warning">Menunggu Verifikasi</span>';
-                var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/'+row.id+'" class="btn btn-sm btn-warning ms-4">Invoice</a>';
-            }else{
-                var statusBadge = '<span class="badge badge-light-danger">Pembayaran Dibatalkan</span>';
-                var btnUpload = '<a href="<?= base_url('sw-anggota/histori-iuran') ?>/'+row.id+'" class="btn btn-sm btn-danger ms-4">Invoice</a>';
-            }
-          
-            let initial = row.nama_pegawai.charAt(0).toUpperCase();
-            html += `
+                let initial = row.nama_pegawai.charAt(0).toUpperCase();
+                html += `
             <div class="d-flex align-items-center mb-5">
                 <div class="me-5">
                     <div class="symbol symbol-35px symbol-circle">
@@ -132,13 +163,12 @@ $(document).ready(function () {
                 </div>
 
             </div>`;
-        });
+            });
 
-        $('#iuran-list').html(html);
-    }
+            $('#iuran-list').html(html);
+        }
 
 
-});
-
+    });
 </script>
 <?= $this->endSection() ?>

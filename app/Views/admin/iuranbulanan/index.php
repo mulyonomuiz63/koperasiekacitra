@@ -4,14 +4,29 @@
 <div class="card card-flush">
 
     <!-- HEADER -->
-    <div class="card-header align-items-center gap-2 gap-md-5">
-        <div class="card-title">
-            <div class="d-flex align-items-center position-relative my-1">
-                <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4"></i>
+    <div class="card-header border-0 pt-6">
+        <div class="card-title w-100 w-md-auto">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+                    <span class="path1"></span><span class="path2"></span>
+                </i>
                 <input type="text"
-                        data-kt-ecommerce-order-filter="search"
-                        class="form-control form-control-solid w-250px ps-12"
-                        placeholder="Cari Pegawai / Iuran">
+                    data-kt-ecommerce-order-filter="search"
+                    class="form-control form-control-solid ps-12 w-100 w-lg-250px"
+                    placeholder="Cari transaksi..." />
+            </div>
+        </div>
+
+        <div class="card-toolbar w-100 w-md-auto">
+            <div class="d-flex justify-content-between justify-content-md-end align-items-center gap-2 w-100">
+
+                <div class="flex-grow-1 flex-md-grow-0 w-100 w-md-200px">
+                    <select class="form-select form-select-solid" id="filter-status" data-control="select2" data-hide-search="true">
+                        <option value="">Semua Status</option>
+                        <option value="V" selected>Menunggu Verifikasi</option>
+                        <option value="A">Terverifikasi</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -29,69 +44,89 @@
 
 <?= $this->section('scripts') ?>
 <script>
-$(document).ready(function () {
+    $(document).ready(function() {
 
-    let table = $('#kt_iuran_bulanan_table').DataTable({
-        processing: true,
-        serverSide: true,
-        ordering: false,
-        paging: true,
-        searching: true,
-        lengthChange: false,
+        let table = $('#kt_iuran_bulanan_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: false,
+            paging: true,
+            searching: true,
+            lengthChange: false,
 
-        ajax: {
-            url: "<?= base_url('iuran-bulanan/datatable') ?>",
-            type: "POST",
-            dataSrc: function (json) {
-                renderIuranList(json.data);
-                return [];
+            ajax: {
+                url: "<?= base_url('iuran-bulanan/datatable') ?>",
+                type: "POST",
+                data: function(d) {
+                    // Kirim parameter status ke Controller
+                    d.status = $('#filter-status').val();
+                },
+                dataSrc: function(json) {
+                    renderIuranList(json.data);
+                    return [];
+                }
+            },
+
+            columns: [{
+                    data: 'jenis_transaksi'
+                },
+                {
+                    data: 'bulan'
+                },
+                {
+                    data: 'tahun'
+                },
+                {
+                    data: 'jumlah_bayar'
+                },
+                {
+                    data: 'status'
+                },
+                {
+                    data: 'id'
+                }
+            ]
+        });
+
+        // SEARCH
+        $('[data-kt-ecommerce-order-filter="search"]').keyup(function() {
+            table.search(this.value).draw();
+        });
+
+        $('#filter-status').on('change', function() {
+            table.draw(); // Gambar ulang tabel dengan filter baru
+        });
+
+
+
+        // RENDER LIST
+        function renderIuranList(data) {
+
+            if (!data || data.length === 0) {
+                $('#iuran-list').html(
+                    '<div class="text-center text-muted py-10">Data tidak ditemukan</div>'
+                );
+                return;
             }
-        },
+            let html = '';
 
-        columns: [
-            { data: 'jenis_transaksi' },
-            { data: 'bulan' },
-            { data: 'tahun' },
-            { data: 'jumlah_bayar' },
-            { data: 'status' },
-            { data: 'id' }
-        ]
-    });
+            data.forEach(row => {
+                if (row.status === 'A') {
+                    var statusBadge = '<span class="badge badge-light-success">Lunas</span>';
+                    var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/' + row.id + '" class="btn btn-sm btn-success ms-4"><i class="bi bi-file-earmark-text"></i></a>';
+                } else if (row.status === 'P') {
+                    var statusBadge = '<span class="badge badge-light-info">Menunggu Pembayaran</span>';
+                    var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/' + row.id + '" class="btn btn-sm btn-info ms-4 disabled"><i class="bi bi-file-earmark-text"></i></a>';
+                } else if (row.status === 'V') {
+                    var statusBadge = '<span class="badge badge-light-warning">Menunggu Verifikasi</span>';
+                    var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/' + row.id + '" class="btn btn-sm btn-warning ms-4"><i class="bi bi-file-earmark-text"></i></a>';
+                } else {
+                    var statusBadge = '<span class="badge badge-light-danger">Pembayaran Dibatalkan</span>';
+                    var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/' + row.id + '" class="btn btn-sm btn-danger ms-4 disabled"><i class="bi bi-file-earmark-text"></i></a>';
+                }
 
-    // SEARCH
-    $('[data-kt-ecommerce-order-filter="search"]').keyup(function () {
-        table.search(this.value).draw();
-    });
-
-   
-    // RENDER LIST
-    function renderIuranList(data) {
-
-        if (!data || data.length === 0) {
-            $('#iuran-list').html(
-                '<div class="text-center text-muted py-10">Data tidak ditemukan</div>'
-            );
-            return;
-        }
-        let html = '';
-
-        data.forEach(row => {
-            if(row.status === 'A') {
-                var statusBadge = '<span class="badge badge-light-success">Lunas</span>';
-                var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/'+row.id+'" class="btn btn-sm btn-success ms-4"><i class="bi bi-file-earmark-text"></i></a>';
-            } else if (row.status === 'P') {
-                var statusBadge = '<span class="badge badge-light-info">Menunggu Pembayaran</span>';
-                var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/'+row.id+'" class="btn btn-sm btn-info ms-4 disabled"><i class="bi bi-file-earmark-text"></i></a>';
-            }else if (row.status === 'V') {
-                var statusBadge = '<span class="badge badge-light-warning">Menunggu Verifikasi</span>';
-                var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/'+row.id+'" class="btn btn-sm btn-warning ms-4"><i class="bi bi-file-earmark-text"></i></a>';
-            }else{
-                var statusBadge = '<span class="badge badge-light-danger">Pembayaran Dibatalkan</span>';
-                var btnUpload = '<a href="<?= base_url('iuran-bulanan') ?>/'+row.id+'" class="btn btn-sm btn-danger ms-4 disabled"><i class="bi bi-file-earmark-text"></i></a>';
-            }
-          
-            let initial = row.nama_pegawai.charAt(0).toUpperCase();
-            html += `
+                let initial = row.nama_pegawai.charAt(0).toUpperCase();
+                html += `
             <div class="d-flex align-items-center mb-5">
                 <div class="me-5">
                     <div class="symbol symbol-35px symbol-circle">
@@ -117,11 +152,10 @@ $(document).ready(function () {
                 </div>
 
             </div>`;
-        });
+            });
 
-        $('#iuran-list').html(html);
-    }
-});
-
+            $('#iuran-list').html(html);
+        }
+    });
 </script>
 <?= $this->endSection() ?>

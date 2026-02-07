@@ -134,9 +134,9 @@ class IuranBulananService
                 $invoiceNo = generateBigInvoiceNumber();
 
                 $this->db->table('pembayaran')->where('id', $pembayaranId)->update([
-                    'status'             => 'A',
                     'invoice_no'         => $invoiceNo,
                     'invoice_at'         => date('Y-m-d H:i:s'),
+                    'status'             => 'A',
                     'catatan_verifikasi' => $catatan,
                     'validated_at'       => date('Y-m-d H:i:s'),
                 ]);

@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Models;
 
 
 class PembayaranModel extends BaseModel
 {
     protected $table = 'pembayaran';
-    
+
     protected $allowedFields = [
         'invoice_no',
         'invoice_at',
@@ -31,13 +32,13 @@ class PembayaranModel extends BaseModel
         if ($data['data']['status'] === 'A') {
             $pembayaran = $data['data'];
             $db = \Config\Database::connect();
-            
+
             // Ambil user_id dari tabel pegawai (karena di pembayaran hanya ada pegawai_id)
             $pegawai = $db->table('pegawai')->select('user_id')->where('id', $pembayaran['pegawai_id'])->get()->getRow();
 
             if ($pegawai) {
                 $summaryTable = $db->table('saldo_ringkasan');
-                
+
                 // Cek apakah baris summary sudah ada
                 $exist = $summaryTable->where('user_id', $pegawai->user_id)->countAllResults();
 
@@ -63,9 +64,9 @@ class PembayaranModel extends BaseModel
     public function getDatatable($request)
     {
         $builder = $this->db->table($this->table)
-        ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pegawai.nama as nama_pegawai')
-        ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
-        ->where('pembayaran.jenis_transaksi', 'pendaftaran');
+            ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pegawai.nama as nama_pegawai')
+            ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
+            ->where('pembayaran.jenis_transaksi', 'pendaftaran');
 
         // Search
         if ($request['search']['value']) {
@@ -89,28 +90,44 @@ class PembayaranModel extends BaseModel
     public function getDatatablePembayaranBulanan($request)
     {
         $builder = $this->db->table($this->table)
-        ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pembayaran.jenis_transaksi, pembayaran.bulan, pembayaran.tahun, pembayaran.jumlah_bayar, pegawai.nama as nama_pegawai')
-        ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
-        ->where('jenis_transaksi', 'bulanan');
+            ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
+            ->where('pembayaran.jenis_transaksi', 'bulanan'); // Tambah alias tabel
 
-        // Search
-        if ($request['search']['value']) {
+        // 1. Hitung recordsTotal (Total data bulanan milik user/sistem tanpa filter)
+        $recordsTotal = $builder->countAllResults(false);
+
+        // 2. Terapkan Filter Status
+        if (!empty($request['status'])) {
+            if ($request['status'] == 'V') {
+                $builder->where('pembayaran.status !=', 'A');
+            } else {
+                $builder->where('pembayaran.status', $request['status']);
+            }
+        }
+
+        // 3. Terapkan Search
+        if (!empty($request['search']['value'])) {
+            $search = $request['search']['value'];
             $builder->groupStart()
-                ->like('pegawai.nama', $request['search']['value'])
-                ->orLike('pembayaran.status', $request['search']['value'])
+                ->like('pegawai.nama', $search)
+                ->orLike('pembayaran.invoice_no', $search) // Contoh tambahan cari no invoice
                 ->groupEnd();
         }
 
-        $total = $builder->countAllResults(false);
-        $builder->orderBy('pembayaran.created_at', 'ASC');
-        $builder->orderBy('pembayaran.tahun', 'DESC');
-        $builder->orderBy('pembayaran.bulan', 'DESC');
+        // 4. Hitung recordsFiltered (Total data setelah kena filter & search)
+        $recordsFiltered = $builder->countAllResults(false);
 
-        $builder->limit($request['length'], $request['start']);
+        // 5. Ambil Data dengan Select, Order, dan Limit
+        $builder->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pembayaran.jenis_transaksi, pembayaran.bulan, pembayaran.tahun, pembayaran.jumlah_bayar, pegawai.nama as nama_pegawai')
+            ->orderBy('pembayaran.created_at', 'DESC') // Paling baru di atas
+            ->orderBy('pembayaran.tahun', 'DESC')
+            ->orderBy('pembayaran.bulan', 'DESC')
+            ->limit($request['length'], $request['start']);
 
         return [
-            'recordsTotal'    => $total,
-            'recordsFiltered' => $total,
+            'draw'            => (int)($request['draw'] ?? 0), // Tambahkan draw agar sinkron dengan client
+            'recordsTotal'    => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
             'data'            => $builder->get()->getResultArray(),
         ];
     }
@@ -118,9 +135,13 @@ class PembayaranModel extends BaseModel
     public function getDatatableAnggota($request)
     {
         $builder = $this->db->table($this->table)
-        ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pembayaran.jenis_transaksi, pembayaran.bulan, pembayaran.tahun, pembayaran.jumlah_bayar, pegawai.nama as nama_pegawai')
-        ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
-        ->where('pegawai.user_id', session()->get('user_id'));
+            ->select('pembayaran.id, pembayaran.status, pembayaran.keterangan, pembayaran.jenis_transaksi, pembayaran.bulan, pembayaran.tahun, pembayaran.jumlah_bayar, pegawai.nama as nama_pegawai')
+            ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
+            ->where('pegawai.user_id', session()->get('user_id'));
+
+        if (!empty($request['tahun'])) {
+            $builder->where('pembayaran.tahun', $request['tahun']);
+        }
 
         // Search
         if ($request['search']['value']) {

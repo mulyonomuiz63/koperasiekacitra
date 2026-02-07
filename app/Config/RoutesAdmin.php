@@ -45,6 +45,8 @@ $routes->group('/', ['filter'=>['auth','role:ADMIN']], function($routes){ //untu
         $routes->post('store', 'Admin\PegawaiController::store');
         $routes->get('edit/(:segment)', 'Admin\PegawaiController::edit/$1',['filter' => 'permission:pegawai,update']);
         $routes->post('update/(:segment)', 'Admin\PegawaiController::update/$1');
+        $routes->get('pendaftaran/(:segment)', 'Admin\PegawaiController::pendaftaran/$1',['filter' => 'permission:pegawai,update']);
+        $routes->post('update-pendaftaran/(:segment)', 'Admin\PegawaiController::updatePendaftaran/$1');
         $routes->get('delete/(:segment)', 'Admin\PegawaiController::delete/$1',['filter' => 'permission:pegawai,delete']);
     });
 

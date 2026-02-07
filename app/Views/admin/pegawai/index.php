@@ -121,13 +121,23 @@ $(document).ready(function () {
                     let btnDelete = '';
                     
                     if (row.can_edit) {
-                        btnEdit = `
-                            <a href="<?= base_url('pegawai/edit') ?>/${row.id}"
-                            class="btn btn-sm btn-light-warning me-1"
-                            data-bs-toggle="tooltip"
-                            title="Edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>`;
+                        if(row.status === 'T'){
+                            btnEdit = `
+                                <a href="<?= base_url('pegawai/pendaftaran') ?>/${row.id}"
+                                class="btn btn-sm btn-light-warning me-1"
+                                data-bs-toggle="tooltip"
+                                title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>`;
+                        }else{
+                            btnEdit = `
+                                <a href="<?= base_url('pegawai/edit') ?>/${row.id}"
+                                class="btn btn-sm btn-light-warning me-1"
+                                data-bs-toggle="tooltip"
+                                title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>`;
+                        }
                     }
 
                     if (row.can_delete) {

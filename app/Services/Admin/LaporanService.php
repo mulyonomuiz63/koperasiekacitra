@@ -65,7 +65,15 @@ class LaporanService
         $status        = $post['status'];
         $jumlah        = $post['jumlah'];
 
-        // 1. Mulai Transaksi Manual
+        $kirimNotif    = isset($post['kirim_notif']) && $post['kirim_notif'] == '1';
+
+        // 1. Ambil data pegawai untuk mendapatkan user_id
+        $pegawai = $this->db->table('pegawai')->where('id', $pegawai_id)->get()->getRow();
+
+        if (!$pegawai) {
+            return false; // Pegawai tidak ditemukan
+        }
+
         $this->db->transBegin();
 
         try {
@@ -93,30 +101,48 @@ class LaporanService
 
                 if ($exist) {
                     $currentIuranId = $exist->id;
-                    // Pastikan update mengembalikan true/false
                     if ($this->iuranBulanan->update($currentIuranId, $dataIuran) === false) {
                         throw new \Exception('Gagal update iuran bulan ' . $i);
                     }
                 } else {
                     $currentIuranId = $this->iuranBulanan->insert($dataIuran);
                     if (!$currentIuranId) {
-                        throw new \Exception('Gagal insert iuran bulan ' . $i . ': ' . json_encode($this->iuranBulanan->errors()));
+                        throw new \Exception('Gagal insert iuran bulan ' . $i);
                     }
                 }
 
-                // Tampung ID untuk proses pembayaran di luar loop
+                // PROSES NOTIFIKASI ATAU TAMPUNG ID
                 if ($status === 'S') {
                     $iuranIds[] = $currentIuranId;
+                    if ($kirimNotif) {
+                        send_notification_anggota($pegawai->user_id, [
+                            'title'   => "Iuran " . bulanIndo($i) . " $tahun Terverifikasi",
+                            'message' => "Pembayaran iuran bulan " . bulanIndo($i) . " telah dikonfirmasi oleh Admin. Terima kasih.",
+                            'link'    => 'sw-anggota/iuran',
+                        ]);
+                    }
+                } else {
+                    // Gunakan user_id dari hasil query pegawai di atas
+                    // variabel $i digunakan untuk nama bulan (karena loop menggunakan $i)
+                    if ($kirimNotif) {
+                        send_notification_anggota($pegawai->user_id, [
+                            'title'   => 'Tagihan Iuran Bulanan ' . bulanIndo($i),
+                            'message' => "Tagihan bulan " . bulanIndo($i) . " sudah terbit. Silahkan bayar.",
+                            'link'    => 'sw-anggota/iuran',
+                        ]);
+                    }
                 }
             }
 
-            // 2. PROSES PEMBAYARAN DI LUAR LOOP (Hanya sekali saja)
+            // 2. PROSES PEMBAYARAN DI LUAR LOOP (Hanya jika status 'S')
             if ($status === 'S' && !empty($iuranIds)) {
                 $totalBayar = count($iuranIds) * $jumlah;
                 $rangeBulan = ($bulan_mulai == $bulan_selesai) ? (string)$bulan_mulai : "{$bulan_mulai}-{$bulan_selesai}";
                 $tgl_sesuai_input = "{$tahun}-" . str_pad($bulan_mulai, 2, '0', STR_PAD_LEFT) . "-01 08:00:00";
 
                 $dataPembayaran = [
+                    'invoice_no'      => generateBigInvoiceNumber(),
+                    'invoice_at'      => date('Y-m-d H:i:s'),
                     'pegawai_id'      => $pegawai_id,
                     'jenis_transaksi' => 'bulanan',
                     'bulan'           => $rangeBulan,
@@ -124,40 +150,29 @@ class LaporanService
                     'jumlah_bayar'    => $totalBayar,
                     'tgl_bayar'       => $tgl_sesuai_input,
                     'status'          => 'A',
-                    'invoice_no'      => generateBigInvoiceNumber(),
-                    'invoice_at'      => $tgl_sesuai_input,
-                    'validated_at'    => $tgl_sesuai_input,
+                    'validated_at'    => date('Y-m-d H:i:s'),
                 ];
 
                 $pembayaranUuid = $this->pembayaranModel->insert($dataPembayaran);
 
                 if (!$pembayaranUuid) {
-                    throw new \Exception('Gagal insert pembayaran: ' . json_encode($this->pembayaranModel->errors()));
+                    throw new \Exception('Gagal insert pembayaran');
                 }
 
-                // 3. Insert detail untuk semua iuran yang diproses
                 foreach ($iuranIds as $idIuran) {
-                    $detailInsert = $this->detailModel->insert([
+                    $this->detailModel->insert([
                         'pembayaran_id' => $pembayaranUuid,
                         'iuran_id'      => $idIuran,
                         'jumlah_bayar'  => $jumlah,
                     ]);
-
-                    if (!$detailInsert) {
-                        throw new \Exception('Gagal insert detail pembayaran untuk iuran ID: ' . $idIuran);
-                    }
                 }
             }
 
-            // 4. Final Check: Jika tidak ada exception, Commit!
             $this->db->transCommit();
             return true;
         } catch (\Exception $e) {
-            // Jika ada satu saja yang gagal di atas, semuanya dibatalkan
             $this->db->transRollback();
             return false;
         }
     }
-
-    
 }

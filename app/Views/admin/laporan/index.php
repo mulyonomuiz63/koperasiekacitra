@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="card card-flush">
-    <div class="card-header align-items-center gap-2 gap-md-5">
+    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
         <div class="card-title">
             <div class="d-flex align-items-center position-relative my-1">
                 <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
@@ -49,9 +49,35 @@
                 <tbody class="fw-semibold text-gray-700"></tbody>
             </table>
         </div>
+        <div class="separator separator-dashed my-5"></div>
+    
+            <div class="d-flex flex-stack flex-wrap gap-4">
+                <div class="d-flex align-items-center flex-wrap gap-5 fs-7">
+                    <div class="fw-bold text-gray-800">Keterangan:</div>
+    
+                    <div class="d-flex align-items-center">
+                        <span class="bullet bullet-dot bg-success h-8px w-8px me-2"></span>
+                        <span class="text-gray-600">Lunas / Sudah Bayar</span>
+                    </div>
+    
+                    <div class="d-flex align-items-center">
+                        <span class="bullet bullet-dot bg-danger h-8px w-8px me-2"></span>
+                        <span class="text-gray-600">Belum Bayar</span>
+                    </div>
+    
+                    <div class="d-flex align-items-center">
+                        <span class="text-gray-400 fw-bold me-2">—</span>
+                        <span class="text-gray-600">Belum Ada Tagihan</span>
+                    </div>
+                </div>
+    
+                <div class="text-muted fs-8">
+                    * Nominal otomatis menyesuaikan iuran yang berlaku.
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modal_input_manual" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -115,6 +141,19 @@
                         <input type="number" class="form-control form-control-solid" name="jumlah" placeholder="Contoh: 50000" required />
                         <div class="text-muted fs-7 mt-2">Sistem akan mengisi nominal ini otomatis pada rentang bulan yang dipilih.</div>
                     </div>
+
+                    <div class="fv-row mb-7">
+                        <div class="d-flex flex-stack">
+                            <div class="me-5">
+                                <label class="fs-6 fw-semibold">Kirim Notifikasi?</label>
+                                <div class="fs-7 text-muted">Kirim notifikasi ke akun anggota jika tagihan diterbitkan</div>
+                            </div>
+                            <label class="form-check form-switch form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" name="kirim_notif" value="1" checked="checked" />
+                                <span class="form-check-label fw-semibold text-muted">Ya</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -130,7 +169,7 @@
 <?= $this->section('scripts') ?>
 <script>
     $(document).ready(function() {
-            // Fungsi Render Dinamis
+        // Fungsi Render Dinamis
         const formatStatusCurrency = (data, type, row, meta) => {
             if (data === null || data === undefined) {
                 return `<span class="text-muted">-</span>`;

@@ -99,9 +99,9 @@ class PembayaranService
             }
             $invoiceNo = generateBigInvoiceNumber();
             $dataUpdate = [
-                'status'             => $status,
                 'invoice_no'         => $invoiceNo,
                 'invoice_at'         => date('Y-m-d H:i:s'),
+                'status'             => $status,
                 'validated_at'       => date('Y-m-d H:i:s'),
             ];
 
