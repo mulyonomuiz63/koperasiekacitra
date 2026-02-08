@@ -23,7 +23,7 @@
 		echo render_meta();
 	}
 	?>
-	<link rel="shortcut icon" href="<?= base_url('uploads/app-icon/' . setting('app_icon')) ?>" />
+	<link rel="shortcut icon" href="<?= base_url('uploads/app-icon/' .setting('app_icon')) ?>" />
 	<!--begin::Fonts(mandatory for all pages)-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 	<!--end::Fonts-->
@@ -34,17 +34,17 @@
 	<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 	<?= $this->renderSection('styles') ?>
 
-	<?php if (!empty($site_config['google_search_console'])): ?>
-        <?= $site_config['google_search_console'] ?>
+	<?php if (!empty(setting('google_search_console'))): ?>
+        <?= setting('google_search_console') ?>
     <?php endif; ?>
 
-    <?php if (!empty($site_config['google_analytics_id'])): ?>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $site_config['google_analytics_id'] ?>"></script>
+    <?php if (!empty(setting('google_analytics_id'))): ?>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?= setting('google_analytics_id') ?>"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '<?= $site_config['google_analytics_id'] ?>');
+            gtag('config', '<?= setting('google_analytics_id') ?>');
         </script>
     <?php endif; ?>
 </head>
