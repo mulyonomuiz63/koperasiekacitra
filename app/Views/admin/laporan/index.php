@@ -13,12 +13,15 @@
         </div>
         <div class="card-toolbar gap-3">
             <select id="filter_tahun" class="form-select form-select-solid w-125px">
+                <?php $tahunAktif = date('Y'); ?>
                 <?php foreach ($tahunList as $row): ?>
-                    <option value="<?= $row['tahun'] ?>">
+                    <option value="<?= $row['tahun'] ?>"
+                        <?= ($row['tahun'] == $tahunAktif) ? 'selected' : '' ?>>
                         <?= $row['tahun'] ?>
                     </option>
                 <?php endforeach; ?>
             </select>
+
 
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_input_manual">
@@ -52,33 +55,33 @@
             </table>
         </div>
         <div class="separator separator-dashed my-5"></div>
-    
-            <div class="d-flex flex-stack flex-wrap gap-4">
-                <div class="d-flex align-items-center flex-wrap gap-5 fs-7">
-                    <div class="fw-bold text-gray-800">Keterangan:</div>
-    
-                    <div class="d-flex align-items-center">
-                        <span class="bullet bullet-dot bg-success h-8px w-8px me-2"></span>
-                        <span class="text-gray-600">Lunas / Sudah Bayar</span>
-                    </div>
-    
-                    <div class="d-flex align-items-center">
-                        <span class="bullet bullet-dot bg-danger h-8px w-8px me-2"></span>
-                        <span class="text-gray-600">Belum Bayar</span>
-                    </div>
-    
-                    <div class="d-flex align-items-center">
-                        <span class="text-gray-400 fw-bold me-2">—</span>
-                        <span class="text-gray-600">Belum Ada Tagihan</span>
-                    </div>
+
+        <div class="d-flex flex-stack flex-wrap gap-4">
+            <div class="d-flex align-items-center flex-wrap gap-5 fs-7">
+                <div class="fw-bold text-gray-800">Keterangan:</div>
+
+                <div class="d-flex align-items-center">
+                    <span class="bullet bullet-dot bg-success h-8px w-8px me-2"></span>
+                    <span class="text-gray-600">Lunas / Sudah Bayar</span>
                 </div>
-    
-                <div class="text-muted fs-8">
-                    * Nominal otomatis menyesuaikan iuran yang berlaku.
+
+                <div class="d-flex align-items-center">
+                    <span class="bullet bullet-dot bg-danger h-8px w-8px me-2"></span>
+                    <span class="text-gray-600">Belum Bayar</span>
                 </div>
+
+                <div class="d-flex align-items-center">
+                    <span class="text-gray-400 fw-bold me-2">—</span>
+                    <span class="text-gray-600">Belum Ada Tagihan</span>
+                </div>
+            </div>
+
+            <div class="text-muted fs-8">
+                * Nominal otomatis menyesuaikan iuran yang berlaku.
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div class="modal fade" id="modal_input_manual" tabindex="-1" aria-hidden="true">
