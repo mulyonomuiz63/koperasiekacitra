@@ -34,8 +34,8 @@
 	<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 	<?= $this->renderSection('styles') ?>
 
-	<?php if (!empty(setting('google_search_console'))): ?>
-        <?= setting('google_search_console') ?>
+	<?php if (!empty(setting('google_site_verification'))): ?>
+        <?= setting('google_site_verification') ?>
     <?php endif; ?>
 
     <?php if (!empty(setting('google_analytics_id'))): ?>
