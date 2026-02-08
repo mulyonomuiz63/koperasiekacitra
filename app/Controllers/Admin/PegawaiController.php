@@ -153,57 +153,14 @@ class PegawaiController extends BaseController
 
     public function updatePendaftaran($id)
     {
-        // Inisialisasi variabel di luar try agar bisa diakses di catch
-        $fileName = null;
-
         try {
             $data = $this->request->getPost();
-            $tgl_bayar = date('Y-m-d H:i:s', strtotime($this->request->getPost('tgl_bayar')));
-            $file = $this->request->getFile('bukti_bayar');
-
-            if (empty($tgl_bayar)) {
-                throw new \Exception('Tanggal bayar harus diisi.');
-            }
-
-            // 1. Upload file terlebih dahulu
-            if ($file && $file->getError() !== 4) {
-                $fileName = $this->service->uploadBukti($file);
-
-                if (!$fileName) {
-                    throw new \Exception('Gagal mengunggah bukti pembayaran.');
-                }
-            }
-
-            $bulan = date('n', strtotime($tgl_bayar));
-            $tahun = date('Y', strtotime($tgl_bayar));
-
-            $data = [
-                'invoice_no'      => generateBigInvoiceNumber(),
-                'invoice_at'      => $tgl_bayar,
-                'pegawai_id'      => $id,
-                'jenis_transaksi' => 'pendaftaran',
-                'bulan'           => $bulan,
-                'tahun'           => $tahun,
-                'jumlah_bayar'    => $this->request->getPost('jumlah_bayar'),
-                'bukti_bayar'     => $fileName,
-                'tgl_bayar'       => $tgl_bayar,
-                'status'          => 'A',
-                'validated_at'    => $tgl_bayar,
-            ];
-
             // 2. Jalankan Service (yang sudah berisi Transaction)
             $this->service->simpanPendaftaran($id, $data);
 
             return redirect()->to('pegawai')->with('success', 'Pendaftaran berhasil dikirim!');
         } catch (\Throwable $e) {
             // --- LOGIKA ROLLBACK FILE MANUAL ---
-            // Jika database gagal, hapus file yang baru saja diupload agar tidak jadi sampah di server
-            if ($fileName) {
-                $filePath = FCPATH . 'uploads/bukti-bayar/' . $fileName;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
-            }
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal: ' . $e->getMessage());
