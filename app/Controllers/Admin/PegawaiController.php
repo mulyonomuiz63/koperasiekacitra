@@ -204,15 +204,9 @@ class PegawaiController extends BaseController
                     unlink($filePath);
                 }
             }
-            dd([
-        'pesan_error' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'baris' => $e->getLine(),
-        'trace' => $e->getTraceAsString()
-    ]);
-            // return redirect()->back()
-            //     ->withInput()
-            //     ->with('error', 'Gagal: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
     /* =========================
