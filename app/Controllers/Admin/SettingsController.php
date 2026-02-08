@@ -25,18 +25,27 @@ class SettingsController extends Controller
 
     public function update()
     {
+        // 1. Pastikan request adalah POST
         if (! $this->request->is('post')) {
-            return redirect()->back()->with('error', 'Invalid request');
+            return redirect()->back()->with('error', 'Metode request tidak diizinkan.');
         }
 
-        $post = $this->request->getPost();
+        try {
+            $post = $this->request->getPost();
 
-        $this->service->updateSettings($post);
+            // 2. Proses update melalui service
+            $this->service->updateSettings($post);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Pengaturan berhasil disimpan');
+            // 3. Jika berhasil
+            return redirect()
+                ->to('settings')
+                ->with('success', 'Pengaturan berhasil disimpan');
+        } catch (\Exception $e) {
+            // 4. Tangkap error dan log jika perlu
+            return redirect()
+                ->back()
+                ->withInput() // Mengembalikan input agar user tidak mengetik ulang
+                ->with('error', 'Gagal menyimpan pengaturan: ' . $e->getMessage());
+        }
     }
-
-
 }

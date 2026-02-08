@@ -346,7 +346,7 @@ $editingPembayaran = isset($_GET['editBayar']) && $_GET['editBayar'] === 'true';
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Jumlah Bayar</label>
-                                        <input type="number" name="jumlah_bayar" class="form-control" value="<?= old('jumlah_bayar', $pembayaran['jumlah_bayar'] ?? '') ?>" required>
+                                        <input type="number" name="jumlah_bayar" class="form-control" value="<?= old('jumlah_bayar', $pembayaran['jumlah_bayar'] ?? '250000') ?>" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Tanggal Bayar</label>
