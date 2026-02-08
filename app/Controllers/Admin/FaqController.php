@@ -52,10 +52,10 @@ class FaqController extends BaseController
             // Panggil service
             $this->service->createFaq($data);
 
-            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil ditambahkan');
+            return redirect()->to('faq')->with('success', 'FAQ berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Jika ada error (misal field database kurang atau mati)
-            return redirect()->back()->withInput()->with('error', 'Gagal: ' . $e->getMessage());
+            return redirect()->to('faq')->withInput()->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
 
@@ -75,10 +75,10 @@ class FaqController extends BaseController
             // Panggil service
             $this->faq->updateFaq($id, $data);
 
-            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil diperbarui');
+            return redirect()->to('faq')->with('success', 'FAQ berhasil diperbarui');
         } catch (\Throwable $e) {
             // Jika gagal (data tidak ada atau error database)
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('faq')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -88,10 +88,10 @@ class FaqController extends BaseController
             // Panggil service
             $this->faq->deleteFaq($id);
 
-            return redirect()->to(base_url('faq'))->with('success', 'FAQ berhasil dihapus');
+            return redirect()->to('faq')->with('success', 'FAQ berhasil dihapus');
         } catch (\Throwable $e) {
             // Jika ID salah atau ada kendala database
-            return redirect()->to(base_url('faq'))->with('error', $e->getMessage());
+            return redirect()->to('faq')->with('error', $e->getMessage());
         }
     }
 

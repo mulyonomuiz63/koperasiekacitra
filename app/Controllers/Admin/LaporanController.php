@@ -134,10 +134,10 @@ class LaporanController extends BaseController
             $this->service->simpanManual($post);
 
             // Jika sampai sini berarti sukses
-            return redirect()->back()->with('success', 'Data iuran berhasil diperbarui untuk rentang bulan yang dipilih.');
+            return redirect()->to('laporan')->with('success', 'Data iuran berhasil diperbarui untuk rentang bulan yang dipilih.');
         } catch (\Exception $e) {
             // Tangkap pesan error dari Service atau dari validasi di atas
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('laporan')->with('error', $e->getMessage());
         }
     }
 }

@@ -92,11 +92,11 @@ class ProfilController extends BaseController
             return redirect()->to('profil')->with('success', 'Data pegawai berhasil diubah.');
         } catch (\RuntimeException $e) {
             // Menangkap error validasi yang kita "throw" dari Service (Bahasa Indonesia)
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('profil')->withInput()->with('error', $e->getMessage());
         } catch (\Throwable $e) {
             // Menangkap error sistem yang tidak terduga (Database crash, dll)
             // Log error asli untuk internal, tapi tampilkan pesan umum ke user
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat memproses data.');
+            return redirect()->to('profil')->withInput()->with('error', 'Terjadi kesalahan sistem saat memproses data.');
         }
     }
 
@@ -109,11 +109,11 @@ class ProfilController extends BaseController
             // 1. Tambahkan Validasi Manual di Controller
             // Agar tidak berat ke database jika inputnya saja sudah salah
             if ($postData['new_password'] !== $postData['confirm_password']) {
-                return redirect()->back()->with('error', 'Konfirmasi password tidak cocok.');
+                return redirect()->to('profil')->with('error', 'Konfirmasi password tidak cocok.');
             }
 
             if (strlen($postData['new_password']) < 8) {
-                return redirect()->back()->with('error', 'Password minimal harus 8 karakter.');
+                return redirect()->to('profil')->with('error', 'Password minimal harus 8 karakter.');
             }
 
             // 2. Jalankan service
@@ -122,10 +122,10 @@ class ProfilController extends BaseController
             // Ubah pesan sukses agar lebih relevan
             return redirect()->to('/sw-anggota/profil')->with('success', 'Password berhasil diperbarui.');
         } catch (\RuntimeException $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('profil')->withInput()->with('error', $e->getMessage());
         } catch (\Throwable $e) {
             // Gunakan pesan yang lebih ramah pengguna untuk error sistem
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat mengubah password.');
+            return redirect()->to('profil')->withInput()->with('error', 'Terjadi kesalahan sistem saat mengubah password.');
         }
     }
 }

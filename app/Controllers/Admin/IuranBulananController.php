@@ -3,7 +3,6 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Libraries\PdfService;
-use App\Models\PembayaranModel;
 use App\Services\Admin\IuranBulananService;
 
 class IuranBulananController extends BaseController
@@ -61,10 +60,10 @@ class IuranBulananController extends BaseController
                 (string) $this->request->getPost('aksi'),
                 $this->request->getPost('catatan')
             );
-            return redirect()->back()->with('success', $message);
+            return redirect()->to('iuran-bulanan')->with('success', $message);
 
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('iuran-bulanan')->with('error', $e->getMessage());
         }
     }
 

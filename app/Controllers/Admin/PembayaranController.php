@@ -68,11 +68,11 @@ class PembayaranController extends BaseController
                 $data['reject_reason'] ?? null
             );
 
-            return redirect()->to(base_url('pembayaran'))
+            return redirect()->to('pembayaran')
                 ->with('success', 'Pembayaran berhasil diproses');
         } catch (\Throwable $e) {
 
-            return redirect()->back()
+            return redirect()->to('pembayaran')
                 ->with('error', $e->getMessage());
         }
     }
@@ -82,7 +82,7 @@ class PembayaranController extends BaseController
         $pembayaran = $this->pembayaran->getPembayaranWithPegawai($id); // Sesuaikan method model Anda
 
         if (!$pembayaran || $pembayaran['status'] !== 'A') {
-            return redirect()->back()->with('error', 'Invoice tidak tersedia atau belum disetujui.');
+            return redirect()->to('pembayaran')->with('error', 'Invoice tidak tersedia atau belum disetujui.');
         }
 
         return view('admin/pembayaran/invoice', [

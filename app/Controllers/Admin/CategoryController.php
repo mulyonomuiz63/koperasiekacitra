@@ -78,7 +78,7 @@ class CategoryController extends BaseController
             return redirect()->to('/category')->with('success', 'Category berhasil diupdate');
         } catch (\Throwable $e) {
             // Jika error (misal ID tidak ditemukan), lempar balik ke form
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/category')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -88,10 +88,10 @@ class CategoryController extends BaseController
             // Panggil service untuk menghapus
             $this->service->deleteCategory($id);
 
-            return redirect()->back()->with('success', 'Category berhasil dihapus');
+            return redirect()->to('/category')->with('success', 'Category berhasil dihapus');
         } catch (\Throwable $e) {
             // Tangkap pesan error dari service (misal: data tidak ditemukan)
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('/category')->with('error', $e->getMessage());
         }
     }
 }

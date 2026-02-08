@@ -46,13 +46,13 @@ class PembayaranController extends BaseController
             $result = $this->service->uploadBuktiPembayaran($pembayaranId, $file, $data);
 
             if ($result['status'] === 'success') {
-                return redirect()->back()->with('success', $result['message']);
+                return redirect()->to('sw-anggota/iuran')->with('success', $result['message']);
             }
 
-            return redirect()->back()->with('error', $result['message']);
+            return redirect()->to('sw-anggota/iuran')->with('error', $result['message']);
 
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('sw-anggota/iuran')->with('error', $e->getMessage());
         }
     }
 

@@ -55,7 +55,7 @@ class JabatanController extends BaseController
             return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangkap jika ada error database atau logika
-            return redirect()->back()->withInput()->with('error', 'Gagal menambah jabatan: ' . $e->getMessage());
+            return redirect()->to('/jabatan')->withInput()->with('error', 'Gagal menambah jabatan: ' . $e->getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ class JabatanController extends BaseController
             return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil diupdate');
         } catch (\Throwable $e) {
             // Kembali ke form sebelumnya jika gagal
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/jabatan')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -87,12 +87,12 @@ class JabatanController extends BaseController
         $jabatan = $this->jabatan->find($id);
 
         if (!$jabatan) {
-            return redirect()->back()->with('error', 'Jabatan tidak ditemukan');
+            return redirect()->to('/jabatan')->with('error', 'Jabatan tidak ditemukan');
         }
 
         // Hapus parent + semua child
         $this->jabatan->delete($id);
 
-        return redirect()->back()->with('success', 'Jabatan berhasil dihapus');
+        return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil dihapus');
     }
 }

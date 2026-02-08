@@ -271,28 +271,40 @@
 <script>
     const fileInput = document.getElementById('buktiBayar');
     const uploadBox = document.getElementById('uploadBox');
-    const fileName = document.getElementById('fileName');
-    const content = document.getElementById('uploadContent');
+    const uploadContent = document.getElementById('uploadContent');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileNameDisplay = document.getElementById('fileNameDisplay'); // Sesuaikan dengan ID di HTML
 
     fileInput.addEventListener('change', function() {
         if (this.files.length > 0) {
+            const file = this.files[0];
 
-            // tampilkan nama file
-            fileName.classList.remove('d-none');
-            fileName.innerText = this.files[0].name;
+            // 1. Tampilkan kontainer preview & isi nama file
+            previewContainer.classList.remove('d-none');
+            fileNameDisplay.innerText = file.name;
 
-            // ubah tampilan (metronic utility)
-            uploadBox.classList.remove('border-gray-300', 'bg-light-light');
+            // 2. Ubah warna Box (Metronic utility)
+            // Menghapus class primary, ganti ke success (hijau)
+            uploadBox.classList.remove('border-primary', 'bg-light-primary');
             uploadBox.classList.add('border-success', 'bg-light-success');
 
-            // ubah icon & teks
-            content.querySelector('i').className =
-                'bi bi-check-circle fs-2x text-success mb-3';
+            // 3. Sembunyikan konten instruksi (icon awan)
+            uploadContent.classList.add('d-none');
 
-            content.querySelector('.fw-semibold').innerText =
-                'File berhasil dipilih';
+            // 4. Jika file adalah gambar, tampilkan preview-nya
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('d-none');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                // Jika PDF, sembunyikan elemen gambar
+                imagePreview.classList.add('d-none');
+            }
         }
     });
 </script>
-
 <?= $this->endSection() ?>

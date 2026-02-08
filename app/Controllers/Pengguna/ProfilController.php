@@ -28,12 +28,12 @@ class ProfilController extends BaseController
             $data = $this->service->getProfilLengkap($userId);
 
             if (!$data['user']) {
-                return redirect()->to('/dashboard')->with('error', 'Data profil tidak ditemukan.');
+                return redirect()->to('/sw-anggota')->with('error', 'Data profil tidak ditemukan.');
             }
 
             return $this->view('anggota/profil/index', $data);
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->to('/sw-anggota')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

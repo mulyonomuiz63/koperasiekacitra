@@ -52,9 +52,9 @@ class HistoriController extends BaseController
             return view('anggota/histori/detail', $data);
 
         } catch (PageNotFoundException $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('/sw-anggota/histori-iuran')->with('error', $e->getMessage());
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menampilkan histori pembayaran.');
+            return redirect()->to('/sw-anggota/histori-iuran')->with('error', 'Terjadi kesalahan saat menampilkan histori pembayaran.');
         }
     }
 

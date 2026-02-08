@@ -26,7 +26,7 @@ class RolePermissionController extends BaseController
         $permissions = $this->request->getPost('permissions');
 
         if (empty($roleId)) {
-            return redirect()->back()
+            return redirect()->to('roles')
                 ->with('error', 'Role tidak valid');
         }
 
@@ -39,7 +39,7 @@ class RolePermissionController extends BaseController
 
         } catch (\Throwable $e) {
 
-            return redirect()->back()
+            return redirect()->to('roles')
                 ->with('error', $e->getMessage());
         }
     }

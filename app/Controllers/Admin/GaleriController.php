@@ -57,10 +57,10 @@ class GaleriController extends BaseController
         $result = $this->service->create($data);
 
         if ($result['status'] === 'success') {
-            return redirect()->to(base_url('galeri'))->with('success', $result['message']);
+            return redirect()->to('galeri')->with('success', $result['message']);
         }
 
-        return redirect()->back()->with('error', $result['message']);
+        return redirect()->to('galeri')->with('error', $result['message']);
     }
 
     public function edit($id)
@@ -87,10 +87,10 @@ class GaleriController extends BaseController
         $result = $this->service->update($id, $data);
 
         if ($result['status'] === 'success') {
-            return redirect()->to(base_url('galeri'))->with('success', $result['message']);
+            return redirect()->to('galeri')->with('success', $result['message']);
         }
 
-        return redirect()->back()->with('error', $result['message']);
+        return redirect()->to('galeri')->with('error', $result['message']);
     }
 
 
@@ -100,10 +100,10 @@ class GaleriController extends BaseController
             // Panggil service
             $this->service->deleteGaleri($id);
 
-            return redirect()->to(base_url('galeri'))->with('success', 'Data galeri berhasil dihapus.');
+            return redirect()->to('galeri')->with('success', 'Data galeri berhasil dihapus.');
         } catch (\Throwable $e) {
             // Tangkap pesan error dari service
-            return redirect()->to(base_url('galeri'))->with('error', $e->getMessage());
+            return redirect()->to('galeri')->with('error', $e->getMessage());
         }
     }
 }

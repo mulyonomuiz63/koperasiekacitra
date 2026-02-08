@@ -88,7 +88,7 @@ class MenuController extends BaseController
             return redirect()->to('/menus')->with('success', 'Menu berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Jika ada kesalahan (misal database error)
-            return redirect()->back()->withInput()->with('error', 'Gagal menambah menu: ' . $e->getMessage());
+            return redirect()->to('/menus')->withInput()->with('error', 'Gagal menambah menu: ' . $e->getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ class MenuController extends BaseController
             return redirect()->to('/menus')->with('success', 'Menu berhasil diupdate');
         } catch (\Throwable $e) {
             // Balikkan ke form dengan pesan error yang spesifik
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/menus')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -122,10 +122,10 @@ class MenuController extends BaseController
             // Panggil service untuk menghapus secara rekursif
             $this->service->deleteMenuRecursive($id);
 
-            return redirect()->back()->with('success', 'Menu dan semua sub-menu berhasil dihapus');
+            return redirect()->to('/menus')->with('success', 'Menu dan semua sub-menu berhasil dihapus');
         } catch (\Throwable $e) {
             // Tangkap pesan error jika terjadi kegagalan
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('/menus')->with('error', $e->getMessage());
         }
     }
 }

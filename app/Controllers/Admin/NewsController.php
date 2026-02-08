@@ -53,7 +53,7 @@ class NewsController extends BaseController
             'title' => 'required',
             'image' => 'uploaded[image]|max_size[image,2048]|is_image[image]',
         ])) {
-            return redirect()->back()->withInput();
+            return redirect()->to('/news')->withInput();
         }
 
         try {
@@ -65,7 +65,7 @@ class NewsController extends BaseController
 
             return redirect()->to('/news')->with('success', 'Berita berhasil disimpan!');
         } catch (\Throwable $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/news')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ class NewsController extends BaseController
     {
         // Validasi dasar
         if (!$this->validate(['title' => 'required'])) {
-            return redirect()->back()->withInput();
+            return redirect()->to('/news')->withInput();
         }
 
         try {
@@ -95,7 +95,7 @@ class NewsController extends BaseController
 
             return redirect()->to('/news')->with('success', 'Berita berhasil diperbarui.');
         } catch (\Throwable $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/news')->withInput()->with('error', $e->getMessage());
         }
     }
 

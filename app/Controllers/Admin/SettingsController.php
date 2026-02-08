@@ -27,7 +27,7 @@ class SettingsController extends Controller
     {
         // 1. Pastikan request adalah POST
         if (! $this->request->is('post')) {
-            return redirect()->back()->with('error', 'Metode request tidak diizinkan.');
+            return redirect()->to('settings')->with('error', 'Metode request tidak diizinkan.');
         }
 
         try {
@@ -43,7 +43,7 @@ class SettingsController extends Controller
         } catch (\Exception $e) {
             // 4. Tangkap error dan log jika perlu
             return redirect()
-                ->back()
+                ->to('settings')
                 ->withInput() // Mengembalikan input agar user tidak mengetik ulang
                 ->with('error', 'Gagal menyimpan pengaturan: ' . $e->getMessage());
         }

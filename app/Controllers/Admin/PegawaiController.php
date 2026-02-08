@@ -74,7 +74,7 @@ class PegawaiController extends BaseController
 
         // 1. Validasi tetap di Controller agar mudah handling redirect back + errors
         if (!$this->validasi->validateCreate($data)) {
-            return redirect()->back()
+            return redirect()->to('pegawai')
                 ->withInput()
                 ->with('errors', $this->validasi->getErrors());
         }
@@ -87,7 +87,7 @@ class PegawaiController extends BaseController
                 ->with('success', 'Data pegawai berhasil ditambahkan.');
         } catch (\Throwable $e) {
             // 3. Tangkap error jika terjadi kegagalan di level Service/Database
-            return redirect()->back()
+            return redirect()->to('pegawai')
                 ->withInput()
                 ->with('error', $e->getMessage());
         }
@@ -116,7 +116,7 @@ class PegawaiController extends BaseController
 
         // 1. Validasi tetap di Controller
         if (!$this->validasi->validateUpdate($data, $id)) {
-            return redirect()->back()
+            return redirect()->to('pegawai')
                 ->withInput()
                 ->with('errors', $this->validasi->getErrors());
         }
@@ -129,7 +129,7 @@ class PegawaiController extends BaseController
                 ->with('success', 'Data pegawai berhasil diperbarui.');
         } catch (\Throwable $e) {
             // 3. Tangkap error jika ID tidak ditemukan atau terjadi masalah database
-            return redirect()->back()
+            return redirect()->to('pegawai')
                 ->withInput()
                 ->with('error', $e->getMessage());
         }
@@ -162,7 +162,7 @@ class PegawaiController extends BaseController
             return redirect()->to('pegawai')->with('success', 'Pendaftaran berhasil dikirim!');
         } catch (\Throwable $e) {
             // --- LOGIKA ROLLBACK FILE MANUAL ---
-            return redirect()->back()
+            return redirect()->to('pegawai')
                 ->withInput()
                 ->with('error', 'Gagal: ' . $e->getMessage());
         }
@@ -176,10 +176,10 @@ class PegawaiController extends BaseController
             // Panggil service
             $this->service->deletePegawai($id);
 
-            return redirect()->back()->with('success', 'Pegawai berhasil dihapus');
+            return redirect()->to('pegawai')->with('success', 'Pegawai berhasil dihapus');
         } catch (\Throwable $e) {
             // Tangkap pesan error jika ID tidak valid
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('pegawai')->with('error', $e->getMessage());
         }
     }
 }

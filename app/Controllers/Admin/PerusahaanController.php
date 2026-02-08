@@ -54,7 +54,7 @@ class PerusahaanController extends BaseController
             return redirect()->to('/perusahaan')->with('success', 'Data perusahaan berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangkap jika ada error
-            return redirect()->back()->withInput()->with('error', 'Gagal menambah perusahaan: ' . $e->getMessage());
+            return redirect()->to('/perusahaan')->withInput()->with('error', 'Gagal menambah perusahaan: ' . $e->getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ class PerusahaanController extends BaseController
             return redirect()->to('/perusahaan')->with('success', 'Perusahaan berhasil diupdate');
         } catch (\Throwable $e) {
             // Kembali ke form dengan pesan error yang jelas
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/perusahaan')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -86,10 +86,10 @@ class PerusahaanController extends BaseController
             // Panggil logika hapus dari service
             $this->service->deletePerusahaan($id);
 
-            return redirect()->back()->with('success', 'Perusahaan berhasil dihapus');
+            return redirect()->to('/perusahaan')->with('success', 'Perusahaan berhasil dihapus');
         } catch (\Throwable $e) {
             // Tangkap pesan error (ID tidak ada atau masih ada pegawai)
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->to('/perusahaan')->with('error', $e->getMessage());
         }
     }
 }

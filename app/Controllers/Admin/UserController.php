@@ -47,7 +47,7 @@ class UserController extends BaseController
         $data = $this->request->getPost();
 
         if (! $this->service->validateCreate($data)) {
-            return redirect()->back()
+            return redirect()->to('/users')
                 ->withInput()
                 ->with('errors', $this->service->getErrors());
         }
@@ -57,7 +57,7 @@ class UserController extends BaseController
             return redirect()->to('/users')
                 ->with('success', 'User berhasil ditambah');
         } catch (\Throwable $e) {
-            return redirect()->back()
+            return redirect()->to('/users')
                 ->withInput()
                 ->with('error', 'Gagal menambah user: ' . $e->getMessage());
         }
@@ -70,7 +70,7 @@ class UserController extends BaseController
 
         $user = $this->userModel->find($id);
         if (!$user) {
-            return redirect()->back()->with('error','User tidak ditemukan');
+            return redirect()->to('/users')->with('error','User tidak ditemukan');
         }
 
         return view('admin/users/edit', [
@@ -84,7 +84,7 @@ class UserController extends BaseController
         $data = $this->request->getPost();
 
         if (! $this->service->validateUpdate($data, $id)) {
-            return redirect()->back()
+            return redirect()->to('/users')
                 ->withInput()
                 ->with('errors', $this->service->getErrors());
         }
@@ -94,7 +94,7 @@ class UserController extends BaseController
             return redirect()->to('/users')
                 ->with('success', 'User berhasil diperbarui');
         } catch (\Throwable $e) {
-            return redirect()->back()
+            return redirect()->to('/users')
                 ->withInput()
                 ->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
         }

@@ -57,10 +57,10 @@ class SliderController extends BaseController
         $result = $this->service->create($data);
 
         if ($result['status'] === 'success') {
-            return redirect()->to(base_url('slider'))->with('success', $result['message']);
+            return redirect()->to('slider')->with('success', $result['message']);
         }
 
-        return redirect()->back()->with('error', $result['message']);
+        return redirect()->to('slider')->with('error', $result['message']);
     }
 
     public function edit($id)
@@ -90,7 +90,7 @@ class SliderController extends BaseController
             return redirect()->to(base_url('slider'))->with('success', $result['message']);
         }
 
-        return redirect()->back()->with('error', $result['message']);
+        return redirect()->to('slider')->with('error', $result['message']);
     }
 
 

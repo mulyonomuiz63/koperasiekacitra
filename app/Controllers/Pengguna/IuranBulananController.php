@@ -50,11 +50,11 @@ class IuranBulananController extends BaseController
             // Kirim data ke service
             $this->service->createIuran($data);
 
-            return redirect()->to('/iuran-bulanan')
+            return redirect()->to('/sw-anggota/iuran-bulanan')
                 ->with('success', 'Iuran Bulanan berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Jika ada error (misal: data tidak valid atau db error)
-            return redirect()->back()
+            return redirect()->to('/sw-anggota/iuran-bulanan')
                 ->withInput()
                 ->with('error', $e->getMessage());
         }
@@ -69,7 +69,7 @@ class IuranBulananController extends BaseController
             return view('anggota/iuran_bulanan/edit', $data);
         } catch (\Throwable $e) {
             // Jika ID salah atau data sudah divalidasi (jika logika tambahan diaktifkan)
-            return redirect()->to('/iuran-bulanan')->with('error', $e->getMessage());
+            return redirect()->to('/sw-anggota/iuran-bulanan')->with('error', $e->getMessage());
         }
     }
 
@@ -81,10 +81,10 @@ class IuranBulananController extends BaseController
             // Eksekusi update melalui service
             $this->service->updateIuran($id, $data);
 
-            return redirect()->to('/iuran-bulanan')
+            return redirect()->to('/sw-anggota/iuran-bulanan')
                 ->with('success', 'Iuran Bulanan berhasil diperbarui');
         } catch (\Throwable $e) {
-            return redirect()->back()
+            return redirect()->to('/sw-anggota/iuran-bulanan')
                 ->withInput()
                 ->with('error', $e->getMessage());
         }
