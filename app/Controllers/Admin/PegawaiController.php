@@ -155,6 +155,7 @@ class PegawaiController extends BaseController
     {
         try {
             $data = $this->request->getPost();
+            $data['bukti_bayar'] = $this->request->getFile('bukti_bayar');
             // 2. Jalankan Service (yang sudah berisi Transaction)
             $this->service->simpanPendaftaran($id, $data);
 
