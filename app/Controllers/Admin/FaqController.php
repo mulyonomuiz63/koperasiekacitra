@@ -55,7 +55,7 @@ class FaqController extends BaseController
             return redirect()->to('faq')->with('success', 'FAQ berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Jika ada error (misal field database kurang atau mati)
-            return redirect()->to('faq')->withInput()->with('error', 'Gagal: ' . $e->getMessage());
+            return redirect()->to('faq/create')->withInput()->with('error', 'Gagal: ' . $e->getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ class FaqController extends BaseController
             return redirect()->to('faq')->with('success', 'FAQ berhasil diperbarui');
         } catch (\Throwable $e) {
             // Jika gagal (data tidak ada atau error database)
-            return redirect()->to('faq')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('faq/edit/'. $id)->withInput()->with('error', $e->getMessage());
         }
     }
 

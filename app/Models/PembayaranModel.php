@@ -86,6 +86,7 @@ class PembayaranModel extends BaseModel
 
         $total = $builder->countAllResults(false);
 
+        $builder->orderBy('pegawai.nama', 'ASC');
         $builder->limit($request['length'], $request['start']);
 
         return [

@@ -60,7 +60,7 @@ class SliderController extends BaseController
             return redirect()->to('slider')->with('success', $result['message']);
         }
 
-        return redirect()->to('slider')->with('error', $result['message']);
+        return redirect()->to('slider/create')->with('error', $result['message']);
     }
 
     public function edit($id)
@@ -87,10 +87,10 @@ class SliderController extends BaseController
         $result = $this->service->update($id, $data);
 
         if ($result['status'] === 'success') {
-            return redirect()->to(base_url('slider'))->with('success', $result['message']);
+            return redirect()->to('slider')->with('success', $result['message']);
         }
 
-        return redirect()->to('slider')->with('error', $result['message']);
+        return redirect()->to('slider/edit/'.$id)->with('error', $result['message']);
     }
 
 
@@ -100,11 +100,11 @@ class SliderController extends BaseController
             // Eksekusi penghapusan melalui service
             $this->service->deleteSlider($id);
 
-            return redirect()->to(base_url('slider'))
+            return redirect()->to('slider')
                 ->with('success', 'Data slider berhasil dihapus.');
         } catch (\Throwable $e) {
             // Tangkap pesan error jika data tidak ditemukan atau gagal hapus
-            return redirect()->to(base_url('slider'))
+            return redirect()->to('slider')
                 ->with('error', $e->getMessage());
         }
     }

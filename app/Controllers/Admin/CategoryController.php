@@ -56,7 +56,7 @@ class CategoryController extends BaseController
             return redirect()->to('/category')->with('success', 'Category berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangani jika ada error (misal: duplicate entry atau database down)
-            return redirect()->back()->withInput()->with('error', 'Gagal menambah kategori: ' . $e->getMessage());
+            return redirect()->to('/category/create')->with('error', 'Gagal menambah kategori: ' . $e->getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ class CategoryController extends BaseController
             return redirect()->to('/category')->with('success', 'Category berhasil diupdate');
         } catch (\Throwable $e) {
             // Jika error (misal ID tidak ditemukan), lempar balik ke form
-            return redirect()->to('/category')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/category/edit/'.$id)->withInput()->with('error', $e->getMessage());
         }
     }
 

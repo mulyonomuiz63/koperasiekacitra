@@ -81,7 +81,7 @@
                 },
                 dataSrc: function(json) {
                     renderIuranList(json.data);
-                    return [];
+                    return json.data;
                 }
             },
 
@@ -183,25 +183,31 @@
         function renderIuranList(data) {
 
             if (!data || data.length === 0) {
-                $('#iuran-list').html(
-                    '<div class="text-center text-muted py-10">Data tidak ditemukan</div>'
-                );
+                $('#iuran-list').html('<div class="text-center text-muted py-10">Data tidak ditemukan</div>');
                 return;
             }
 
-            // ✅ SORT BERDASARKAN PEGAWAI + PERIODE
-            data.sort((a, b) => {
+            // Ambil status yang sedang aktif di filter
+            let currentStatus = $('#filter-status').val();
 
+            // ✅ LOGIKA SORT DINAMIS
+            data.sort((a, b) => {
+                // Jika ada banyak pegawai, tetap kelompokkan per pegawai dulu
                 if (a.pegawai_id !== b.pegawai_id) {
                     return a.pegawai_id - b.pegawai_id;
                 }
 
-                let pa = (a.tahun * 100) + a.bulan;
-                let pb = (b.tahun * 100) + b.bulan;
+                let pa = (parseInt(a.tahun) * 100) + parseInt(a.bulan);
+                let pb = (parseInt(b.tahun) * 100) + parseInt(b.bulan);
 
-                return pa - pb;
+                if (currentStatus === 'S') {
+                    // Jika LUNAS: Terbaru di atas (DESC)
+                    return pb - pa;
+                } else {
+                    // Jika BELUM BAYAR / Lainnya: Terlama di atas (ASC)
+                    return pa - pb;
+                }
             });
-
             let html = '';
 
             data.forEach(row => {

@@ -65,9 +65,11 @@ class PegawaiValidationService
                 ],
             ],
             'nik' => [
-                'rules'  => 'permit_empty|numeric|exact_length[16]|is_unique[pegawai.nik]',
+                // Gunakan 'required' jika NIK tidak boleh kosong
+                'rules'  => 'required|numeric|exact_length[16]|is_unique[pegawai.nik]',
                 'errors' => [
-                    'is_unique' => 'NIK sudah digunakan.',
+                    'required'     => 'NIK wajib diisi.',
+                    'is_unique'    => 'NIK sudah digunakan.',
                     'numeric'      => 'NIK harus berupa angka.',
                     'exact_length' => 'NIK harus tepat 16 digit.',
                 ],
@@ -78,14 +80,43 @@ class PegawaiValidationService
                     'required' => 'Nama wajib diisi.',
                 ],
             ],
-            'jenis_kelamin' => 'required',
-            'tanggal_lahir' => 'required',
-            'no_hp'          => 'required',
-            'perusahaan_id'  => 'required',
-            'jabatan_id'     => 'required',
-            'tanggal_masuk'  => 'required',
-            'status'         => 'required',
-            'alamat'         => 'required',
+            'no_hp' => [
+                'rules'  => 'required|numeric|min_length[10]|max_length[15]',
+                'errors' => [
+                    'required'   => 'Nomor HP wajib diisi.',
+                    'numeric'    => 'Nomor HP harus berupa angka.',
+                    'min_length' => 'Nomor HP minimal 10 digit.',
+                    'max_length' => 'Nomor HP maksimal 15 digit.'
+                ]
+            ],
+            'jenis_kelamin' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih jenis kelamin.']
+            ],
+            'tanggal_lahir' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Tanggal lahir harus diisi.']
+            ],
+            'perusahaan_id' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih perusahaan.']
+            ],
+            'jabatan_id' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih jabatan.']
+            ],
+            'tanggal_masuk' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Tanggal daftar anggota harus diisi.']
+            ],
+            'status' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Status pegawai harus dipilih.']
+            ],
+            'alamat' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Alamat lengkap wajib diisi.']
+            ],
         ];
     }
 
@@ -119,14 +150,43 @@ class PegawaiValidationService
                     'required' => 'Nama wajib diisi.',
                 ],
             ],
-            'jenis_kelamin' => 'required',
-            'tanggal_lahir' => 'required',
-            'no_hp'          => 'required',
-            'perusahaan_id'  => 'required',
-            'jabatan_id'     => 'required',
-            'tanggal_masuk'  => 'required',
-            'status'         => 'required',
-            'alamat'         => 'required',
+            'no_hp' => [
+                'rules'  => 'required|numeric|min_length[10]|max_length[15]',
+                'errors' => [
+                    'required'   => 'Nomor HP wajib diisi.',
+                    'numeric'    => 'Nomor HP harus berupa angka.',
+                    'min_length' => 'Nomor HP minimal 10 digit.',
+                    'max_length' => 'Nomor HP maksimal 15 digit.'
+                ]
+            ],
+            'jenis_kelamin' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih jenis kelamin.']
+            ],
+            'tanggal_lahir' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Tanggal lahir harus diisi.']
+            ],
+            'perusahaan_id' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih perusahaan.']
+            ],
+            'jabatan_id' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Silakan pilih jabatan.']
+            ],
+            'tanggal_masuk' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Tanggal daftar anggota harus diisi.']
+            ],
+            'status' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Status pegawai harus dipilih.']
+            ],
+            'alamat' => [
+                'rules'  => 'required',
+                'errors' => ['required' => 'Alamat lengkap wajib diisi.']
+            ],
         ];
     }
 }

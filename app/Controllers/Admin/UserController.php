@@ -47,9 +47,10 @@ class UserController extends BaseController
         $data = $this->request->getPost();
 
         if (! $this->service->validateCreate($data)) {
-            return redirect()->to('/users')
+            $errors = implode(' ', $this->service->getErrors());
+            return redirect()->to('/users/create')
                 ->withInput()
-                ->with('errors', $this->service->getErrors());
+                ->with('error', $errors);
         }
 
         try {
@@ -57,7 +58,7 @@ class UserController extends BaseController
             return redirect()->to('/users')
                 ->with('success', 'User berhasil ditambah');
         } catch (\Throwable $e) {
-            return redirect()->to('/users')
+            return redirect()->to('/users/create')
                 ->withInput()
                 ->with('error', 'Gagal menambah user: ' . $e->getMessage());
         }
@@ -84,9 +85,10 @@ class UserController extends BaseController
         $data = $this->request->getPost();
 
         if (! $this->service->validateUpdate($data, $id)) {
-            return redirect()->to('/users')
+            $errors = implode(' ', $this->service->getErrors());
+            return redirect()->to('/users/edit/'.$id)
                 ->withInput()
-                ->with('errors', $this->service->getErrors());
+                ->with('errors', $errors);
         }
 
         try {
@@ -94,7 +96,7 @@ class UserController extends BaseController
             return redirect()->to('/users')
                 ->with('success', 'User berhasil diperbarui');
         } catch (\Throwable $e) {
-            return redirect()->to('/users')
+            return redirect()->to('/users/edit/'.$id)
                 ->withInput()
                 ->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
         }
@@ -106,11 +108,11 @@ class UserController extends BaseController
             // Eksekusi penghapusan melalui service
             $this->service->deleteUser($id);
 
-            return redirect()->to(base_url('users'))
+            return redirect()->to('users')
                 ->with('success', 'Data user berhasil dihapus.');
         } catch (\Throwable $e) {
             // Tangkap pesan error jika data tidak ditemukan atau gagal hapus
-            return redirect()->to(base_url('users'))
+            return redirect()->to('users')
                 ->with('error', $e->getMessage());
         }
     }

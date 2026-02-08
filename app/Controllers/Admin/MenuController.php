@@ -88,7 +88,7 @@ class MenuController extends BaseController
             return redirect()->to('/menus')->with('success', 'Menu berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Jika ada kesalahan (misal database error)
-            return redirect()->to('/menus')->withInput()->with('error', 'Gagal menambah menu: ' . $e->getMessage());
+            return redirect()->to('/menus/create')->withInput()->with('error', 'Gagal menambah menu: ' . $e->getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ class MenuController extends BaseController
             return redirect()->to('/menus')->with('success', 'Menu berhasil diupdate');
         } catch (\Throwable $e) {
             // Balikkan ke form dengan pesan error yang spesifik
-            return redirect()->to('/menus')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/menus/edit/'.$id)->withInput()->with('error', $e->getMessage());
         }
     }
 

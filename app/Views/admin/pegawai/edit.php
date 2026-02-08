@@ -38,9 +38,15 @@
             <!-- NIK -->
             <div class="col-md-6">
                 <label class="required form-label">NIK</label>
-                <input type="text" name="nik"
-                       class="form-control form-control-solid"
-                       value="<?= esc($pegawai['nik']) ?>" required>
+                <input type="text"
+                        name="nik"
+                        class="form-control form-control-solid"
+                        value="<?= esc($pegawai['nik']) ?>"
+                        minlength="16"
+                        maxlength="16"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        placeholder="Masukkan 16 digit NIK"
+                        required>
             </div>
 
             <!-- NAMA -->
@@ -72,9 +78,15 @@
             <!-- NO HP -->
             <div class="col-md-6">
                 <label class="required form-label">No HP</label>
-                <input type="number" name="no_hp"
-                       class="form-control form-control-solid"
-                       value="<?= esc($pegawai['no_hp']) ?>" required>
+                <input type="text"
+                        name="no_hp"
+                        class="form-control form-control-solid"
+                        value="<?= esc($pegawai['no_hp']) ?>"
+                        minlength="10"
+                        maxlength="15"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        placeholder="Contoh: 081234567890"
+                        required>
             </div>
 
             <!-- PERUSAHAAN -->

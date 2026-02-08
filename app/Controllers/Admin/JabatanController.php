@@ -55,7 +55,7 @@ class JabatanController extends BaseController
             return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangkap jika ada error database atau logika
-            return redirect()->to('/jabatan')->withInput()->with('error', 'Gagal menambah jabatan: ' . $e->getMessage());
+            return redirect()->to('/jabatan/create')->withInput()->with('error', 'Gagal menambah jabatan: ' . $e->getMessage());
         }
     }
 
@@ -77,7 +77,7 @@ class JabatanController extends BaseController
             return redirect()->to('/jabatan')->with('success', 'Jabatan berhasil diupdate');
         } catch (\Throwable $e) {
             // Kembali ke form sebelumnya jika gagal
-            return redirect()->to('/jabatan')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/jabatan/edit/'. $id)->withInput()->with('error', $e->getMessage());
         }
     }
 

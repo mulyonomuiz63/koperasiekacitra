@@ -60,7 +60,7 @@ class GaleriController extends BaseController
             return redirect()->to('galeri')->with('success', $result['message']);
         }
 
-        return redirect()->to('galeri')->with('error', $result['message']);
+        return redirect()->to('galeri/create')->with('error', $result['message']);
     }
 
     public function edit($id)
@@ -68,7 +68,7 @@ class GaleriController extends BaseController
         $data = $this->service->find($id);
 
         if (!$data) {
-            return redirect()->to(base_url('galeri'))->with('error', 'Data tidak ditemukan.');
+            return redirect()->to('galeri')->with('error', 'Data tidak ditemukan.');
         }
 
         return view('admin/galeri/edit', ['galeri' => $data]);
@@ -90,7 +90,7 @@ class GaleriController extends BaseController
             return redirect()->to('galeri')->with('success', $result['message']);
         }
 
-        return redirect()->to('galeri')->with('error', $result['message']);
+        return redirect()->to('galeri/edit/'. $id)->with('error', $result['message']);
     }
 
 

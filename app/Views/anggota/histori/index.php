@@ -29,16 +29,6 @@
 
     <!-- BODY -->
     <div class="card-body d-flex flex-column p-9 pt-3 mb-9">
-
-        <!-- TOOLBAR -->
-        <div class="d-flex align-items-center mb-4">
-
-            <label class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                <input class="form-check-input" type="checkbox" id="check-all">
-                <span class="form-check-label">Pilih Semua</span>
-            </label>
-        </div>
-
         <!-- LIST -->
         <div id="iuran-list"></div>
 

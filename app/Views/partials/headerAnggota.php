@@ -149,33 +149,52 @@ $nama = $user_data['nama_anggota'] ?? 'User';
 </div>
 
 <!-- tampilan untuk mobail -->
-<div class="d-lg-none fixed-bottom bg-white border-top shadow-sm p-2"
-    style="border-radius: 20px 20px 0 0; z-index: 1000; height: 75px;">
+<div class="d-lg-none fixed-bottom bg-white border-top shadow-sm"
+    style="border-radius: 25px 25px 0 0; z-index: 1000; height: 70px;">
 
-    <div class="d-flex justify-content-around align-items-center h-100">
-
-        <a href="<?= base_url('sw-anggota') ?>"
-            class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
-            <i class="ki-outline ki-home fs-1 mb-1"></i>
-            <span class="fs-8 fw-bold">Beranda</span>
-        </a>
+    <div class="d-flex justify-content-around align-items-center h-100 position-relative">
+        
+        <?php if (session()->get('role_key') == 'ADMIN') : ?>
+            <a href="<?= base_url('dashboard') ?>"
+                class="d-flex flex-column align-items-center text-danger text-hover-primary">
+                <i class="ki-outline ki-setting-4 fs-1 mb-1"></i>
+                <span class="fs-9 fw-bold">Admin</span>
+            </a>
+        <?php else : ?>
+            <a href="<?= base_url('sw-anggota/news') ?>"
+                class="d-flex flex-column align-items-center <?= (current_url() == base_url('blog')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
+                <i class="ki-outline ki-book-open fs-1 mb-1"></i>
+                <span class="fs-9 fw-bold">Berita</span>
+            </a>
+        <?php endif; ?>
 
         <a href="<?= base_url('sw-anggota/iuran') ?>"
             class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-wallet fs-1 mb-1"></i>
-            <span class="fs-8 fw-bold">Iuran</span>
+            <span class="fs-9 fw-bold">Iuran</span>
         </a>
+
+        <div class="position-relative" style="top: -25px;">
+            <a href="<?= base_url('sw-anggota') ?>"
+                class="d-flex flex-column align-items-center justify-content-center bg-primary shadow-lg"
+                style="width: 60px; height: 60px; border-radius: 50%; border: 5px solid #fff;">
+                <i class="ki-outline ki-home fs-2x text-white"></i>
+            </a>
+            <div class="text-center position-absolute w-100" style="bottom: -22px;">
+                <span class="fs-9 fw-bolder <?= (current_url() == base_url('sw-anggota')) ? 'text-primary' : 'text-gray-700' ?>">Beranda</span>
+            </div>
+        </div>
 
         <a href="<?= base_url('sw-anggota/histori-iuran') ?>"
             class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/histori-iuran')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-time fs-1 mb-1"></i>
-            <span class="fs-8 fw-bold">Histori</span>
+            <span class="fs-9 fw-bold">Histori</span>
         </a>
 
         <a href="<?= base_url('sw-anggota/profil') ?>"
             class="d-flex flex-column align-items-center <?= (current_url() == base_url('sw-anggota/profil')) ? 'text-primary' : 'text-gray-700' ?> text-hover-primary">
             <i class="ki-outline ki-user fs-1 mb-1"></i>
-            <span class="fs-8 fw-bold">Akun</span>
+            <span class="fs-9 fw-bold">Akun</span>
         </a>
 
     </div>

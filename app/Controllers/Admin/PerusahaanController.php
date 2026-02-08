@@ -54,7 +54,7 @@ class PerusahaanController extends BaseController
             return redirect()->to('/perusahaan')->with('success', 'Data perusahaan berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangkap jika ada error
-            return redirect()->to('/perusahaan')->withInput()->with('error', 'Gagal menambah perusahaan: ' . $e->getMessage());
+            return redirect()->to('/perusahaan/create')->withInput()->with('error', 'Gagal menambah perusahaan: ' . $e->getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ class PerusahaanController extends BaseController
             return redirect()->to('/perusahaan')->with('success', 'Perusahaan berhasil diupdate');
         } catch (\Throwable $e) {
             // Kembali ke form dengan pesan error yang jelas
-            return redirect()->to('/perusahaan')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/perusahaan/edit/'.$id)->withInput()->with('error', $e->getMessage());
         }
     }
 

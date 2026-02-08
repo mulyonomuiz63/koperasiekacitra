@@ -66,7 +66,7 @@ class RoleController extends BaseController
                 ->with('success', 'Role berhasil ditambahkan');
         } catch (\Throwable $e) {
             // Tangkap error jika role_key sudah ada atau masalah DB lainnya
-            return redirect()->to('/roles')->withInput()
+            return redirect()->to('/roles/create')->withInput()
                 ->with('error', 'Gagal menambah role: ' . $e->getMessage());
         }
     }
@@ -102,7 +102,7 @@ class RoleController extends BaseController
                 ->with('success', 'Role berhasil diperbarui');
         } catch (\Throwable $e) {
             // Jika gagal, kembali dengan input sebelumnya dan pesan error
-            return redirect()->to('/roles')
+            return redirect()->to('/roles/edit/'.$id)
                 ->withInput()
                 ->with('error', $e->getMessage());
         }

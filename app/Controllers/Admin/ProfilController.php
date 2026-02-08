@@ -120,7 +120,7 @@ class ProfilController extends BaseController
             $this->service->updatePassword($userId, $postData);
 
             // Ubah pesan sukses agar lebih relevan
-            return redirect()->to('/sw-anggota/profil')->with('success', 'Password berhasil diperbarui.');
+            return redirect()->to('profil')->with('success', 'Password berhasil diperbarui.');
         } catch (\RuntimeException $e) {
             return redirect()->to('profil')->withInput()->with('error', $e->getMessage());
         } catch (\Throwable $e) {

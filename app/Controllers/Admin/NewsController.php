@@ -65,7 +65,7 @@ class NewsController extends BaseController
 
             return redirect()->to('/news')->with('success', 'Berita berhasil disimpan!');
         } catch (\Throwable $e) {
-            return redirect()->to('/news')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/news/create')->withInput()->with('error', $e->getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ class NewsController extends BaseController
 
             return redirect()->to('/news')->with('success', 'Berita berhasil diperbarui.');
         } catch (\Throwable $e) {
-            return redirect()->to('/news')->withInput()->with('error', $e->getMessage());
+            return redirect()->to('/news/edit/'.$id)->withInput()->with('error', $e->getMessage());
         }
     }
 
