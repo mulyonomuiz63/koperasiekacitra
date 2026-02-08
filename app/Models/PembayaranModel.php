@@ -68,6 +68,14 @@ class PembayaranModel extends BaseModel
             ->join('pegawai', 'pegawai.id = pembayaran.pegawai_id')
             ->where('pembayaran.jenis_transaksi', 'pendaftaran');
 
+        if (!empty($request['status'])) {
+            if ($request['status'] == 'V') {
+                $builder->where('pembayaran.status !=', 'A');
+            } else {
+                $builder->where('pembayaran.status', $request['status']);
+            }
+        }
+
         // Search
         if ($request['search']['value']) {
             $builder->groupStart()
