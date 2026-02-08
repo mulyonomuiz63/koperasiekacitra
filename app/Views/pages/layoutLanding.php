@@ -33,6 +33,20 @@
 	<!--end::Global Stylesheets Bundle-->
 	<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 	<?= $this->renderSection('styles') ?>
+
+	<?php if (!empty($site_config['google_search_console'])): ?>
+        <?= $site_config['google_search_console'] ?>
+    <?php endif; ?>
+
+    <?php if (!empty($site_config['google_analytics_id'])): ?>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $site_config['google_analytics_id'] ?>"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '<?= $site_config['google_analytics_id'] ?>');
+        </script>
+    <?php endif; ?>
 </head>
 <!--end::Head-->
 <!--begin::Body-->

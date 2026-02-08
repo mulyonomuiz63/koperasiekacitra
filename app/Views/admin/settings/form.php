@@ -388,7 +388,6 @@
                 <!--begin:::Tab pane seo-->
                 <div class="tab-pane fade" id="tab_seo" role="tabpanel">
                     <div class="card-body pt-5">
-
                         <div class="mb-10">
                             <h5 class="mb-1">Pengaturan SEO (Search Engine Optimization)</h5>
                             <p class="fs-7 text-muted">Kelola bagaimana website Anda muncul di mesin pencari seperti Google.</p>
@@ -398,14 +397,10 @@
                             <div class="col-md-3 text-md-end">
                                 <label class="fs-6 fw-semibold form-label mt-3">
                                     <span>Keywords</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Pisahkan kata kunci dengan tanda koma (,)"></i>
                                 </label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" class="form-control form-control-solid" name="site_keywords"
-                                    value="<?= old('site_keywords', $settings['site_keywords'] ?? '') ?>"
-                                    placeholder="Contoh: berita, koperasi, ekonomi bali" />
-                                <div class="text-muted fs-7">Kata kunci utama yang mendeskripsikan situs Anda.</div>
+                                <input type="text" class="form-control form-control-solid" name="site_keywords" value="<?= old('site_keywords', $settings['site_keywords'] ?? '') ?>" placeholder="Contoh: berita, koperasi, ekonomi bali" />
                             </div>
                         </div>
 
@@ -416,9 +411,51 @@
                                 </label>
                             </div>
                             <div class="col-md-9">
-                                <textarea class="form-control form-control-solid" name="site_description"
-                                    rows="4" placeholder="Masukkan ringkasan singkat situs..."><?= old('site_description', $settings['site_description'] ?? '') ?></textarea>
-                                <div class="text-muted fs-7">Rekomendasi: Maksimal 160 karakter untuk hasil pencarian Google yang optimal.</div>
+                                <textarea class="form-control form-control-solid" name="site_description" rows="3"><?= old('site_description', $settings['site_description'] ?? '') ?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed my-10"></div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Google Site Verification</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Masukkan kode meta tag dari Google Search Console"></i>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="google_site_verification"
+                                    value="<?= old('google_site_verification', $settings['google_site_verification'] ?? '') ?>"
+                                    placeholder='Contoh: <meta name="google-site-verification" content="ABC123..." />' />
+                                <div class="text-muted fs-7">Tempelkan seluruh baris <code>&lt;meta&gt;</code> tag yang diberikan oleh Google.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">
+                                    <span>Google Analytics ID (GA4)</span>
+                                </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-solid" name="google_analytics_id"
+                                    value="<?= old('google_analytics_id', $settings['google_analytics_id'] ?? '') ?>"
+                                    placeholder="Contoh: G-XXXXXXXXXX" />
+                                <div class="text-muted fs-7">ID Properti untuk melacak statistik pengunjung website.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <div class="col-md-3 text-md-end">
+                                <label class="fs-6 fw-semibold form-label mt-3">Sitemap URL</label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="d-flex align-items-center mt-3">
+                                    <code class="me-3"><?= base_url('sitemap.xml') ?></code>
+                                    <a href="<?= base_url('sitemap.xml') ?>" target="_blank" class="btn btn-sm btn-light-primary py-1 px-3">Cek Sitemap</a>
+                                </div>
+                                <div class="text-muted fs-7 mt-2">Daftarkan URL ini di Google Search Console untuk membantu indexing.</div>
                             </div>
                         </div>
 
