@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="m-0">
                                         <span class="fw-bold text-gray-400 d-block fs-8 text-uppercase" id="display-label">TOTAL SALDO</span>
-                                        <span class="fw-bolder text-gray-800 fs-2qx lh-1" id="display-nominal">Rp <?= ringkas_uang($total_saldo) ?></span>
+                                        <span class="fw-bolder text-gray-800 fs-6 lh-1" id="display-nominal">Rp <?= ringkas_uang($total_saldo) ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="m-0">
                                         <span class="fw-bold text-gray-400 d-block fs-8 text-uppercase" id="trx-label">BULAN INI</span>
-                                        <span class="fw-bolder text-gray-800 fs-2qx lh-1" id="trx-nominal">Rp <?= ringkas_uang($trx_bulan_ini) ?></span>
+                                        <span class="fw-bolder text-gray-800 fs-6 lh-1" id="trx-nominal">Rp <?= ringkas_uang($trx_bulan_ini) ?></span>
                                     </div>
                                 </div>
                             </div>
