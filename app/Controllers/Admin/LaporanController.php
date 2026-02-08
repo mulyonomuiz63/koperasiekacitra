@@ -32,6 +32,14 @@ class LaporanController extends BaseController
             ->orderBy('nama', 'ASC')
             ->get()
             ->getResultArray();
+
+        $data['tahunList'] = $this->db->table('iuran_bulanan')
+            ->select('tahun')
+            ->where('status', 'S')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'desc')
+            ->get()
+            ->getResultArray();
         return $this->view('admin/laporan/index', $data);
     }
 

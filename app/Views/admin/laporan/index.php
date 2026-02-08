@@ -13,11 +13,13 @@
         </div>
         <div class="card-toolbar gap-3">
             <select id="filter_tahun" class="form-select form-select-solid w-125px">
-                <?php $year = date('Y');
-                for ($i = $year; $i >= $year - 3; $i--): ?>
-                    <option value="<?= $i ?>"><?= $i ?></option>
-                <?php endfor; ?>
+                <?php foreach ($tahunList as $row): ?>
+                    <option value="<?= $row['tahun'] ?>">
+                        <?= $row['tahun'] ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
+
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_input_manual">
                 <i class="ki-duotone ki-plus fs-2"></i>
